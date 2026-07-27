@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'framer-motion';
 import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
   CheckCircle2, Mail, Phone, MapPin, Users, Award, Target, Send,
-  Star, Quote, ChevronDown, HelpCircle, Sparkles,
-  Calendar, Clock, Check, X, Zap, Activity, ShieldCheck, CheckCircle
+  Star, ChevronDown,
+  Calendar, Clock, X, Activity, ShieldCheck, CheckCircle
 } from 'lucide-react';
 import clsx from 'clsx';
 
