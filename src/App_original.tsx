@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import arkreLogo from './assets/logo-transparent.png';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'framer-motion';
 import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
@@ -12,19 +11,19 @@ import clsx from 'clsx';
 const slides = [
   {
     id: 'business',
-    title: 'Struktur Bisnis',
+    title: 'Business Structure',
     image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&q=80&fit=crop',
     color: 'from-blue-500/20 to-purple-500/20'
   },
   {
     id: 'marketing',
-    title: 'Strategi Pemasaran',
+    title: 'Marketing Strategy',
     image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&q=80&fit=crop',
     color: 'from-emerald-500/20 to-teal-500/20'
   },
   {
     id: 'tourism',
-    title: 'Pariwisata & Perhotelan',
+    title: 'Tourism & Hospitality',
     image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1200&q=80&fit=crop',
     color: 'from-orange-500/20 to-amber-500/20'
   }
@@ -85,7 +84,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-/* ─── Feature 2: Diagnostic Quiz Modal ─── */
+/* ΓöÇΓöÇΓöÇ Feature 2: Diagnostic Quiz Modal ΓöÇΓöÇΓöÇ */
 function DiagnosticQuizModal({
   isOpen,
   onClose,
@@ -213,8 +212,8 @@ function DiagnosticQuizModal({
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    { id: 'startup', label: 'Early Stage / Startup (1 – 10 Team Members)', desc: 'Agile team requiring foundational KPI structuring & fast sales frameworks.' },
-                    { id: 'umkm', label: 'Scaling UMKM / Regional Enterprise (11 – 50 Team Members)', desc: 'Growing enterprise requiring systematic scaling, delegation & financial audit.' },
+                    { id: 'startup', label: 'Early Stage / Startup (1 ΓÇô 10 Team Members)', desc: 'Agile team requiring foundational KPI structuring & fast sales frameworks.' },
+                    { id: 'umkm', label: 'Scaling UMKM / Regional Enterprise (11 ΓÇô 50 Team Members)', desc: 'Growing enterprise requiring systematic scaling, delegation & financial audit.' },
                     { id: 'enterprise', label: 'Established Corporation (50+ Team Members)', desc: 'Complex organization requiring corporate restructuring & embedded senior partners.' },
                   ].map((item) => (
                     <button
@@ -241,7 +240,7 @@ function DiagnosticQuizModal({
                   onClick={() => setStep(1)}
                   className="mt-6 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  ← Back to previous step
+                  ΓåÉ Back to previous step
                 </button>
               </motion.div>
             )}
@@ -284,7 +283,7 @@ function DiagnosticQuizModal({
                   onClick={() => setStep(2)}
                   className="mt-6 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  ← Back to previous step
+                  ΓåÉ Back to previous step
                 </button>
               </motion.div>
             )}
@@ -336,7 +335,7 @@ function DiagnosticQuizModal({
                 }}
                 className="w-full py-3.5 px-5 bg-primary text-primary-foreground font-semibold text-sm rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/25 cursor-pointer text-center"
               >
-                Schedule Priority Audit Now →
+                Schedule Priority Audit Now ΓåÆ
               </button>
               <button
                 onClick={() => {
@@ -355,7 +354,7 @@ function DiagnosticQuizModal({
   );
 }
 
-/* ─── Feature 3: Calendly-Style Booking Modal ─── */
+/* ΓöÇΓöÇΓöÇ Feature 3: Calendly-Style Booking Modal ΓöÇΓöÇΓöÇ */
 function BookingModal({
   isOpen,
   onClose,
@@ -397,21 +396,9 @@ function BookingModal({
 
   const handleWhatsAppConfirm = () => {
     const text = encodeURIComponent(
-      `Halo Pak Azariel!\n\n` +
-      `Saya baru saja melakukan pemesanan sesi konsultasi melalui website Arkrea. Berikut detail booking saya:\n\n` +
-      `*DETAIL BOOKING*\n` +
-      `Sesi      : ${bookingData.sessionType}\n` +
-      `Tanggal   : ${bookingData.date}\n` +
-      `Waktu     : ${bookingData.timeSlot} WIB\n\n` +
-      `*DATA KLIEN*\n` +
-      `Nama         : ${bookingData.name}\n` +
-      `Perusahaan   : ${bookingData.company}\n` +
-      `Email        : ${bookingData.email}\n` +
-      `No. WhatsApp : ${bookingData.whatsapp}\n\n` +
-      `${bookingData.notes ? `*Catatan:* ${bookingData.notes}\n\n` : ``}` +
-      `Mohon konfirmasi ketersediaan dan link meeting-nya. Terima kasih!`
+      `Hello Arteri Kreasi Team! ≡ƒæï\n\nI have scheduled an initial consultation via your website:\n- *Session:* ${bookingData.sessionType}\n- *Date:* ${bookingData.date}\n- *Time:* ${bookingData.timeSlot}\n- *Name:* ${bookingData.name}\n- *Company:* ${bookingData.company}\n- *Email:* ${bookingData.email}\n\nPlease confirm our meeting link. Thank you!`
     );
-    window.open(`https://wa.me/6285692909283?text=${text}`, '_blank');
+    window.open(`https://wa.me/6281234567890?text=${text}`, '_blank');
   };
 
   return (
@@ -525,7 +512,7 @@ function BookingModal({
               onClick={() => setStep(2)}
               className="w-full py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-2xl hover:scale-[1.01] active:scale-[0.99] transition-all shadow-lg shadow-primary/25 cursor-pointer"
             >
-              Next: Enter Your Details →
+              Next: Enter Your Details ΓåÆ
             </button>
           </motion.div>
         )}
@@ -623,13 +610,13 @@ function BookingModal({
                   onClick={() => setStep(1)}
                   className="px-5 py-3.5 bg-background border border-border rounded-xl text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  ← Back
+                  ΓåÉ Back
                 </button>
                 <button
                   type="submit"
                   className="flex-1 py-3.5 bg-primary text-primary-foreground font-semibold text-sm rounded-xl hover:scale-[1.01] active:scale-[0.99] transition-all shadow-lg shadow-primary/25 cursor-pointer"
                 >
-                  Confirm & Lock Schedule →
+                  Confirm & Lock Schedule ΓåÆ
                 </button>
               </div>
             </form>
@@ -760,20 +747,9 @@ export default function App() {
   }, []);
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = encodeURIComponent(
-      `Halo Pak Azariel!\n\n` +
-      `Saya ingin berkonsultasi / mengirimkan pesan melalui website Arkrea:\n\n` +
-      `*DATA PENGIRIM*\n` +
-      `Nama  : ${formData.name}\n` +
-      `Email : ${formData.email}\n\n` +
-      `*PESAN*\n` +
-      `${formData.message}\n\n` +
-      `Mohon konfirmasi dan informasinya. Terima kasih!`
-    );
-    window.open(`https://wa.me/6285692909283?text=${text}`, '_blank');
     setFormSubmitted(true);
     setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setFormSubmitted(false), 5000);
+    setTimeout(() => setFormSubmitted(false), 4000);
   };
 
   return (
@@ -793,7 +769,7 @@ export default function App() {
         initialTier={bookingInitialTier}
       />
 
-      {/* ─── Scroll Progress Bar ─── */}
+      {/* ΓöÇΓöÇΓöÇ Scroll Progress Bar ΓöÇΓöÇΓöÇ */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] z-[100] origin-left"
         style={{
@@ -824,14 +800,14 @@ export default function App() {
           />
         </AnimatePresence>
 
-        {/* Floating orb — top-left accent */}
+        {/* Floating orb ΓÇö top-left accent */}
         <motion.div
           className="absolute -top-20 -left-20 w-[480px] h-[480px] rounded-full blur-[90px] bg-gradient-to-br from-violet-500/50 to-indigo-500/50"
           animate={{ x: [0, 50, -25, 0], y: [0, -40, 60, 0], scale: [1, 1.1, 0.93, 1] }}
           transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* Floating orb — bottom-right accent */}
+        {/* Floating orb ΓÇö bottom-right accent */}
         <motion.div
           className="absolute -bottom-24 -right-24 w-[560px] h-[560px] rounded-full blur-[90px] bg-gradient-to-tl from-sky-500/45 to-teal-500/45"
           animate={{ x: [0, -55, 35, 0], y: [0, 45, -35, 0], scale: [1, 0.9, 1.12, 1] }}
@@ -870,20 +846,9 @@ export default function App() {
       >
         <button
           onClick={() => scrollTo('hero')}
-          className="cursor-pointer"
+          className="text-2xl font-display font-bold tracking-tight cursor-pointer"
         >
-          <div
-            style={{
-              maskImage: `url(${arkreLogo})`,
-              WebkitMaskImage: `url(${arkreLogo})`,
-              maskSize: 'contain',
-              maskRepeat: 'no-repeat',
-              maskPosition: 'left center',
-              height: '28px',
-              width: '140px',
-            }}
-            className="bg-foreground"
-          />
+          ARTERI<span className="text-muted-foreground/50">KREASI</span>
         </button>
 
         <div className="flex items-center gap-6">
@@ -914,7 +879,7 @@ export default function App() {
             className="hidden sm:inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-primary/15 text-primary text-xs font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer shadow-sm shrink-0 leading-none"
           >
             <Activity className="w-3.5 h-3.5 shrink-0 animate-pulse" />
-            <span className="leading-none pt-[1px]">Diagnosa 1 Menit</span>
+            <span className="leading-none pt-[1px]">1-Min Diagnostic</span>
           </button>
 
           <button
@@ -928,7 +893,7 @@ export default function App() {
       </motion.nav>
 
       <main>
-        {/* ─── Hero Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ Hero Section ΓöÇΓöÇΓöÇ */}
         <section id="hero" className="relative min-h-screen flex items-center pt-24 pb-12">
 
           <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
@@ -941,13 +906,13 @@ export default function App() {
               className="z-10"
             >
               <h1 className="text-5xl md:text-7xl font-display font-semibold leading-[1.1] mb-6 tracking-tight">
-                Anda visioner.<br />
-                <span className="font-light text-muted-foreground">Kami yang bereskan.</span>
+                Your business vision.<br />
+                <span className="font-light text-muted-foreground">Our headache.</span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-lg leading-relaxed">
-                Memulai dan menjalankan bisnis itu penuh tantangan. Kami mengambil alih kerumitan
-                konsultasi agar Anda bisa fokus pada impian, bukan tekanan.
+                Starting and running a business is overwhelming. We take the complexity out of
+                consulting so you can focus on the dream, not the stress.
               </p>
 
               {/* Dynamic Service Indicator */}
@@ -962,7 +927,7 @@ export default function App() {
                     className="absolute inset-0 flex items-center gap-3 text-lg font-medium"
                   >
                     <div className="w-8 h-[2px] bg-primary" />
-                    Berfokus pada {slides[activeSlide].title}
+                    Focusing on {slides[activeSlide].title}
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -970,13 +935,13 @@ export default function App() {
               <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => {
-                    setBookingInitialTier('Penemuan & Audit (45 Menit)');
+                    setBookingInitialTier('Discovery & Audit (45-Min)');
                     setIsBookingOpen(true);
                   }}
                   className="relative group overflow-hidden px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/15 cursor-pointer"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Mulai Sekarang <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    Get Started <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                   <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 </button>
@@ -985,7 +950,7 @@ export default function App() {
                   className="relative group overflow-hidden px-8 py-4 bg-background/50 border border-border/80 rounded-full font-medium flex items-center gap-2 hover:scale-105 hover:border-primary/50 hover:bg-background/80 transition-all duration-300 backdrop-blur-md shadow-sm cursor-pointer"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Layanan Kami <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    Our Services <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                   </span>
                   <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-primary/10 to-transparent pointer-events-none" />
                 </button>
@@ -999,14 +964,14 @@ export default function App() {
                 transition={{ duration: 0.8, delay: 0.8 }}
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/60 mb-5">
-                  Klien Kami
+                  Dipercaya oleh
                 </p>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    { name: 'Aldo Frozen Food', abbr: 'AF' },
-                    { name: 'De Wahyu Hotel', abbr: 'DW' },
-                    { name: 'Nirwana Hotel', abbr: 'NH' },
-                    { name: 'Mahkamah Agung RI', abbr: 'MA' },
+                    { name: 'Nusantara Grup', abbr: 'NG' },
+                    { name: 'Bali Resort Co.', abbr: 'BR' },
+                    { name: 'Archipelago Biz', abbr: 'AB' },
+                    { name: 'Mandiri Startup', abbr: 'MS' },
                   ].map((brand, i) => (
                     <motion.div
                       key={brand.name}
@@ -1064,7 +1029,7 @@ export default function App() {
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                              Keahlian
+                              Expertise
                             </p>
                             <h3 className="text-xl font-display font-medium">
                               {slides[activeSlide].title}
@@ -1103,7 +1068,7 @@ export default function App() {
         </section>
 
 
-        {/* ─── Services Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ Services Section ΓöÇΓöÇΓöÇ */}
         <section id="services" className="py-32 relative">
           <div className="container mx-auto px-6">
             <motion.div
@@ -1113,9 +1078,9 @@ export default function App() {
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">Bidang Layanan Kami</h2>
+              <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">Our Expertise</h2>
               <p className="text-muted-foreground text-xl leading-relaxed">
-                Kami mengintegrasikan dua fungsi utama dalam satu entitas. Anda tentukan tujuannya; kami yang membangun peta dan mengemudikan mobilnya.
+                We cover the three pillars of growth. You tell us the destination; we build the map and drive the car.
               </p>
             </motion.div>
 
@@ -1123,18 +1088,18 @@ export default function App() {
               {[
                 {
                   icon: Briefcase,
-                  title: 'Konsultan Bisnis & Manajemen',
-                  desc: 'Business Planning, Coaching, Analisa Kelayakan, Media Sosial & Marketing, serta HRD untuk fondasi bisnis yang kokoh.',
+                  title: 'Business Consulting',
+                  desc: 'From legal structures to operational efficiency, we untangle the red tape and build a solid foundation.',
                 },
                 {
                   icon: TrendingUp,
-                  title: 'Operator Bisnis (Arkrea Biz)',
-                  desc: 'Kami terjun langsung mengelola manajerial, operasional, sistem keuangan, HRD, dan marketing bisnis Anda.',
+                  title: 'Marketing Strategy',
+                  desc: "We don't just run ads. We build brand narratives that convert attention into sustainable revenue.",
                 },
                 {
                   icon: Map,
-                  title: 'Event & Hospitality',
-                  desc: 'Event organizer profesional serta manajemen hotel, resort, dan villa dengan standar pelayanan terbaik.',
+                  title: 'Tourism & Hospitality',
+                  desc: 'Specialized insights for the tourism sector, maximizing guest experience and operational margins.',
                 },
               ].map((service, i) => (
                 <motion.div
@@ -1154,7 +1119,7 @@ export default function App() {
                     <p className="text-muted-foreground text-lg leading-relaxed mb-6">{service.desc}</p>
                   </div>
                   <div className="flex items-center gap-1 text-sm font-medium text-primary/80 group-hover:text-primary transition-colors pt-4 border-t border-border/30">
-                    <span>Pelajari lebih lanjut</span>
+                    <span>Learn more</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
                   </div>
                 </motion.div>
@@ -1163,7 +1128,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ─── Our Process Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ Our Process Section ΓöÇΓöÇΓöÇ */}
         <section id="process" className="py-28 relative">
           <div className="container mx-auto px-6">
             <motion.div
@@ -1174,13 +1139,13 @@ export default function App() {
               transition={{ duration: 0.8 }}
             >
               <p className="text-sm font-medium text-primary uppercase tracking-widest mb-4">
-                Cara Kami Bekerja
+                How We Work
               </p>
               <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">
-                Perjalanan 4 Langkah Menuju Kejelasan.
+                Our 4-Step Journey to Clarity.
               </h2>
               <p className="text-muted-foreground text-xl leading-relaxed">
-                Kami mengubah tantangan yang kompleks menjadi peta jalan eksekusi yang jelas dan terukur.
+                We transform complex challenges into a clear, predictable execution roadmap.
               </p>
             </motion.div>
 
@@ -1190,23 +1155,23 @@ export default function App() {
               {[
                 {
                   step: '01',
-                  title: 'Penemuan & Audit',
-                  desc: 'Kami melakukan audit komprehensif terhadap struktur bisnis, keuangan, dan hambatan operasional Anda.',
+                  title: 'Discovery & Audit',
+                  desc: 'We conduct a comprehensive audit of your business structure, financials, and operational bottlenecks.',
                 },
                 {
                   step: '02',
-                  title: 'Peta Jalan Strategi',
-                  desc: 'Kami merancang rencana strategis yang dapat ditindaklanjuti, dilengkapi KPI yang jelas dan jadwal yang realistis.',
+                  title: 'Strategy Roadmap',
+                  desc: 'We craft an actionable, step-by-step strategic plan tailored with clear KPIs and realistic timelines.',
                 },
                 {
                   step: '03',
-                  title: 'Eksekusi Langsung',
-                  desc: 'Kami bergabung dengan tim internal Anda untuk mengeksekusi strategi, menghilangkan hambatan, dan mengoptimalkan alur kerja.',
+                  title: 'Hands-On Execution',
+                  desc: 'We embed with your internal team to execute strategies, eliminate red tape, and optimize workflow.',
                 },
                 {
                   step: '04',
-                  title: 'Pertumbuhan & Penskalaan',
-                  desc: 'Kami meninjau hasil yang terukur, menyempurnakan sistem, dan memastikan profitabilitas jangka panjang yang berkelanjutan.',
+                  title: 'Growth & Scaling',
+                  desc: 'We review measurable outcomes, refine systems, and ensure sustainable long-term profitability.',
                 },
               ].map((item, i) => (
                 <motion.div
@@ -1244,13 +1209,13 @@ export default function App() {
                 </div>
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold uppercase tracking-wider mb-2">
-                    ⚡ Kejelasan Strategis Instan
+                    ΓÜí Instant Strategic Clarity
                   </div>
                   <h3 className="text-2xl md:text-3xl font-display font-medium text-foreground">
-                    Tidak yakin apa yang dibutuhkan bisnis Anda terlebih dahulu?
+                    Not sure what your business needs first?
                   </h3>
                   <p className="text-sm md:text-base text-muted-foreground mt-1">
-                    Ikuti Kuis Diagnosa 1 Menit kami untuk mendapatkan rekomendasi dan estimasi harga yang disesuaikan.
+                    Take our 1-Minute Diagnostic Quiz to get a tailored recommendation and pricing estimate.
                   </p>
                 </div>
               </div>
@@ -1259,14 +1224,14 @@ export default function App() {
                 onClick={() => setIsQuizOpen(true)}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold text-sm hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/25 shrink-0 cursor-pointer leading-none"
               >
-                <span className="leading-none pt-[1px]">Mulai Kuis Diagnosa</span>
+                <span className="leading-none pt-[1px]">Launch Diagnostic Quiz</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
             </motion.div>
           </div>
         </section>
 
-        {/* ─── About Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ About Section ΓöÇΓöÇΓöÇ */}
         <section id="about" className="py-32 relative">
           <div className="container mx-auto px-6">
 
@@ -1279,24 +1244,25 @@ export default function App() {
               transition={{ duration: 0.8 }}
             >
               <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">
-                Siapa Kami
+                Who We Are
               </p>
               <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">
-                Dibangun oleh praktisi,<br />
-                <span className="italic text-muted-foreground">bukan teoritisi.</span>
+                Built by practitioners,<br />
+                <span className="italic text-muted-foreground">not theorists.</span>
               </h2>
               <p className="text-muted-foreground text-xl leading-relaxed">
-                PT Arteri Kreasi Nusantara, dikenal sebagai Arkrea, didirikan atas semangat kolaborasi, strategi, dan kreativitas. Berkantor di Kota Batu, Jawa Timur, kami hadir sebagai mitra strategis UMKM.
+                Arteri Kreasi Nusantara was founded on one belief: great advice is useless without great
+                execution. We're a team of operators, marketers, and strategists who've been in the trenches.
               </p>
             </motion.div>
 
             {/* Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
               {[
-                { icon: Users,     num: 10, suffix: '+', label: 'Klien Dilayani' },
-                { icon: Award,     num: 3,  suffix: '',  label: 'Official Partners' },
-                { icon: Target,    num: 3,  suffix: '',  label: 'Hotel Dikelola' },
-                { icon: Briefcase, num: 5,  suffix: '+', label: 'Sektor Industri' },
+                { icon: Users,     num: 50, suffix: '+', label: 'Clients Served' },
+                { icon: Award,     num: 7,  suffix: '+', label: 'Years Experience' },
+                { icon: Target,    num: 95, suffix: '%', label: 'Success Rate' },
+                { icon: Briefcase, num: 3,  suffix: '',  label: 'Core Disciplines' },
               ].map((stat, i) => (
                 <motion.div
                   key={i}
@@ -1327,13 +1293,15 @@ export default function App() {
                 transition={{ duration: 0.8 }}
               >
                 <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">
-                  Visi Kami
+                  Our Mission
                 </p>
                 <blockquote className="text-3xl md:text-4xl font-display font-medium leading-tight mb-8">
-                  "Menjadi mitra strategis terpercaya dalam membangun, mengembangkan, dan mengakselerasi pertumbuhan bisnis kecil dan menengah."
+                  "To transform complexity into clarity ΓÇö for every business, in every sector."
                 </blockquote>
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  Kami memahami bahwa menjalankan bisnis bukan sekadar tentang bertahan, tetapi juga tentang berkembang dan bertransformasi. Dibangun oleh profesional lintas industri — dari event, periklanan, perhotelan, hukum, hingga F&B.
+                  We believe every entrepreneur deserves access to world-class strategic thinking ΓÇö not just
+                  the ones with enterprise budgets. That's why we work across scales, from early-stage
+                  startups to established regional players.
                 </p>
               </motion.div>
 
@@ -1352,8 +1320,8 @@ export default function App() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent rounded-[2rem]" />
                   <div className="absolute bottom-8 left-8 right-8 bg-background/60 backdrop-blur-md border border-border/50 p-5 rounded-2xl">
-                    <p className="text-sm text-muted-foreground mb-1">Berkantor di</p>
-                    <p className="font-display text-xl font-medium">Kota Batu, Jawa Timur 🇮🇩</p>
+                    <p className="text-sm text-muted-foreground mb-1">Based in</p>
+                    <p className="font-display text-xl font-medium">Indonesia ≡ƒç«≡ƒç⌐</p>
                   </div>
                 </div>
               </motion.div>
@@ -1361,7 +1329,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ─── Testimonials Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ Testimonials Section ΓöÇΓöÇΓöÇ */}
         <section id="testimonials" className="py-28 relative">
           <div className="container mx-auto px-6">
             <motion.div
@@ -1372,34 +1340,34 @@ export default function App() {
               transition={{ duration: 0.8 }}
             >
               <p className="text-sm font-medium text-primary uppercase tracking-widest mb-4">
-                Klien Kami
+                Client Impact
               </p>
               <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">
-                Dipercaya oleh berbagai instansi.
+                Trusted by industry leaders.
               </h2>
               <p className="text-muted-foreground text-xl leading-relaxed">
-                Berikut sebagian klien yang telah mempercayakan pengembangan bisnis mereka kepada Arkrea.
+                HereΓÇÖs what founders and executives say about our hands-on strategic consulting.
               </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  quote: "Arkrea membantu manajemen media sosial dan HRD kami secara profesional. Branding digital kami semakin kuat dan jangkauan pasar meningkat signifikan.",
-                  name: "Aldo Frozen Food",
-                  role: "Klien — Manajemen Media Sosial & HRD",
+                  quote: "Arteri Kreasi restructured our legal operations and financial reporting from scratch. Our operational margins increased by 35% in just six months.",
+                  name: "Hendra Wijaya",
+                  role: "CEO, Bali Hospitality Group",
                   img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&fit=crop"
                 },
                 {
-                  quote: "Melalui Arkrea Traventure, kegiatan fullboard meeting dan fun outbound kami berjalan lancar. Peserta sangat antusias dan mendapat pengalaman yang berkesan.",
-                  name: "Kemenag Provinsi Jawa Timur",
-                  role: "Klien — Tour & Travel",
+                  quote: "Their marketing strategy transformed our brand narrative. We stopped wasting budget on generic ads and saw a 3x increase in enterprise client conversion.",
+                  name: "Siti Rahmawati",
+                  role: "Founder, Nusantara Tech Retail",
                   img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80&fit=crop"
                 },
                 {
-                  quote: "Navara Hospitality Management memberikan standar pelayanan yang tinggi. Operasional hotel kami berjalan lebih efisien dan tamu merasa lebih puas.",
-                  name: "De Wahyu Hotel & Convention",
-                  role: "Klien — Hospitality Management",
+                  quote: "Unlike big consulting firms that leave you with a 100-page PDF, Arteri Kreasi stayed embedded with our team until every single recommendation worked.",
+                  name: "Budi Santoso",
+                  role: "COO, Archipelago Ventures",
                   img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80&fit=crop"
                 }
               ].map((item, i) => (
@@ -1434,12 +1402,12 @@ export default function App() {
           </div>
         </section>
 
-        {/* ─── Value Proposition ─── */}
+        {/* ΓöÇΓöÇΓöÇ Value Proposition ΓöÇΓöÇΓöÇ */}
         <section className="py-32 relative overflow-hidden">
           <div className="container mx-auto px-6">
             <div className="bg-background/50 backdrop-blur-xl border border-border/60 rounded-[3rem] p-12 lg:p-24 relative overflow-hidden shadow-2xl shadow-primary/5">
 
-              {/* Subtle orb accents — senada dengan hero background */}
+              {/* Subtle orb accents ΓÇö senada dengan hero background */}
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-violet-400/20 to-indigo-400/15 rounded-full blur-[80px] -translate-y-1/3 translate-x-1/4 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-teal-400/20 to-sky-400/15 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
@@ -1450,15 +1418,15 @@ export default function App() {
                   viewport={{ once: true, margin: '-100px' }}
                   transition={{ duration: 0.8 }}
                 >
-                  <h2 className="text-4xl md:text-6xl font-display font-medium mb-8 text-foreground">Mengapa bermitra dengan kami?</h2>
+                  <h2 className="text-4xl md:text-6xl font-display font-medium mb-8 text-foreground">Why work with us?</h2>
                   <p className="text-xl text-muted-foreground mb-12">
-                    Karena "mencoba sendiri sambil berjalan" adalah strategi bisnis yang paling mahal.
+                    Because "figuring it out as you go" is the most expensive business strategy.
                   </p>
                   <button
                     onClick={() => scrollTo('contact')}
                     className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 hover:scale-105 transition-transform duration-300"
                   >
-                    Pesan Konsultasi <ArrowRight className="w-4 h-4" />
+                    Book a Consultation <ArrowRight className="w-4 h-4" />
                   </button>
                 </motion.div>
 
@@ -1470,10 +1438,10 @@ export default function App() {
                   className="flex flex-col gap-4"
                 >
                   {[
-                    'Tanpa tebak-tebakan. Kami menyediakan peta jalan yang dapat ditindaklanjuti.',
-                    'Tim lintas disiplin: event, periklanan, perhotelan, hukum, hingga F&B.',
-                    'Kami mengeksekusi. Kami tidak hanya meninggalkan Anda dengan laporan PDF.',
-                    'Harga transparan. Tidak ada biaya retainer tersembunyi.',
+                    'Zero guesswork. We provide actionable roadmaps.',
+                    'Cross-disciplinary team covering ops, marketing, and niche markets.',
+                    "We execute. We don't just leave you with a PDF report.",
+                    'Transparent pricing. No hidden retainer fees.',
                   ].map((text, i) => (
                     <motion.div
                       key={i}
@@ -1493,7 +1461,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ─── FAQ Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ FAQ Section ΓöÇΓöÇΓöÇ */}
         <section id="faq" className="py-28 relative">
           <div className="container mx-auto px-6">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -1507,27 +1475,27 @@ export default function App() {
               >
                 <div>
                   <p className="text-sm font-medium text-primary uppercase tracking-widest mb-4">
-                    Punya Pertanyaan?
+                    Got Questions?
                   </p>
                   <h2 className="text-4xl md:text-5xl font-display font-medium mb-5 text-foreground leading-tight">
-                    Pertanyaan yang Sering Diajukan.
+                    Frequently Asked Questions.
                   </h2>
                   <p className="text-muted-foreground text-lg leading-relaxed">
-                    Semua yang perlu Anda ketahui tentang keterlibatan konsultasi, harga, dan metodologi eksekusi kami.
+                    Everything you need to know about our consulting engagements, pricing, and execution methodology.
                   </p>
                 </div>
 
                 <div className="space-y-3.5">
                   <div className="bg-background/40 backdrop-blur-md border border-border/50 p-5 rounded-2xl">
-                    <h4 className="font-medium text-foreground mb-1 text-sm">Punya pertanyaan spesifik?</h4>
+                    <h4 className="font-medium text-foreground mb-1 text-sm">Have a specific question?</h4>
                     <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                      Konsultan strategis kami siap meninjau tantangan bisnis unik Anda.
+                      Our strategic advisors are ready to review your unique business challenge.
                     </p>
                     <button
                       onClick={() => scrollTo('contact')}
                       className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:text-primary/80 transition-colors group cursor-pointer"
                     >
-                      Bicara dengan konsultan kami <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      Speak with our advisors <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>
 
@@ -1539,18 +1507,18 @@ export default function App() {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Online Sekarang</span>
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Online Now</span>
                       </div>
-                      <p className="text-xs font-semibold text-foreground">Di bawah 2 Jam</p>
-                      <p className="text-[11px] text-muted-foreground">Rata-rata waktu respons</p>
+                      <p className="text-xs font-semibold text-foreground">Under 2 Hours</p>
+                      <p className="text-[11px] text-muted-foreground">Avg. response time</p>
                     </div>
 
                     <div className="bg-background/40 backdrop-blur-md border border-border/50 p-4 rounded-2xl flex flex-col justify-between">
                       <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-2">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
-                      <p className="text-xs font-semibold text-foreground">NDA Ketat</p>
-                      <p className="text-[11px] text-muted-foreground">100% Rahasia</p>
+                      <p className="text-xs font-semibold text-foreground">Strict NDA</p>
+                      <p className="text-[11px] text-muted-foreground">100% Confidential</p>
                     </div>
                   </div>
 
@@ -1563,15 +1531,15 @@ export default function App() {
                         <img className="inline-block h-8 w-8 rounded-full ring-2 ring-background object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80&fit=crop" alt="Advisor" />
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-foreground leading-none mb-1">3 Mitra Online</p>
-                        <p className="text-[11px] text-muted-foreground leading-none">Siap untuk audit</p>
+                        <p className="text-xs font-semibold text-foreground leading-none mb-1">3 Partners Online</p>
+                        <p className="text-[11px] text-muted-foreground leading-none">Ready for audit</p>
                       </div>
                     </div>
                     <button
                       onClick={() => scrollTo('contact')}
                       className="px-3.5 py-2 bg-primary text-primary-foreground text-xs font-semibold rounded-xl hover:scale-105 active:scale-95 transition-all shadow-sm shrink-0 cursor-pointer"
                     >
-                      Pesan Sesi
+                      Book Call
                     </button>
                   </div>
                 </div>
@@ -1588,24 +1556,24 @@ export default function App() {
                 <div className="space-y-1">
                   {[
                     {
-                      q: "Bagaimana proses konsultasi awal berjalan?",
-                      a: "Sesi pertama kami adalah sesi penemuan 45 menit di mana kami meninjau tantangan bisnis, keuangan, atau tujuan operasional Anda saat ini. Jika kami menentukan bahwa kami adalah mitra yang tepat, kami akan mempresentasikan peta jalan strategi yang disesuaikan dengan ruang lingkup pekerjaan yang transparan."
+                      q: "How does the initial consultation work?",
+                      a: "Our first session is a 45-minute discovery call where we review your current business challenges, financials, or operational goals. If we determine we're the right fit to help you scale, we present a tailored strategy roadmap and transparent scope of work."
                     },
                     {
-                      q: "Apakah Anda hanya bekerja dengan korporasi besar yang mapan?",
-                      a: "Sama sekali tidak. Kami merancang paket kami khusus untuk mendukung startup/UMKM yang berkembang pesat maupun perusahaan regional yang mapan. Kami menyesuaikan keterlibatan strategis kami sesuai dengan tahap pertumbuhan Anda."
+                      q: "Do you only work with large established corporations?",
+                      a: "Not at all. We specifically designed our subscription packages to support both fast-growing startups/UMKM and established regional enterprises. We scale our strategic involvement according to your stage of growth."
                     },
                     {
-                      q: "Apa yang membedakan Arkrea dari firma konsultan tradisional?",
-                      a: "Konsultan tradisional menyerahkan presentasi 100 halaman lalu pergi. Kami adalah tim operator yang langsung turun tangan. Kami tetap tertanam bersama tim Anda selama implementasi untuk menyelesaikan hambatan, menyesuaikan strategi, dan memastikan dampak pendapatan yang terukur."
+                      q: "What makes Arteri Kreasi different from traditional consulting firms?",
+                      a: "Traditional consultants hand you a 100-page presentation deck and walk away. We are a team of hands-on operators. We stay embedded with your team during implementation to solve bottlenecks, adjust strategies, and ensure measurable revenue impact."
                     },
                     {
-                      q: "Bisakah kami mengkustomisasi atau menggabungkan layanan lintas disiplin?",
-                      a: "Tentu! Sebagian besar tantangan bisnis saling terkait. Misalnya, merestrukturisasi bisnis pariwisata sering membutuhkan strategi gabungan dari aspek operasional, SDM, dan pemasaran digital. Kami menyesuaikan keterlibatan kami tepat sesuai kebutuhan Anda."
+                      q: "Can we customize or combine services across disciplines?",
+                      a: "Yes! Most business challenges are interconnected. For example, restructuring a tourism business often requires combined legal, operational, and digital marketing strategies. We tailor our engagement precisely to your needs."
                     },
                     {
-                      q: "Berapa lama biasanya keterlibatan konsultasi berlangsung?",
-                      a: "Sementara beberapa audit bertarget selesai dalam 4 hingga 6 minggu, sebagian besar klien bermitra dengan kami dalam retainer 6 hingga 12 bulan untuk memastikan keselarasan strategis yang berkelanjutan dan penskalaan operasional."
+                      q: "How long does a typical consulting engagement last?",
+                      a: "While some targeted audits complete in 4 to 6 weeks, most clients partner with us on a 6 to 12-month retainer to ensure ongoing strategic alignment, financial modeling, and operational scaling."
                     }
                   ].map((faq, idx) => (
                     <FAQItem key={idx} question={faq.q} answer={faq.a} />
@@ -1616,7 +1584,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ─── Pricing Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ Pricing Section ΓöÇΓöÇΓöÇ */}
         <section id="pricing" className="py-32 relative">
           <div className="container mx-auto px-6">
 
@@ -1776,7 +1744,7 @@ export default function App() {
                   {plan.popular && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                       <span className="px-4 py-1.5 bg-background text-primary text-xs font-bold rounded-full shadow-lg">
-                        ✦ MOST POPULAR
+                        Γ£ª MOST POPULAR
                       </span>
                     </div>
                   )}
@@ -1868,7 +1836,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* ─── Contact Section ─── */}
+        {/* ΓöÇΓöÇΓöÇ Contact Section ΓöÇΓöÇΓöÇ */}
         <section id="contact" className="py-32 relative">
           <div className="container mx-auto px-6">
 
@@ -1881,14 +1849,14 @@ export default function App() {
               transition={{ duration: 0.8 }}
             >
               <p className="text-sm font-semibold text-foreground/60 uppercase tracking-widest mb-4">
-                Hubungi Kami
+                Get In Touch
               </p>
               <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-                Mari bangun sesuatu<br />
-                <span className="text-muted-foreground">yang luar biasa bersama.</span>
+                Let's build something<br />
+                <span className="text-muted-foreground">great together.</span>
               </h2>
               <p className="text-foreground/70 text-xl leading-relaxed">
-                Siap mengambil langkah pertama? Kirimkan pesan dan kami akan membalas dalam 24 jam.
+                Ready to take the first step? Drop us a message and we'll get back to you within 24 hours.
               </p>
             </motion.div>
 
@@ -1914,8 +1882,8 @@ export default function App() {
                       <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-2">
                         <CheckCircle2 className="w-8 h-8" />
                       </div>
-                      <h3 className="text-2xl font-display font-medium">Pesan Terkirim!</h3>
-                      <p className="text-muted-foreground">Kami akan membalas dalam 24 jam.</p>
+                      <h3 className="text-2xl font-display font-medium">Message Sent!</h3>
+                      <p className="text-muted-foreground">We'll get back to you within 24 hours.</p>
                     </motion.div>
                   ) : (
                     <motion.form
@@ -1928,22 +1896,22 @@ export default function App() {
                     >
                       <div className="grid md:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
-                          <label className="text-sm font-semibold text-foreground/80">Nama Lengkap</label>
+                          <label className="text-sm font-semibold text-foreground/80">Full Name</label>
                           <input
                             type="text"
                             required
-                            placeholder="Nama Anda"
+                            placeholder="John Doe"
                             value={formData.name}
                             onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
                             className="px-5 py-3.5 bg-background/80 border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/60 transition-all"
                           />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <label className="text-sm font-semibold text-foreground/80">Alamat Email</label>
+                          <label className="text-sm font-semibold text-foreground/80">Email Address</label>
                           <input
                             type="email"
                             required
-                            placeholder="nama@perusahaan.com"
+                            placeholder="john@company.com"
                             value={formData.email}
                             onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
                             className="px-5 py-3.5 bg-background/80 border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/60 transition-all"
@@ -1951,11 +1919,11 @@ export default function App() {
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <label className="text-sm font-semibold text-foreground/80">Pesan Anda</label>
+                        <label className="text-sm font-semibold text-foreground/80">Your Message</label>
                         <textarea
                           required
                           rows={5}
-                          placeholder="Ceritakan bisnis Anda dan apa yang ingin Anda capai bersama Arkrea..."
+                          placeholder="Tell us about your business and what you're looking to achieve..."
                           value={formData.message}
                           onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
                           className="px-5 py-3.5 bg-background/80 border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/60 transition-all resize-none"
@@ -1965,7 +1933,7 @@ export default function App() {
                         type="submit"
                         className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 hover:scale-105 transition-transform duration-300 self-start"
                       >
-                        Kirim Pesan <Send className="w-4 h-4" />
+                        Send Message <Send className="w-4 h-4" />
                       </button>
                     </motion.form>
                   )}
@@ -1983,35 +1951,26 @@ export default function App() {
                 {[
                   {
                     icon: Mail,
-                    label: 'Email Kami',
-                    value: 'arterikreasinusantara@gmail.com',
-                    sub: 'Klik untuk kirim Email via Gmail',
-                    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=arterikreasinusantara@gmail.com',
-                    target: '_blank',
+                    label: 'Email Us',
+                    value: 'hello@arterikreasi.com',
+                    sub: 'We reply within 24 hours',
                   },
                   {
                     icon: Phone,
                     label: 'WhatsApp',
-                    value: '0856 9290 9283',
-                    sub: 'Azariel (Klik untuk chat WA)',
-                    href: 'https://wa.me/6285692909283',
-                    target: '_blank',
+                    value: '+62 812 3456 7890',
+                    sub: 'MonΓÇôFri, 9amΓÇô6pm WIB',
                   },
                   {
                     icon: MapPin,
-                    label: 'Kantor',
-                    value: 'Kota Batu, Jawa Timur',
-                    sub: 'Melayani seluruh Indonesia',
-                    href: 'https://maps.app.goo.gl/fnjZN3ufFZc5YMtq6',
-                    target: '_blank',
+                    label: 'Office',
+                    value: 'Jakarta, Indonesia',
+                    sub: 'Available for remote & on-site',
                   },
                 ].map((info, i) => (
-                  <motion.a
+                  <motion.div
                     key={i}
-                    href={info.href}
-                    target={info.target}
-                    rel="noopener noreferrer"
-                    className="bg-card/70 backdrop-blur-md border border-border p-7 rounded-[2rem] flex gap-5 items-start group hover:bg-card hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-pointer block text-left text-inherit no-underline"
+                    className="bg-card/70 backdrop-blur-md border border-border p-7 rounded-[2rem] flex gap-5 items-start group hover:bg-card hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -2024,65 +1983,64 @@ export default function App() {
                       <p className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-1">
                         {info.label}
                       </p>
-                      <p className="font-semibold text-foreground mb-0.5 group-hover:text-primary transition-colors">{info.value}</p>
+                      <p className="font-semibold text-foreground mb-0.5">{info.value}</p>
                       <p className="text-sm text-foreground/60">{info.sub}</p>
                     </div>
-                  </motion.a>
+                  </motion.div>
                 ))}
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* ─── Footer ─── */}
+        {/* ΓöÇΓöÇΓöÇ Footer ΓöÇΓöÇΓöÇ */}
         <footer className="pt-24 pb-12 relative">
           <div className="container mx-auto px-6 relative z-10">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
               <div className="lg:col-span-2">
                 <div className="text-3xl font-display font-bold tracking-tight mb-6">
-                  ARK<span className="opacity-50">REA · PT Arteri Kreasi Nusantara</span>
+                  ARTERI<span className="opacity-50">KREASI NUSANTARA</span>
                 </div>
                 <p className="text-muted-foreground text-lg max-w-sm">
-                  Mitra strategis terpercaya bagi UMKM dan pelaku usaha kecil dan menengah di Indonesia.
+                  Transferring the complexity of modern business into elegant, actionable strategies for growth.
                 </p>
               </div>
 
               <div>
-                <h4 className="font-medium mb-6 text-lg">Navigasi</h4>
+                <h4 className="font-medium mb-6 text-lg">Company</h4>
                 <div className="flex flex-col gap-4 text-muted-foreground">
                   <button
                     onClick={() => scrollTo('about')}
                     className="hover:text-primary transition-colors text-left"
                   >
-                    Tentang Kami
+                    About Us
                   </button>
                   <button
-                    onClick={() => scrollTo('services')}
+                    onClick={() => scrollTo('pricing')}
                     className="hover:text-primary transition-colors text-left"
                   >
-                    Layanan
+                    Pricing
                   </button>
                   <button
                     onClick={() => scrollTo('contact')}
                     className="hover:text-primary transition-colors text-left"
                   >
-                    Kontak
+                    Contact
                   </button>
                 </div>
               </div>
 
               <div>
-                <h4 className="font-medium mb-6 text-lg">Partner</h4>
+                <h4 className="font-medium mb-6 text-lg">Legal</h4>
                 <div className="flex flex-col gap-4 text-muted-foreground">
-                  <span>Lightup Digital Ideas</span>
-                  <span>Arkrea Traventure</span>
-                  <span>Navara Hospitality</span>
+                  <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
+                  <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
                 </div>
               </div>
             </div>
 
             <div className="pt-8 border-t border-border/50 text-muted-foreground flex flex-col md:flex-row justify-between items-center gap-4">
-              <p>© {new Date().getFullYear()} PT Arteri Kreasi Nusantara. Semua hak dilindungi.</p>
+              <p>┬⌐ {new Date().getFullYear()} Arteri Kreasi Nusantara. All rights reserved.</p>
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
                   in
