@@ -5,9 +5,13 @@ import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
   CheckCircle2, Mail, Phone, MapPin, Users, Award, Target, Send,
   Star, ChevronDown,
-  Calendar, Clock, X, Activity, ShieldCheck, CheckCircle
+  Calendar, Clock, X, Activity, ShieldCheck, CheckCircle,
+  Compass, Hotel, UserCircle2, ChevronRight
 } from 'lucide-react';
 import clsx from 'clsx';
+import ArkreaTraveuture from './pages/ArkreaTraveuture';
+import HotelNavara from './pages/HotelNavara';
+import OurProfile from './pages/OurProfile';
 
 const slides = [
   {
@@ -696,8 +700,12 @@ function BookingModal({
   );
 }
 
+type PageType = 'home' | 'traventure' | 'navara' | 'profile';
+
 export default function App() {
   const [isDark, setIsDark] = useState(false);
+  const [currentPage, setCurrentPage] = useState<PageType>('home');
+  const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -706,6 +714,15 @@ export default function App() {
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingInitialTier, setBookingInitialTier] = useState('Discovery & Audit (45-Min)');
+
+  // Scroll to top when navigating to home
+  useEffect(() => {
+    if (currentPage === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0 });
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -775,6 +792,17 @@ export default function App() {
     setFormData({ name: '', email: '', message: '' });
     setTimeout(() => setFormSubmitted(false), 5000);
   };
+
+  // ── Route to sub-pages ──
+  if (currentPage === 'traventure') {
+    return <ArkreaTraveuture onBack={() => setCurrentPage('home')} />;
+  }
+  if (currentPage === 'navara') {
+    return <HotelNavara onBack={() => setCurrentPage('home')} />;
+  }
+  if (currentPage === 'profile') {
+    return <OurProfile onBack={() => setCurrentPage('home')} />;
+  }
 
   return (
     <div className="min-h-screen font-sans selection:bg-primary selection:text-primary-foreground overflow-hidden">
@@ -886,14 +914,14 @@ export default function App() {
           />
         </button>
 
-        <div className="flex items-center gap-6">
-          <div className="hidden md:flex gap-6 text-base font-medium">
+        <div className="flex items-center gap-5">
+          <div className="hidden md:flex gap-5 text-base font-medium">
             {['services', 'about', 'pricing', 'contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollTo(item)}
                 className={clsx(
-                  "relative py-1 transition-colors capitalize cursor-pointer",
+                  "relative py-1 transition-colors capitalize cursor-pointer text-sm",
                   activeSection === item ? "text-primary font-semibold" : "text-muted-foreground hover:text-primary"
                 )}
               >
@@ -907,6 +935,79 @@ export default function App() {
                 )}
               </button>
             ))}
+          </div>
+
+          {/* ── Layanan Dropdown ── */}
+          <div className="relative">
+            <button
+              onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
+              onBlur={() => setTimeout(() => setIsServicesDropdownOpen(false), 150)}
+              className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border/60 bg-background/50 text-foreground text-xs font-semibold hover:border-primary/50 hover:bg-card transition-all cursor-pointer backdrop-blur-md"
+            >
+              <Briefcase className="w-3.5 h-3.5" />
+              Layanan Kami
+              <ChevronRight className={clsx('w-3 h-3 transition-transform duration-300', isServicesDropdownOpen ? 'rotate-90' : '')} />
+            </button>
+
+            <AnimatePresence>
+              {isServicesDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="absolute top-full right-0 mt-2 w-64 bg-card/95 backdrop-blur-2xl border border-border/70 rounded-2xl shadow-2xl shadow-black/10 overflow-hidden z-50"
+                >
+                  <div className="p-2">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground px-3 pt-2 pb-1">Divisi Bisnis</p>
+                    {[
+                      {
+                        icon: Compass,
+                        label: 'Arkrea Traventure',
+                        desc: 'Travel & Wisata Nusantara',
+                        page: 'traventure' as PageType,
+                        color: 'text-amber-500',
+                        bg: 'bg-amber-500/10',
+                      },
+                      {
+                        icon: Hotel,
+                        label: 'Navara Hospitality',
+                        desc: 'Hospitality Management',
+                        page: 'navara' as PageType,
+                        color: 'text-stone-600',
+                        bg: 'bg-stone-500/10',
+                      },
+                      {
+                        icon: UserCircle2,
+                        label: 'Our Profile',
+                        desc: 'Tim & Perjalanan Arkrea',
+                        page: 'profile' as PageType,
+                        color: 'text-violet-500',
+                        bg: 'bg-violet-500/10',
+                      },
+                    ].map((svc) => (
+                      <button
+                        key={svc.page}
+                        onClick={() => {
+                          setCurrentPage(svc.page);
+                          setIsServicesDropdownOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-muted transition-colors text-left group cursor-pointer"
+                      >
+                        <div className={clsx('w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all', svc.bg)}>
+                          <svc.icon className={clsx('w-4 h-4', svc.color)} />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">{svc.label}</div>
+                          <div className="text-xs text-muted-foreground">{svc.desc}</div>
+                        </div>
+                        <ArrowRight className="w-3.5 h-3.5 text-muted-foreground ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <button
@@ -1102,6 +1203,137 @@ export default function App() {
           </div>
         </section>
 
+
+        {/* ─── Divisions Section ─── */}
+        <section id="divisions" className="py-24 relative">
+          <div className="container mx-auto px-6">
+            <motion.div
+              className="mb-14"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3">
+                Ekosistem Bisnis
+              </p>
+              <h2 className="text-4xl md:text-5xl font-display font-medium mb-4">
+                Divisi Kami
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-xl leading-relaxed">
+                Arteri Kreasi Nusantara hadir melalui tiga divisi utama — klik untuk menjelajahi masing-masing.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-5">
+              {[
+                {
+                  page: 'traventure' as PageType,
+                  tag: 'Travel & Wisata',
+                  name: 'Arkrea\nTraventure',
+                  desc: 'Destinasi autentik Nusantara — dari Raja Ampat hingga Bali, bersama pemandu lokal berpengalaman.',
+                  image: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=80&fit=crop',
+                  accent: '#C4A882',
+                  accentBg: 'from-amber-900/70',
+                },
+                {
+                  page: 'navara' as PageType,
+                  tag: 'Hospitality Management',
+                  name: 'Navara\nHospitality',
+                  desc: 'Pengelolaan dan pengembangan bisnis hospitality yang mengedepankan kualitas, keramahan, dan nilai pengalaman.',
+                  image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80&fit=crop',
+                  accent: '#C9A96E',
+                  accentBg: 'from-stone-900/70',
+                },
+                {
+                  page: 'profile' as PageType,
+                  tag: 'Tim & Profil',
+                  name: 'Our\nProfile',
+                  desc: 'Kenali orang-orang di balik Arteri Kreasi Nusantara — visi, misi, dan perjalanan kami.',
+                  image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80&fit=crop',
+                  accent: '#a78bfa',
+                  accentBg: 'from-violet-900/70',
+                },
+              ].map((div, i) => (
+                <motion.button
+                  key={div.page}
+                  onClick={() => setCurrentPage(div.page)}
+                  className="relative group overflow-hidden rounded-[2rem] text-left focus:outline-none"
+                  style={{ aspectRatio: '3/4' }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {/* Background photo */}
+                  <motion.img
+                    src={div.image}
+                    alt={div.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {/* Gradient overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-t ${div.accentBg} via-black/30 to-transparent`} />
+
+                  {/* Hover highlight */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ background: `radial-gradient(circle at 50% 80%, ${div.accent}25 0%, transparent 70%)` }}
+                  />
+
+                  {/* Border glow on hover */}
+                  <div
+                    className="absolute inset-0 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ boxShadow: `inset 0 0 0 1.5px ${div.accent}60` }}
+                  />
+
+                  {/* Content */}
+                  <div className="absolute inset-0 p-7 flex flex-col justify-between">
+                    {/* Top tag */}
+                    <div className="flex items-start justify-between">
+                      <span
+                        className="text-[10px] font-semibold uppercase tracking-[0.3em] px-3 py-1.5 rounded-full backdrop-blur-md bg-black/30"
+                        style={{ color: div.accent, border: `1px solid ${div.accent}40` }}
+                      >
+                        {div.tag}
+                      </span>
+                      <motion.div
+                        className="w-9 h-9 rounded-full border border-white/25 flex items-center justify-center text-white backdrop-blur-md bg-black/20"
+                        animate={{ opacity: 1 }}
+                        initial={{ opacity: 0 }}
+                        whileHover={{ scale: 1.1, backgroundColor: `${div.accent}40` }}
+                      >
+                        <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-400" />
+                      </motion.div>
+                    </div>
+
+                    {/* Bottom content */}
+                    <div>
+                      <h3
+                        className="font-display font-semibold text-white leading-tight mb-3 whitespace-pre-line"
+                        style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
+                      >
+                        {div.name}
+                      </h3>
+                      <p className="text-white/60 text-sm leading-relaxed mb-5 max-w-[240px]">
+                        {div.desc}
+                      </p>
+                      <div
+                        className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider"
+                        style={{ color: div.accent }}
+                      >
+                        <span>Jelajahi</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ─── Services Section ─── */}
         <section id="services" className="py-32 relative">
