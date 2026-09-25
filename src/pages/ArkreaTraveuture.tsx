@@ -147,9 +147,9 @@ function Carousel({ items, darkBg = true }: {
   const next = () => setIdx(p => Math.min(max, p + 1));
 
   return (
-    <div className={`${darkBg ? 'bg-[#252420]' : 'bg-white'} py-16 overflow-hidden`}>
+    <div className={`${darkBg ? 'bg-trv-night' : 'bg-white'} py-16 overflow-hidden`}>
       <div className="px-8 md:px-16 flex items-center justify-between mb-8">
-        <span className={`text-[10px] uppercase tracking-[0.35em] font-medium ${darkBg ? 'text-white/40' : 'text-[#1C1A14]/40'}`}>
+        <span className={`text-xs uppercase tracking-[0.35em] font-medium ${darkBg ? 'text-white/60' : 'text-trv-ink/60'}`}>
           Jelajahi Destinasi
         </span>
         <div className="flex gap-2">
@@ -159,7 +159,7 @@ function Carousel({ items, darkBg = true }: {
             className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all disabled:opacity-30 ${
               darkBg
                 ? 'border-white/20 text-white hover:border-white'
-                : 'border-[#1C1A14]/20 text-[#1C1A14] hover:border-[#6B7740]'
+                : 'border-trv-ink/20 text-trv-ink hover:border-trv-olive'
             }`}
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -170,7 +170,7 @@ function Carousel({ items, darkBg = true }: {
             className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all disabled:opacity-30 ${
               darkBg
                 ? 'border-white/20 text-white hover:border-white'
-                : 'border-[#1C1A14]/20 text-[#1C1A14] hover:border-[#6B7740]'
+                : 'border-trv-ink/20 text-trv-ink hover:border-trv-olive'
             }`}
           >
             <ArrowRight className="w-3.5 h-3.5" />
@@ -204,11 +204,11 @@ function Carousel({ items, darkBg = true }: {
               </div>
 
               {/* Name */}
-              <h3 className={`font-serif font-bold text-xl leading-tight mb-1 whitespace-pre-line ${darkBg ? 'text-white' : 'text-[#1C1A14]'}`}>
+              <h3 className={`font-serif font-bold text-xl leading-tight mb-1 whitespace-pre-line ${darkBg ? 'text-white' : 'text-trv-ink'}`}>
                 {item.name}
               </h3>
-              <p className={`text-xs mb-3 ${darkBg ? 'text-white/40' : 'text-[#1C1A14]/40'}`}>{item.region || item.desc}</p>
-              <button className="flex items-center gap-1.5 text-[#6B7740] text-[11px] font-semibold uppercase tracking-[0.2em] group-hover:gap-2.5 transition-all">
+              <p className={`text-xs mb-3 ${darkBg ? 'text-white/60' : 'text-trv-ink/60'}`}>{item.region || item.desc}</p>
+              <button className="flex items-center gap-1.5 text-trv-olive text-xs font-semibold uppercase tracking-[0.2em] group-hover:gap-2.5 transition-all">
                 SEE MORE
                 <ChevronRight className="w-3 h-3" />
               </button>
@@ -242,7 +242,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-[#1C1A14] font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-white text-trv-ink font-sans overflow-x-hidden">
 
       {/* ── Navbar ── */}
       <motion.header
@@ -259,23 +259,24 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
           {/* Logo / Back */}
           <button
             onClick={onBack}
-            className={`flex items-center gap-3 group transition-colors ${scrolled ? 'text-[#1C1A14]' : 'text-white'}`}
+            aria-label="Kembali ke Arkrea"
+            className={`flex items-center gap-3 group transition-colors ${scrolled ? 'text-trv-ink' : 'text-white'}`}
           >
-            <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all group-hover:scale-110 ${scrolled ? 'border-[#1C1A14]/25' : 'border-white/40'}`}>
+            <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all group-hover:scale-110 ${scrolled ? 'border-trv-ink/25' : 'border-white/40'}`}>
               <ArrowLeft className="w-3.5 h-3.5" />
             </div>
             <div className="hidden md:block text-left">
-              <div className={`text-[9px] uppercase tracking-[0.4em] leading-none mb-0.5 ${scrolled ? 'text-[#1C1A14]/40' : 'text-white/50'}`}>
+              <div className={`text-xs uppercase tracking-[0.4em] leading-none mb-0.5 ${scrolled ? 'text-trv-ink/60' : 'text-white/50'}`}>
                 ARKREA
               </div>
-              <div className={`font-serif text-sm font-semibold tracking-[0.1em] leading-none ${scrolled ? 'text-[#6B7740]' : 'text-white'}`}>
+              <div className={`font-serif text-sm font-semibold tracking-[0.1em] leading-none ${scrolled ? 'text-trv-olive' : 'text-white'}`}>
                 TRAVENTURE
               </div>
             </div>
           </button>
 
           {/* Center nav */}
-          <nav className={`hidden lg:flex items-center gap-8 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors ${scrolled ? 'text-[#1C1A14]/70' : 'text-white/80'}`}>
+          <nav className={`hidden lg:flex items-center gap-8 text-xs font-medium uppercase tracking-[0.15em] transition-colors ${scrolled ? 'text-trv-ink/70' : 'text-white/80'}`}>
             {[
               { label: 'Destinasi', id: 'destinasi' },
               { label: 'Pengalaman', id: 'pengalaman' },
@@ -285,7 +286,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               <button
                 key={item.id}
                 onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
-                className="hover:text-[#6B7740] transition-colors"
+                className="hover:text-trv-olive transition-colors"
               >
                 {item.label}
               </button>
@@ -297,7 +298,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             href="https://wa.me/6285692909283?text=Halo%20Arkrea%20Traventure%2C%20saya%20ingin%20bertanya%20mengenai%20wisata."
             target="_blank"
             rel="noreferrer"
-            className="px-5 py-2.5 bg-[#6B7740] hover:bg-[#5a6535] text-white text-[11px] font-semibold uppercase tracking-[0.18em] rounded-full transition-all hover:scale-105 shadow-sm"
+            className="px-5 py-2.5 bg-trv-olive hover:bg-trv-olive-dark text-white text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all hover:scale-105 shadow-sm"
           >
             Hubungi Kami
           </a>
@@ -305,27 +306,27 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
       </motion.header>
 
       {/* ── Hero ── */}
-      <section ref={heroRef} className="relative h-screen overflow-hidden">
+      <section ref={heroRef} className="relative h-dvh overflow-hidden">
         <motion.img
           src={heroImage}
           alt="Arkrea Traventure"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ y: heroImgY }}
         />
-        <div className="absolute inset-0 bg-[#1C1A14]/40" />
+        <div className="absolute inset-0 bg-trv-ink/40" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/55" />
 
         {/* Hero text — bottom left, ALL-CAPS bold serif like 23hotel */}
         <div className="absolute bottom-20 left-8 md:left-14 z-10">
           <motion.h1
             className="font-serif font-bold text-white leading-[0.92] mb-4"
-            style={{ fontSize: 'clamp(3.5rem, 10vw, 9rem)' }}
+            style={{ fontSize: 'clamp(2.75rem, 12vw, 9rem)' }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             JELAJAHI<br />
-            <span className="text-[#C4B47A]">NUSANTARA.</span>
+            <span className="text-trv-sand">NUSANTARA.</span>
           </motion.h1>
           <motion.p
             className="text-white/65 text-sm"
@@ -359,10 +360,10 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
           transition={{ duration: 0.9 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <p className="text-[#6B7740] text-[10px] uppercase tracking-[0.4em] mb-6">
+          <p className="text-trv-olive text-xs uppercase tracking-[0.4em] mb-6">
             Divisi Travel & Wisata — Arteri Kreasi Nusantara
           </p>
-          <h2 className="font-serif text-2xl md:text-4xl lg:text-[2.6rem] font-light text-[#1C1A14] leading-[1.35]">
+          <h2 className="font-serif text-2xl md:text-4xl lg:text-[2.6rem] font-light text-trv-ink leading-[1.35]">
             Lebih dari sekadar perjalanan — sebuah janji tentang petualangan, keajaiban alam, dan kenangan abadi di tanah Nusantara yang tiada habisnya.
           </h2>
         </motion.div>
@@ -396,7 +397,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               />
             </div>
             {/* floating badge */}
-            <div className="absolute -bottom-5 right-0 bg-[#6B7740] text-white text-xs px-5 py-3 font-medium uppercase tracking-wider">
+            <div className="absolute -bottom-5 right-0 bg-trv-olive text-white text-xs px-5 py-3 font-medium uppercase tracking-wider">
               Berdiri sejak 2017
             </div>
           </motion.div>
@@ -407,24 +408,24 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             animate={aboutInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.2 }}
           >
-            <h3 className="font-serif text-2xl md:text-3xl font-light text-[#1C1A14] mb-5 leading-snug">
+            <h3 className="font-serif text-2xl md:text-3xl font-light text-trv-ink mb-5 leading-snug">
               Arkrea Traventure menghadirkan pengalaman immersif di mana para traveler menemukan alam dan budaya Indonesia yang sesungguhnya.
             </h3>
-            <p className="text-[#1C1A14]/50 text-sm leading-relaxed mb-4">
+            <p className="text-trv-ink/50 text-sm leading-relaxed mb-4">
               Ketenangan adalah hal pertama yang Anda rasakan. Sunyi, istirahat, damai. Jauh dari kebisingan namun cukup dekat dengan getaran dan vitalitas alam Nusantara.
             </p>
-            <p className="text-[#1C1A14]/40 text-sm leading-relaxed mb-10">
+            <p className="text-trv-ink/60 text-sm leading-relaxed mb-10">
               Sebuah keseimbangan antara pemutusan dari rutinitas dan inspirasi yang membara — itulah yang selalu kami hadirkan di setiap perjalanan.
             </p>
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#1C1A14]/8">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-trv-ink/8">
               {[
                 { val: '200+', lbl: 'Destinasi' },
                 { val: '5.000+', lbl: 'Traveler' },
                 { val: '8+', lbl: 'Tahun' },
               ].map(s => (
                 <div key={s.lbl}>
-                  <div className="font-serif text-3xl font-light text-[#6B7740]">{s.val}</div>
-                  <div className="text-[#1C1A14]/35 text-[10px] uppercase tracking-widest mt-0.5">{s.lbl}</div>
+                  <div className="font-serif text-3xl font-light text-trv-olive">{s.val}</div>
+                  <div className="text-trv-ink/60 text-xs uppercase tracking-widest mt-0.5">{s.lbl}</div>
                 </div>
               ))}
             </div>
@@ -443,18 +444,18 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             animate={featureInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9 }}
           >
-            <h3 className="font-serif text-2xl md:text-3xl font-light text-[#1C1A14] mb-5 leading-snug">
+            <h3 className="font-serif text-2xl md:text-3xl font-light text-trv-ink mb-5 leading-snug">
               Keajaiban alam hadir dalam setiap detail perjalanan yang kami rancang.
             </h3>
-            <p className="text-[#1C1A14]/50 text-sm leading-relaxed mb-4">
+            <p className="text-trv-ink/50 text-sm leading-relaxed mb-4">
               Cahaya, iklim, warna, dan tekstur alam Nusantara membangkitkan sensasi berada di tempat yang tak tergantikan di dunia manapun.
             </p>
-            <p className="text-[#1C1A14]/35 text-sm leading-relaxed mb-10">
+            <p className="text-trv-ink/60 text-sm leading-relaxed mb-10">
               Setiap itinerary kami dirancang bukan sekadar rute perjalanan, melainkan sebuah karya yang menyentuh indra dan jiwa setiap traveler.
             </p>
             <button
               onClick={() => document.getElementById('destinasi')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex items-center gap-2 text-[#6B7740] text-[11px] font-semibold uppercase tracking-[0.2em] hover:gap-3 transition-all"
+              className="flex items-center gap-2 text-trv-olive text-xs font-semibold uppercase tracking-[0.2em] hover:gap-3 transition-all"
             >
               Lihat Destinasi <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -485,10 +486,10 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
       </section>
 
       {/* ── Destination Carousel — dark bg (23hotel room section) ── */}
-      <section id="destinasi" className="bg-[#252420] relative overflow-hidden">
+      <section id="destinasi" className="bg-trv-night relative overflow-hidden">
         <DarkTexture opacity={0.05} id="curvePattern-destinasi" />
         <div className="relative z-10 pt-14 pb-4 px-8 md:px-14">
-          <p className="text-white/35 text-[10px] uppercase tracking-[0.35em] mb-2 font-medium">JELAJAHI</p>
+          <p className="text-white/60 text-xs uppercase tracking-[0.35em] mb-2 font-medium">JELAJAHI</p>
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-white">DESTINASI KAMI</h2>
         </div>
         <div className="relative z-10">
@@ -530,8 +531,8 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             transition={{ duration: 0.9, delay: 0.2 }}
             className="order-1 lg:order-2"
           >
-            <p className="text-[#6B7740] text-[10px] uppercase tracking-[0.4em] mb-5">Filosofi Kami</p>
-            <h3 className="font-serif text-2xl md:text-3xl font-light text-[#1C1A14] mb-8 leading-snug">
+            <p className="text-trv-olive text-xs uppercase tracking-[0.4em] mb-5">Filosofi Kami</p>
+            <h3 className="font-serif text-2xl md:text-3xl font-light text-trv-ink mb-8 leading-snug">
               Perjalanan yang bertanggung jawab adalah warisan terbaik kita.
             </h3>
             {[
@@ -544,12 +545,12 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={archInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
-                className="flex gap-4 py-4 border-b border-[#1C1A14]/8 last:border-0"
+                className="flex gap-4 py-4 border-b border-trv-ink/8 last:border-0"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#6B7740] mt-2 shrink-0" />
+                <div className="w-1.5 h-1.5 rounded-full bg-trv-olive mt-2 shrink-0" />
                 <div>
-                  <div className="text-[#1C1A14] text-sm font-semibold mb-1">{v.lbl}</div>
-                  <p className="text-[#1C1A14]/45 text-sm leading-relaxed">{v.desc}</p>
+                  <div className="text-trv-ink text-sm font-semibold mb-1">{v.lbl}</div>
+                  <p className="text-trv-ink/45 text-sm leading-relaxed">{v.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -558,14 +559,14 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
       </section>
 
       {/* ── Experience Carousel — white bg ── */}
-      <section id="pengalaman" className="bg-[#F7F5F0]">
+      <section id="pengalaman" className="bg-trv-cream">
         <div className="pt-14 pb-4 px-8 md:px-14">
-          <p className="text-[#1C1A14]/35 text-[10px] uppercase tracking-[0.35em] mb-2 font-medium">LAYANAN</p>
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#1C1A14]">PENGALAMAN KAMI</h2>
+          <p className="text-trv-ink/60 text-xs uppercase tracking-[0.35em] mb-2 font-medium">LAYANAN</p>
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-trv-ink">PENGALAMAN KAMI</h2>
         </div>
 
         {/* Custom light carousel */}
-        <div className="bg-[#F7F5F0] py-8 pb-16 overflow-hidden px-8 md:px-14">
+        <div className="bg-trv-cream py-8 pb-16 overflow-hidden px-8 md:px-14">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {experiences.map((exp, i) => (
               <motion.div
@@ -588,11 +589,11 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
                     transition={{ duration: 0.7 }}
                   />
                 </div>
-                <h3 className="font-serif font-bold text-base leading-tight mb-1.5 whitespace-pre-line text-[#1C1A14]">
+                <h3 className="font-serif font-bold text-base leading-tight mb-1.5 whitespace-pre-line text-trv-ink">
                   {exp.name}
                 </h3>
-                <p className="text-[#1C1A14]/40 text-xs leading-relaxed mb-3">{exp.desc}</p>
-                <button className="flex items-center gap-1.5 text-[#6B7740] text-[10px] font-semibold uppercase tracking-[0.2em] group-hover:gap-2.5 transition-all">
+                <p className="text-trv-ink/60 text-xs leading-relaxed mb-3">{exp.desc}</p>
+                <button className="flex items-center gap-1.5 text-trv-olive text-xs font-semibold uppercase tracking-[0.2em] group-hover:gap-2.5 transition-all">
                   SEE MORE <ChevronRight className="w-3 h-3" />
                 </button>
               </motion.div>
@@ -612,7 +613,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
           viewport={{ once: true }}
           transition={{ duration: 1.6, ease: 'easeOut' }}
         />
-        <div className="absolute inset-0 bg-[#1C1A14]/35" />
+        <div className="absolute inset-0 bg-trv-ink/35" />
         <div className="absolute inset-0 flex items-end justify-start px-8 md:px-14 pb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -620,7 +621,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             viewport={{ once: true }}
             transition={{ duration: 1 }}
           >
-            <p className="text-white/50 text-[10px] uppercase tracking-[0.4em] mb-3">Indonesia</p>
+            <p className="text-white/50 text-xs uppercase tracking-[0.4em] mb-3">Indonesia</p>
             <p className="font-serif text-white text-2xl md:text-4xl font-light max-w-xl leading-tight">
               "Tanah yang memanggil jiwa<br />para penjelajah sejati."
             </p>
@@ -632,11 +633,11 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
       <section id="kontak" className="bg-white py-24 px-8 md:px-14">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
           <div>
-            <p className="text-[#6B7740] text-[10px] uppercase tracking-[0.4em] mb-5">Hubungi Kami</p>
-            <h2 className="font-serif text-3xl md:text-4xl font-light text-[#1C1A14] mb-6 leading-snug">
+            <p className="text-trv-olive text-xs uppercase tracking-[0.4em] mb-5">Hubungi Kami</p>
+            <h2 className="font-serif text-3xl md:text-4xl font-light text-trv-ink mb-6 leading-snug">
               Mulai Rencanakan<br />Petualangan Anda.
             </h2>
-            <p className="text-[#1C1A14]/45 text-sm leading-relaxed mb-10">
+            <p className="text-trv-ink/45 text-sm leading-relaxed mb-10">
               Tim kami siap berdiskusi dan merancang perjalanan impian Anda ke seluruh penjuru Nusantara.
             </p>
             <div className="space-y-5">
@@ -647,7 +648,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
                 { icon: MapPin, text: 'Indonesia', href: '#' },
               ].map(c => (
                 <a key={c.text} href={c.href} target="_blank" rel="noreferrer"
-                  className="flex items-center gap-3 text-[#1C1A14]/45 hover:text-[#6B7740] transition-colors group"
+                  className="flex items-center gap-3 text-trv-ink/45 hover:text-trv-olive transition-colors group"
                 >
                   <c.icon className="w-4 h-4 shrink-0" />
                   <span className="text-sm">{c.text}</span>
@@ -674,13 +675,13 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               onSubmit={(e) => { e.preventDefault(); window.open('https://wa.me/6285692909283?text=Halo%20Arkrea%20Traventure%2C%20saya%20ingin%20bertanya.', '_blank'); }}
             >
               <div className="grid grid-cols-2 gap-5">
-                <input type="text" placeholder="Nama" className="w-full bg-transparent border-b border-[#1C1A14]/15 focus:border-[#6B7740] py-3 text-sm text-[#1C1A14] placeholder-[#1C1A14]/30 focus:outline-none transition-colors" />
-                <input type="email" placeholder="Email" className="w-full bg-transparent border-b border-[#1C1A14]/15 focus:border-[#6B7740] py-3 text-sm text-[#1C1A14] placeholder-[#1C1A14]/30 focus:outline-none transition-colors" />
+                <input type="text" placeholder="Nama" className="w-full bg-transparent border-b border-trv-ink/15 focus:border-trv-olive py-3 text-sm text-trv-ink placeholder-trv-ink/30 focus:outline-none transition-colors" />
+                <input type="email" placeholder="Email" className="w-full bg-transparent border-b border-trv-ink/15 focus:border-trv-olive py-3 text-sm text-trv-ink placeholder-trv-ink/30 focus:outline-none transition-colors" />
               </div>
-              <textarea rows={3} placeholder="Destinasi impian Anda..." className="w-full bg-transparent border-b border-[#1C1A14]/15 focus:border-[#6B7740] py-3 text-sm text-[#1C1A14] placeholder-[#1C1A14]/30 focus:outline-none transition-colors resize-none" />
+              <textarea rows={3} placeholder="Destinasi impian Anda..." className="w-full bg-transparent border-b border-trv-ink/15 focus:border-trv-olive py-3 text-sm text-trv-ink placeholder-trv-ink/30 focus:outline-none transition-colors resize-none" />
               <button
                 type="submit"
-                className="flex items-center gap-2 text-[#6B7740] text-[11px] font-semibold uppercase tracking-[0.25em] hover:gap-3 transition-all"
+                className="flex items-center gap-2 text-trv-olive text-xs font-semibold uppercase tracking-[0.25em] hover:gap-3 transition-all"
               >
                 Kirim Pesan <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -690,17 +691,17 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="bg-[#1C1A14] relative overflow-hidden py-14 px-8 md:px-14">
+      <footer className="bg-trv-ink relative overflow-hidden py-14 px-8 md:px-14">
         <DarkTexture opacity={0.04} id="curvePattern-footer" />
         <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-10">
           <div>
-            <div className="text-white/25 text-[9px] uppercase tracking-[0.4em] mb-1">ARKREA</div>
-            <div className="font-serif text-[#C4B47A] text-lg font-bold tracking-[0.1em] mb-4">TRAVENTURE</div>
-            <p className="text-white/25 text-xs leading-relaxed">Divisi Travel & Wisata<br />Arteri Kreasi Nusantara</p>
+            <div className="text-white/60 text-xs uppercase tracking-[0.4em] mb-1">ARKREA</div>
+            <div className="font-serif text-trv-sand text-lg font-bold tracking-[0.1em] mb-4">TRAVENTURE</div>
+            <p className="text-white/60 text-xs leading-relaxed">Divisi Travel & Wisata<br />Arteri Kreasi Nusantara</p>
           </div>
 
           <div>
-            <p className="text-white/25 text-[9px] uppercase tracking-[0.35em] mb-4">Navigasi</p>
+            <p className="text-white/60 text-xs uppercase tracking-[0.35em] mb-4">Navigasi</p>
             <ul className="space-y-2">
               {[
                 { lbl: 'Beranda', id: 'hero' },
@@ -710,7 +711,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
                 { lbl: 'Kontak', id: 'kontak' },
               ].map(item => (
                 <li key={item.id}>
-                  <button onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })} className="text-white/40 hover:text-[#C4B47A] text-sm transition-colors">
+                  <button onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })} className="text-white/60 hover:text-trv-sand text-sm transition-colors">
                     {item.lbl}
                   </button>
                 </li>
@@ -719,16 +720,16 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
           </div>
 
           <div>
-            <p className="text-white/25 text-[9px] uppercase tracking-[0.35em] mb-4">Kontak</p>
-            <div className="space-y-1.5 text-white/40 text-sm">
+            <p className="text-white/60 text-xs uppercase tracking-[0.35em] mb-4">Kontak</p>
+            <div className="space-y-1.5 text-white/60 text-sm">
               <p>+62 856 9290 9283</p>
               <p>traventure@arkrea.id</p>
             </div>
           </div>
 
           <div>
-            <p className="text-white/25 text-[9px] uppercase tracking-[0.35em] mb-4">Lainnya</p>
-            <button onClick={onBack} className="flex items-center gap-1.5 text-white/40 hover:text-[#C4B47A] text-sm transition-colors group">
+            <p className="text-white/60 text-xs uppercase tracking-[0.35em] mb-4">Lainnya</p>
+            <button onClick={onBack} className="flex items-center gap-1.5 text-white/60 hover:text-trv-sand text-sm transition-colors group">
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
               Kembali ke Arkrea
             </button>

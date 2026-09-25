@@ -1,17 +1,126 @@
 import React, { useState, useEffect, useRef } from 'react';
 import arkreLogo from './assets/logo-transparent.png';
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue, AnimatePresence, useInView } from 'framer-motion';
 import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
   CheckCircle2, Mail, Phone, MapPin, Users, Award, Target, Send,
   Star, ChevronDown,
   Calendar, Clock, X, Activity, ShieldCheck, CheckCircle,
-  Compass, Hotel, UserCircle2, ChevronRight
+  Compass, Hotel, UserCircle2, ChevronRight, Menu
 } from 'lucide-react';
 import clsx from 'clsx';
 import ArkreaTraveuture from './pages/ArkreaTraveuture';
 import HotelNavara from './pages/HotelNavara';
 import OurProfile from './pages/OurProfile';
+import MobileMenu, { scrollAfterClose } from './components/MobileMenu';
+
+type PageType = 'home' | 'traventure' | 'navara' | 'profile';
+
+const navSections = [
+  { id: 'services', label: 'Layanan' },
+  { id: 'about', label: 'Tentang' },
+  { id: 'pricing', label: 'Harga' },
+  { id: 'contact', label: 'Kontak' },
+];
+
+const divisions = [
+  { icon: Compass, label: 'Arkrea Traventure', desc: 'Travel & Wisata Nusantara', page: 'traventure' as PageType, color: 'text-amber-500', bg: 'bg-amber-500/10' },
+  { icon: Hotel, label: 'Navara Hospitality', desc: 'Hospitality Management', page: 'navara' as PageType, color: 'text-stone-600', bg: 'bg-stone-500/10' },
+  { icon: UserCircle2, label: 'Our Profile', desc: 'Tim & Perjalanan Arkrea', page: 'profile' as PageType, color: 'text-violet-500', bg: 'bg-violet-500/10' },
+];
+
+// Shared by the pricing cards, the diagnostic quiz result, and the booking modal
+const pricingPlans = [
+  {
+    name: 'Standard Report',
+    tagline: 'Untuk bisnis yang baru mulai',
+    price: { monthly: 2500000, annual: 2000000 },
+    popular: false,
+    color: 'from-slate-500/10 to-slate-400/5',
+    features: [
+      'Laporan kondisi bisnis bulanan',
+      'Analisis pasar lokal',
+      'Rekomendasi operasional',
+      '1x konsultasi online/bulan',
+      'Email support',
+    ],
+  },
+  {
+    name: 'Full Report',
+    tagline: 'Paling banyak dipilih',
+    price: { monthly: 5000000, annual: 4000000 },
+    popular: true,
+    color: 'from-blue-500/15 to-indigo-500/10',
+    features: [
+      'Semua fitur Standard',
+      'Analisis kompetitor mendalam',
+      'Strategi marketing & branding',
+      'Insight industri pariwisata',
+      'Ringkasan laporan keuangan',
+      '2x konsultasi online/bulan',
+      'Priority support',
+    ],
+  },
+  {
+    name: 'Beneficial Owner',
+    tagline: 'Untuk kebutuhan kepatuhan bisnis',
+    price: { monthly: 8000000, annual: 6400000 },
+    popular: false,
+    color: 'from-violet-500/10 to-purple-400/5',
+    features: [
+      'Pemetaan struktur kepemilikan',
+      'Analisis stakeholder & investor',
+      'Compliance & regulatory check',
+      'Due diligence assessment',
+      'Dedicated consultant',
+      'Quarterly strategy session',
+    ],
+  },
+  {
+    name: 'Financial Report',
+    tagline: 'Insight keuangan level CFO',
+    price: { monthly: 12000000, annual: 9600000 },
+    popular: false,
+    color: 'from-amber-500/10 to-orange-400/5',
+    features: [
+      'Semua fitur Full Report',
+      'Analisis P&L komprehensif',
+      'Proyeksi & pemodelan keuangan',
+      'Budget planning & forecasting',
+      'Tax planning overview',
+      'Monthly CFO advisory session',
+      'Laporan tahunan eksklusif',
+    ],
+  },
+];
+
+const DISCOVERY_SESSION = 'Sesi Diskusi Awal (45 menit)';
+const WHATSAPP_NUMBER = '6285692909283';
+
+const formatRupiah = (n: number) => `Rp${n.toLocaleString('id-ID')}`;
+
+// Close a modal with the Escape key
+function useEscapeKey(active: boolean, onEscape: () => void) {
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onEscape();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [active, onEscape]);
+}
+
+// The next `count` working days (Mon–Fri), starting tomorrow
+function nextWorkingDays(count: number) {
+  const days: string[] = [];
+  const d = new Date();
+  while (days.length < count) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() !== 0 && d.getDay() !== 6) {
+      days.push(d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' }));
+    }
+  }
+  return days;
+}
 
 const slides = [
   {
@@ -102,29 +211,26 @@ function DiagnosticQuizModal({
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({ challenge: '', scale: '', timeline: '' });
 
+  useEscapeKey(isOpen, onClose);
+
   if (!isOpen) return null;
 
+  // Recommendation maps to a real package from `pricingPlans`
   const getResult = () => {
     if (answers.scale === 'startup') {
       return {
-        tier: 'Growth Starter',
-        price: '$1,500/mo',
-        score: '82 / 100',
-        summary: 'Your startup is at a critical inflection point. Our Growth Starter retainer provides the structural KPIs and sales framework to breakthrough initial revenue ceilings without hiring full-time executives.',
+        plan: pricingPlans[0],
+        summary: 'Bisnis Anda sedang berada di titik penting. Standard Report memberi gambaran kondisi bisnis dan rekomendasi operasional bulanan agar Anda bisa menembus batas omzet awal tanpa harus merekrut tim manajemen penuh.',
       };
     } else if (answers.scale === 'umkm') {
       return {
-        tier: 'Enterprise Scaling',
-        price: '$3,500/mo',
-        score: '91 / 100',
-        summary: 'As a rapidly growing regional enterprise, operational bottlenecks and red tape are capping your margins. Our embedded operators will restructure workflows and financial systems within 30 days.',
+        plan: pricingPlans[1],
+        summary: 'Sebagai usaha yang sedang bertumbuh, hambatan operasional dan pemasaran mulai menahan margin Anda. Full Report menggabungkan analisis kompetitor, strategi marketing, dan ringkasan keuangan untuk mempercepat pertumbuhan.',
       };
     } else {
       return {
-        tier: 'Strategic Advisory',
-        price: '$6,000/mo',
-        score: '95 / 100',
-        summary: 'For established corporations, sustainable profitability requires deep structural audit, M&A readiness, and multi-department alignment. Our Senior Partners stay directly embedded with leadership.',
+        plan: pricingPlans[3],
+        summary: 'Untuk organisasi yang sudah mapan, profit yang berkelanjutan membutuhkan analisis keuangan mendalam dan perencanaan anggaran yang matang. Financial Report memberi insight keuangan setingkat CFO setiap bulan.',
       };
     }
   };
@@ -132,7 +238,12 @@ function DiagnosticQuizModal({
   const result = getResult();
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 md:p-6 overflow-y-auto">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Diagnosa bisnis 1 menit"
+      className="fixed inset-0 z-[200] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 md:p-6 overflow-y-auto"
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -142,6 +253,7 @@ function DiagnosticQuizModal({
       >
         <button
           onClick={onClose}
+          aria-label="Tutup"
           className="absolute top-7 right-7 w-10 h-10 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:scale-105 transition-all cursor-pointer"
         >
           <X className="w-5 h-5" />
@@ -152,15 +264,15 @@ function DiagnosticQuizModal({
             <Activity className="w-4 h-4" />
           </div>
           <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-            1-Minute Business Diagnostic
+            Diagnosa Bisnis 1 Menit
           </span>
         </div>
 
         {step < 4 ? (
           <div>
             <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-3">
-              <span>Step {step} of 3</span>
-              <span>{Math.round((step / 3) * 100)}% Completed</span>
+              <span>Langkah {step} dari 3</span>
+              <span>{Math.round((step / 3) * 100)}% selesai</span>
             </div>
             <div className="w-full bg-border/40 h-2 rounded-full overflow-hidden mb-8">
               <div
@@ -172,17 +284,17 @@ function DiagnosticQuizModal({
             {step === 1 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <h3 className="text-2xl font-display font-medium mb-2 text-foreground">
-                  What is the primary challenge holding back your growth?
+                  Apa tantangan utama yang menghambat pertumbuhan bisnis Anda?
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6">
-                  Select the core bottleneck our advisors should focus on.
+                  Pilih hambatan utama yang perlu menjadi fokus konsultan kami.
                 </p>
                 <div className="grid sm:grid-cols-2 gap-3.5">
                   {[
-                    { id: 'revenue', title: 'Stagnant Revenue & Sales', desc: 'Need to break through plateau and scale profit margins.' },
-                    { id: 'operations', title: 'Operational Red Tape', desc: 'Workflow bottlenecks, manual tasks, and lack of clear SOPs.' },
-                    { id: 'financial', title: 'Financial & Legal Audit', desc: 'Restructuring cash flow, tax optimization, and audit prep.' },
-                    { id: 'marketing', title: 'Brand Positioning', desc: 'Repositioning value offer and entering new market sectors.' },
+                    { id: 'revenue', title: 'Omzet & Penjualan Stagnan', desc: 'Perlu menembus plateau dan meningkatkan margin keuntungan.' },
+                    { id: 'operations', title: 'Operasional Berbelit', desc: 'Alur kerja tersendat, banyak pekerjaan manual, SOP belum jelas.' },
+                    { id: 'financial', title: 'Audit Keuangan & Legal', desc: 'Merapikan arus kas, optimasi pajak, dan persiapan audit.' },
+                    { id: 'marketing', title: 'Positioning Brand', desc: 'Memperkuat nilai jual dan masuk ke segmen pasar baru.' },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -210,16 +322,16 @@ function DiagnosticQuizModal({
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <h3 className="text-2xl font-display font-medium mb-2 text-foreground">
-                  What is the current scale of your team/organization?
+                  Seberapa besar skala tim atau organisasi Anda saat ini?
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6">
-                  This helps us determine the right strategic retainer tier.
+                  Ini membantu kami menentukan paket yang paling sesuai.
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    { id: 'startup', label: 'Early Stage / Startup (1 – 10 Team Members)', desc: 'Agile team requiring foundational KPI structuring & fast sales frameworks.' },
-                    { id: 'umkm', label: 'Scaling UMKM / Regional Enterprise (11 – 50 Team Members)', desc: 'Growing enterprise requiring systematic scaling, delegation & financial audit.' },
-                    { id: 'enterprise', label: 'Established Corporation (50+ Team Members)', desc: 'Complex organization requiring corporate restructuring & embedded senior partners.' },
+                    { id: 'startup', label: 'Tahap Awal / Startup (1 – 10 orang)', desc: 'Tim gesit yang butuh struktur KPI dasar dan kerangka penjualan.' },
+                    { id: 'umkm', label: 'UMKM Berkembang (11 – 50 orang)', desc: 'Usaha yang butuh sistem untuk bertumbuh, delegasi, dan rapi secara keuangan.' },
+                    { id: 'enterprise', label: 'Perusahaan Mapan (50+ orang)', desc: 'Organisasi kompleks yang butuh restrukturisasi dan perencanaan keuangan.' },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -245,7 +357,7 @@ function DiagnosticQuizModal({
                   onClick={() => setStep(1)}
                   className="mt-6 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  ← Back to previous step
+                  ← Kembali ke langkah sebelumnya
                 </button>
               </motion.div>
             )}
@@ -253,16 +365,16 @@ function DiagnosticQuizModal({
             {step === 3 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <h3 className="text-2xl font-display font-medium mb-2 text-foreground">
-                  How soon do you need to implement strategic turnaround solutions?
+                  Kapan Anda perlu mulai menjalankan solusi strategis?
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6">
-                  We schedule senior partner availability based on deployment urgency.
+                  Kami menjadwalkan konsultan berdasarkan tingkat urgensi.
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    { id: 'immediate', label: 'Immediately (Within 1 to 2 Weeks)', desc: 'Priority deployment with dedicated embedded operators right away.' },
-                    { id: 'month', label: 'Short-term Roadmap (Within 30 Days)', desc: 'Ready to kick off audit and strategy sessions next month.' },
-                    { id: 'quarter', label: 'Long-term Planning (Quarterly / 6 Months)', desc: 'Planning ahead for sustainable scaling and annual budgeting.' },
+                    { id: 'immediate', label: 'Segera (1 – 2 minggu)', desc: 'Prioritas, tim kami langsung mendampingi.' },
+                    { id: 'month', label: 'Jangka pendek (dalam 30 hari)', desc: 'Siap memulai audit dan sesi strategi bulan depan.' },
+                    { id: 'quarter', label: 'Jangka panjang (3 – 6 bulan)', desc: 'Merencanakan pertumbuhan dan anggaran tahunan.' },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -288,7 +400,7 @@ function DiagnosticQuizModal({
                   onClick={() => setStep(2)}
                   className="mt-6 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  ← Back to previous step
+                  ← Kembali ke langkah sebelumnya
                 </button>
               </motion.div>
             )}
@@ -298,29 +410,25 @@ function DiagnosticQuizModal({
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-semibold text-xs mb-3">
-                <CheckCircle className="w-3.5 h-3.5" /> Diagnostic Audit Complete
+                <CheckCircle className="w-3.5 h-3.5" /> Diagnosa Selesai
               </div>
               <h3 className="text-3xl font-display font-medium text-foreground mb-1">
-                Your Strategic Growth Prescription.
+                Rekomendasi untuk bisnis Anda.
               </h3>
               <p className="text-sm text-muted-foreground">
-                Tailored recommendation based on your answers
+                Disesuaikan dengan jawaban Anda
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border border-primary/30 p-6 rounded-3xl mb-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-primary/20 mb-5">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-primary mb-1">
-                    Recommended Retainer Tier
-                  </p>
-                  <h4 className="text-2xl font-bold text-foreground">{result.tier}</h4>
-                  <p className="text-sm text-muted-foreground">{result.price}</p>
-                </div>
-                <div className="bg-background/80 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-border text-center sm:text-right shrink-0">
-                  <p className="text-[11px] font-semibold text-muted-foreground uppercase">Scaling Potential</p>
-                  <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{result.score}</p>
-                </div>
+              <div className="pb-5 border-b border-primary/20 mb-5">
+                <p className="text-xs font-bold uppercase tracking-wider text-primary mb-1">
+                  Paket yang Direkomendasikan
+                </p>
+                <h4 className="text-2xl font-bold text-foreground">{result.plan.name}</h4>
+                <p className="text-sm text-muted-foreground">
+                  Mulai {formatRupiah(result.plan.price.monthly)} / bulan
+                </p>
               </div>
 
               <p className="text-sm text-foreground/90 leading-relaxed mb-4">
@@ -328,7 +436,7 @@ function DiagnosticQuizModal({
               </p>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
-                <span>Includes embedded operators, KPI dashboards & 100% confidential execution.</span>
+                <span>Harga final dan cakupan disesuaikan setelah sesi diskusi awal. Data Anda dijaga kerahasiaannya.</span>
               </div>
             </div>
 
@@ -336,11 +444,11 @@ function DiagnosticQuizModal({
               <button
                 onClick={() => {
                   onClose();
-                  onOpenBooking(result.tier);
+                  onOpenBooking(result.plan.name);
                 }}
                 className="w-full py-3.5 px-5 bg-primary text-primary-foreground font-semibold text-sm rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/25 cursor-pointer text-center"
               >
-                Schedule Priority Audit Now →
+                Jadwalkan Konsultasi →
               </button>
               <button
                 onClick={() => {
@@ -349,7 +457,7 @@ function DiagnosticQuizModal({
                 }}
                 className="w-full py-3.5 px-5 bg-background border border-border font-semibold text-sm text-foreground rounded-2xl hover:bg-card hover:border-primary/40 transition-all cursor-pointer text-center"
               >
-                View Package in Pricing
+                Lihat Semua Paket
               </button>
             </div>
           </motion.div>
@@ -360,6 +468,9 @@ function DiagnosticQuizModal({
 }
 
 /* ─── Feature 3: Calendly-Style Booking Modal ─── */
+const sessionOptions = [DISCOVERY_SESSION, ...pricingPlans.map((p) => p.name)];
+const timeSlots = ['09:00', '11:00', '14:00', '16:00'];
+
 function BookingModal({
   isOpen,
   onClose,
@@ -369,11 +480,12 @@ function BookingModal({
   onClose: () => void;
   initialTier: string;
 }) {
+  const [dateOptions] = useState(() => nextWorkingDays(4));
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState({
-    sessionType: initialTier || 'Discovery & Audit (45-Min)',
-    date: 'Tomorrow, Jul 21',
-    timeSlot: '10:00 AM WIB',
+    sessionType: initialTier || DISCOVERY_SESSION,
+    date: dateOptions[0],
+    timeSlot: timeSlots[0],
     name: '',
     company: '',
     email: '',
@@ -381,20 +493,27 @@ function BookingModal({
     notes: '',
   });
 
+  // Pre-select the package chosen from the quiz or a pricing card each time the modal opens
   useEffect(() => {
-    if (initialTier) {
+    if (isOpen && initialTier) {
       setBookingData((prev) => ({ ...prev, sessionType: initialTier }));
     }
-  }, [initialTier]);
+  }, [isOpen, initialTier]);
+
+  const handleClose = () => {
+    setStep(1);
+    onClose();
+  };
+  useEscapeKey(isOpen, handleClose);
 
   if (!isOpen) return null;
 
   const handleGoogleCalendar = () => {
-    const title = encodeURIComponent(`Arteri Kreasi Consultation: ${bookingData.sessionType}`);
+    const title = encodeURIComponent(`Konsultasi Arkrea: ${bookingData.sessionType}`);
     const details = encodeURIComponent(
-      `Strategic Discovery Session with Arteri Kreasi Nusantara.\nClient: ${bookingData.name} (${bookingData.company})\nEmail: ${bookingData.email}\nWhatsApp: ${bookingData.whatsapp}\nNotes: ${bookingData.notes}`
+      `Sesi konsultasi dengan Arteri Kreasi Nusantara.\nKlien: ${bookingData.name} (${bookingData.company})\nEmail: ${bookingData.email}\nWhatsApp: ${bookingData.whatsapp}\nCatatan: ${bookingData.notes}`
     );
-    const location = encodeURIComponent('Online Google Meet & Arteri Kreasi Executive Portal');
+    const location = encodeURIComponent('Online (link meeting dikirim via WhatsApp)');
     const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}`;
     window.open(url, '_blank');
   };
@@ -402,7 +521,7 @@ function BookingModal({
   const handleWhatsAppConfirm = () => {
     const text = encodeURIComponent(
       `Halo Pak Azariel!\n\n` +
-      `Saya baru saja melakukan pemesanan sesi konsultasi melalui website Arkrea. Berikut detail booking saya:\n\n` +
+      `Saya ingin memesan sesi konsultasi melalui website Arkrea. Berikut detail booking saya:\n\n` +
       `*DETAIL BOOKING*\n` +
       `Sesi      : ${bookingData.sessionType}\n` +
       `Tanggal   : ${bookingData.date}\n` +
@@ -415,11 +534,16 @@ function BookingModal({
       `${bookingData.notes ? `*Catatan:* ${bookingData.notes}\n\n` : ``}` +
       `Mohon konfirmasi ketersediaan dan link meeting-nya. Terima kasih!`
     );
-    window.open(`https://wa.me/6285692909283?text=${text}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
   };
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 md:p-6 overflow-y-auto">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Booking konsultasi"
+      className="fixed inset-0 z-[200] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 md:p-6 overflow-y-auto"
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -428,10 +552,8 @@ function BookingModal({
         className="bg-card/95 dark:bg-card/98 backdrop-blur-2xl border border-border/70 rounded-[2.5rem] w-full max-w-2xl p-7 md:p-10 shadow-2xl relative my-auto"
       >
         <button
-          onClick={() => {
-            setStep(1);
-            onClose();
-          }}
+          onClick={handleClose}
+          aria-label="Tutup"
           className="absolute top-7 right-7 w-10 h-10 rounded-full bg-background/80 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:scale-105 transition-all cursor-pointer"
         >
           <X className="w-5 h-5" />
@@ -442,29 +564,25 @@ function BookingModal({
             <Calendar className="w-4 h-4" />
           </div>
           <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Live Consultation Booking
+            Booking Konsultasi
           </span>
         </div>
 
         {step === 1 && (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <h3 className="text-2xl font-display font-medium mb-2 text-foreground">
-              Schedule Your Discovery Call.
+              Jadwalkan sesi konsultasi Anda.
             </h3>
             <p className="text-muted-foreground text-sm mb-6">
-              Select your preferred session focus, date, and WIB time slot.
+              Pilih fokus sesi, tanggal, dan jam (WIB) yang Anda inginkan.
             </p>
 
             <div className="mb-6">
               <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
-                1. Session Focus / Package
+                1. Fokus Sesi / Paket
               </label>
-              <div className="grid sm:grid-cols-3 gap-2.5">
-                {[
-                  'Discovery & Audit (45-Min)',
-                  'Growth Starter Plan',
-                  'Enterprise Scaling Audit',
-                ].map((tier) => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                {sessionOptions.map((tier) => (
                   <button
                     key={tier}
                     onClick={() => setBookingData({ ...bookingData, sessionType: tier })}
@@ -483,10 +601,10 @@ function BookingModal({
 
             <div className="mb-6">
               <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
-                2. Choose Date
+                2. Pilih Tanggal
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                {['Tomorrow, Jul 21', 'Tue, Jul 22', 'Wed, Jul 23', 'Thu, Jul 24'].map((d) => (
+                {dateOptions.map((d) => (
                   <button
                     key={d}
                     onClick={() => setBookingData({ ...bookingData, date: d })}
@@ -505,10 +623,10 @@ function BookingModal({
 
             <div className="mb-8">
               <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
-                3. Choose Time Slot (WIB)
+                3. Pilih Jam (WIB)
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                {['09:00 AM WIB', '11:00 AM WIB', '02:00 PM WIB', '04:00 PM WIB'].map((t) => (
+                {timeSlots.map((t) => (
                   <button
                     key={t}
                     onClick={() => setBookingData({ ...bookingData, timeSlot: t })}
@@ -519,7 +637,7 @@ function BookingModal({
                         : 'border-border/60 bg-background/50 text-foreground hover:border-primary/40'
                     )}
                   >
-                    <Clock className="w-3.5 h-3.5 shrink-0" /> {t.split(' ')[0]} {t.split(' ')[1]}
+                    <Clock className="w-3.5 h-3.5 shrink-0" /> {t}
                   </button>
                 ))}
               </div>
@@ -529,7 +647,7 @@ function BookingModal({
               onClick={() => setStep(2)}
               className="w-full py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-2xl hover:scale-[1.01] active:scale-[0.99] transition-all shadow-lg shadow-primary/25 cursor-pointer"
             >
-              Next: Enter Your Details →
+              Lanjut: Isi Data Anda →
             </button>
           </motion.div>
         )}
@@ -537,10 +655,10 @@ function BookingModal({
         {step === 2 && (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <h3 className="text-2xl font-display font-medium mb-2 text-foreground">
-              Executive Details.
+              Data Anda.
             </h3>
             <p className="text-muted-foreground text-sm mb-6">
-              We will send your calendar invite and Zoom link to these details.
+              Kami akan menghubungi Anda melalui kontak ini untuk konfirmasi jadwal.
             </p>
 
             <form
@@ -552,26 +670,28 @@ function BookingModal({
             >
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                    Full Name *
+                  <label htmlFor="bk-name" className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    Nama Lengkap *
                   </label>
                   <input
+                    id="bk-name"
                     type="text"
                     required
-                    placeholder="e.g. Raditya Pratama"
+                    placeholder="cth. Raditya Pratama"
                     value={bookingData.name}
                     onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
                     className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                    Company Name *
+                  <label htmlFor="bk-company" className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    Nama Perusahaan *
                   </label>
                   <input
+                    id="bk-company"
                     type="text"
                     required
-                    placeholder="e.g. PT Nusantara Group"
+                    placeholder="cth. PT Nusantara Group"
                     value={bookingData.company}
                     onChange={(e) => setBookingData({ ...bookingData, company: e.target.value })}
                     className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -581,26 +701,28 @@ function BookingModal({
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                    Corporate Email *
+                  <label htmlFor="bk-email" className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    Email *
                   </label>
                   <input
+                    id="bk-email"
                     type="email"
                     required
-                    placeholder="raditya@company.com"
+                    placeholder="raditya@perusahaan.com"
                     value={bookingData.email}
                     onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
                     className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                    WhatsApp Number *
+                  <label htmlFor="bk-wa" className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    Nomor WhatsApp *
                   </label>
                   <input
+                    id="bk-wa"
                     type="tel"
                     required
-                    placeholder="+62 812 3456 7890"
+                    placeholder="0812 3456 7890"
                     value={bookingData.whatsapp}
                     onChange={(e) => setBookingData({ ...bookingData, whatsapp: e.target.value })}
                     className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -609,12 +731,13 @@ function BookingModal({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                  Brief Note on Current Bottlenecks (Optional)
+                <label htmlFor="bk-notes" className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                  Catatan Singkat (Opsional)
                 </label>
                 <textarea
+                  id="bk-notes"
                   rows={2}
-                  placeholder="Tell us what you want to focus during the 45-minute discovery audit..."
+                  placeholder="Ceritakan singkat hal yang ingin dibahas dalam sesi..."
                   value={bookingData.notes}
                   onChange={(e) => setBookingData({ ...bookingData, notes: e.target.value })}
                   className="w-full bg-background/60 border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
@@ -627,13 +750,13 @@ function BookingModal({
                   onClick={() => setStep(1)}
                   className="px-5 py-3.5 bg-background border border-border rounded-xl text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
-                  ← Back
+                  ← Kembali
                 </button>
                 <button
                   type="submit"
                   className="flex-1 py-3.5 bg-primary text-primary-foreground font-semibold text-sm rounded-xl hover:scale-[1.01] active:scale-[0.99] transition-all shadow-lg shadow-primary/25 cursor-pointer"
                 >
-                  Confirm & Lock Schedule →
+                  Lanjut ke Konfirmasi →
                 </button>
               </div>
             </form>
@@ -643,55 +766,53 @@ function BookingModal({
         {step === 3 && (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-4">
             <div className="w-16 h-16 rounded-3xl bg-emerald-500/15 text-emerald-500 mx-auto flex items-center justify-center mb-5">
-              <CheckCircle2 className="w-8 h-8" />
+              <Phone className="w-8 h-8" />
             </div>
             <h3 className="text-3xl font-display font-medium text-foreground mb-2">
-              Consultation Locked In!
+              Satu langkah lagi.
             </h3>
             <p className="text-muted-foreground text-sm max-w-md mx-auto mb-6 leading-relaxed">
-              We have reserved your <span className="font-semibold text-foreground">{bookingData.sessionType}</span> for{' '}
-              <span className="font-semibold text-primary">{bookingData.date}</span> at{' '}
-              <span className="font-semibold text-primary">{bookingData.timeSlot}</span>.
+              Kirim detail <span className="font-semibold text-foreground">{bookingData.sessionType}</span> untuk{' '}
+              <span className="font-semibold text-primary">{bookingData.date}</span> pukul{' '}
+              <span className="font-semibold text-primary">{bookingData.timeSlot} WIB</span> ke admin kami via WhatsApp.
+              Jadwal terkunci setelah admin mengonfirmasi.
             </p>
 
             <div className="bg-background/60 border border-border/70 p-5 rounded-2xl max-w-md mx-auto mb-6 text-left space-y-2 text-xs">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Attendee:</span>
-                <span className="font-semibold text-foreground">{bookingData.name} ({bookingData.company})</span>
+              <div className="flex justify-between gap-4">
+                <span className="text-muted-foreground">Peserta:</span>
+                <span className="font-semibold text-foreground text-right">{bookingData.name} ({bookingData.company})</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Contact:</span>
-                <span className="font-semibold text-foreground">{bookingData.whatsapp}</span>
+              <div className="flex justify-between gap-4">
+                <span className="text-muted-foreground">Kontak:</span>
+                <span className="font-semibold text-foreground text-right">{bookingData.whatsapp}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-4">
                 <span className="text-muted-foreground">Format:</span>
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">Google Meet (Link sent to email)</span>
+                <span className="font-semibold text-foreground text-right">Online (link dikirim setelah konfirmasi)</span>
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-3 max-w-md mx-auto mb-6">
               <button
-                onClick={handleGoogleCalendar}
-                className="py-3 px-4 bg-background border border-border text-foreground font-semibold text-xs rounded-xl hover:bg-card hover:border-primary/40 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                onClick={handleWhatsAppConfirm}
+                className="py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer sm:order-2"
               >
-                <Calendar className="w-4 h-4 text-primary" /> Add to Google Calendar
+                <Phone className="w-4 h-4" /> Kirim via WhatsApp
               </button>
               <button
-                onClick={handleWhatsAppConfirm}
-                className="py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                onClick={handleGoogleCalendar}
+                className="py-3 px-4 bg-background border border-border text-foreground font-semibold text-xs rounded-xl hover:bg-card hover:border-primary/40 transition-all flex items-center justify-center gap-2 cursor-pointer sm:order-1"
               >
-                <Phone className="w-4 h-4" /> WhatsApp Admin Alert
+                <Calendar className="w-4 h-4 text-primary" /> Simpan ke Google Calendar
               </button>
             </div>
 
             <button
-              onClick={() => {
-                setStep(1);
-                onClose();
-              }}
+              onClick={handleClose}
               className="text-xs font-semibold text-muted-foreground hover:text-foreground underline cursor-pointer"
             >
-              Close and return to site
+              Tutup dan kembali ke website
             </button>
           </motion.div>
         )}
@@ -700,10 +821,17 @@ function BookingModal({
   );
 }
 
-type PageType = 'home' | 'traventure' | 'navara' | 'profile';
 
 export default function App() {
-  const [isDark, setIsDark] = useState(false);
+  // Dark mode: remembered per visitor, defaults to the OS preference
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      const saved = localStorage.getItem('arkrea-theme');
+      if (saved) return saved === 'dark';
+    } catch { /* storage unavailable */ }
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+  });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -713,7 +841,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [bookingInitialTier, setBookingInitialTier] = useState('Discovery & Audit (45-Min)');
+  const [bookingInitialTier, setBookingInitialTier] = useState(DISCOVERY_SESSION);
 
   // Scroll to top when navigating to home
   useEffect(() => {
@@ -745,11 +873,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', isDark);
+    try { localStorage.setItem('arkrea-theme', isDark ? 'dark' : 'light'); } catch { /* storage unavailable */ }
   }, [isDark]);
 
   useEffect(() => {
@@ -763,18 +888,24 @@ export default function App() {
   // subtle scale effect for hero parallax
   const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 1.04]);
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // Pointer position (-0.5 … 0.5) kept in motion values so moving the mouse
+  // animates the hero without re-rendering the whole page
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const orbX = useTransform(mouseX, (v) => v * -100);
+  const orbY = useTransform(mouseY, (v) => v * -100);
+  const tiltX = useTransform(mouseY, (v) => v * 10);
+  const tiltY = useTransform(mouseX, (v) => v * -10);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) - 0.5,
-        y: (e.clientY / window.innerHeight) - 0.5,
-      });
+      mouseX.set(e.clientX / window.innerWidth - 0.5);
+      mouseY.set(e.clientY / window.innerHeight - 0.5);
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = encodeURIComponent(
@@ -787,7 +918,7 @@ export default function App() {
       `${formData.message}\n\n` +
       `Mohon konfirmasi dan informasinya. Terima kasih!`
     );
-    window.open(`https://wa.me/6285692909283?text=${text}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
     setFormSubmitted(true);
     setFormData({ name: '', email: '', message: '' });
     setTimeout(() => setFormSubmitted(false), 5000);
@@ -801,7 +932,7 @@ export default function App() {
     return <HotelNavara onBack={() => setCurrentPage('home')} />;
   }
   if (currentPage === 'profile') {
-    return <OurProfile onBack={() => setCurrentPage('home')} />;
+    return <OurProfile onBack={() => setCurrentPage('home')} isDark={isDark} onToggleDark={() => setIsDark(!isDark)} />;
   }
 
   return (
@@ -848,7 +979,7 @@ export default function App() {
               'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1200px] max-h-[1200px] rounded-full blur-[80px] opacity-60 bg-gradient-to-tr',
               slides[activeSlide].color
             )}
-            style={{ x: mousePosition.x * -100, y: mousePosition.y * -100 }}
+            style={{ x: orbX, y: orbY }}
           />
         </AnimatePresence>
 
@@ -899,6 +1030,7 @@ export default function App() {
         <button
           onClick={() => scrollTo('hero')}
           className="cursor-pointer"
+          aria-label="Arkrea — kembali ke atas"
         >
           <div
             style={{
@@ -914,19 +1046,19 @@ export default function App() {
           />
         </button>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 md:gap-5">
           <div className="hidden md:flex gap-5 text-base font-medium">
-            {['services', 'about', 'pricing', 'contact'].map((item) => (
+            {navSections.map(({ id, label }) => (
               <button
-                key={item}
-                onClick={() => scrollTo(item)}
+                key={id}
+                onClick={() => scrollTo(id)}
                 className={clsx(
-                  "relative py-1 transition-colors capitalize cursor-pointer text-sm",
-                  activeSection === item ? "text-primary font-semibold" : "text-muted-foreground hover:text-primary"
+                  "relative py-1 transition-colors cursor-pointer text-sm",
+                  activeSection === id ? "text-primary font-semibold" : "text-muted-foreground hover:text-primary"
                 )}
               >
-                {item}
-                {activeSection === item && (
+                {label}
+                {activeSection === id && (
                   <motion.div
                     layoutId="navIndicator"
                     className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full"
@@ -959,33 +1091,8 @@ export default function App() {
                   className="absolute top-full right-0 mt-2 w-64 bg-card/95 backdrop-blur-2xl border border-border/70 rounded-2xl shadow-2xl shadow-black/10 overflow-hidden z-50"
                 >
                   <div className="p-2">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground px-3 pt-2 pb-1">Divisi Bisnis</p>
-                    {[
-                      {
-                        icon: Compass,
-                        label: 'Arkrea Traventure',
-                        desc: 'Travel & Wisata Nusantara',
-                        page: 'traventure' as PageType,
-                        color: 'text-amber-500',
-                        bg: 'bg-amber-500/10',
-                      },
-                      {
-                        icon: Hotel,
-                        label: 'Navara Hospitality',
-                        desc: 'Hospitality Management',
-                        page: 'navara' as PageType,
-                        color: 'text-stone-600',
-                        bg: 'bg-stone-500/10',
-                      },
-                      {
-                        icon: UserCircle2,
-                        label: 'Our Profile',
-                        desc: 'Tim & Perjalanan Arkrea',
-                        page: 'profile' as PageType,
-                        color: 'text-violet-500',
-                        bg: 'bg-violet-500/10',
-                      },
-                    ].map((svc) => (
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground px-3 pt-2 pb-1">Divisi Bisnis</p>
+                    {divisions.map((svc) => (
                       <button
                         key={svc.page}
                         onClick={() => {
@@ -1025,8 +1132,71 @@ export default function App() {
           >
             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
+
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden p-2 rounded-full bg-background/50 border border-border/50 hover:bg-muted transition-colors backdrop-blur-md cursor-pointer"
+            aria-label="Buka menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </motion.nav>
+
+      {/* Mobile menu — outside <motion.nav> so `fixed` covers the viewport */}
+      <MobileMenu
+        open={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        title="Menu"
+        footer={
+          <>
+            <button
+              onClick={() => { setIsMobileMenuOpen(false); setIsQuizOpen(true); }}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-primary/15 text-primary font-semibold text-sm cursor-pointer"
+            >
+              <Activity className="w-4 h-4" /> Diagnosa 1 Menit
+            </button>
+            <button
+              onClick={() => { setIsMobileMenuOpen(false); setIsBookingOpen(true); }}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm cursor-pointer"
+            >
+              <Calendar className="w-4 h-4" /> Booking Konsultasi
+            </button>
+          </>
+        }
+      >
+        {navSections.map(({ id, label }) => (
+          <button
+            key={id}
+            onClick={() => scrollAfterClose(() => setIsMobileMenuOpen(false), id)}
+            className={clsx(
+              'w-full text-left px-3 py-3 rounded-xl text-base transition-colors cursor-pointer',
+              activeSection === id ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted'
+            )}
+          >
+            {label}
+          </button>
+        ))}
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground px-3 pt-6 pb-2">
+          Divisi Bisnis
+        </p>
+        {divisions.map((svc) => (
+          <button
+            key={svc.page}
+            onClick={() => { setIsMobileMenuOpen(false); setCurrentPage(svc.page); }}
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-muted transition-colors text-left cursor-pointer"
+          >
+            <div className={clsx('w-10 h-10 rounded-xl flex items-center justify-center shrink-0', svc.bg)}>
+              <svc.icon className={clsx('w-5 h-5', svc.color)} />
+            </div>
+            <div>
+              <div className="font-semibold text-sm">{svc.label}</div>
+              <div className="text-xs text-muted-foreground">{svc.desc}</div>
+            </div>
+          </button>
+        ))}
+      </MobileMenu>
 
       <main>
         {/* ─── Hero Section ─── */}
@@ -1134,8 +1304,8 @@ export default function App() {
               <motion.div
                 className="w-full h-full relative preserve-3d"
                 style={{
-                  rotateX: mousePosition.y * 10,
-                  rotateY: mousePosition.x * -10,
+                  rotateX: tiltX,
+                  rotateY: tiltY,
                   scale: heroScale,
                 }}
                 transition={{ type: 'spring', stiffness: 75, damping: 15 }}
@@ -1294,7 +1464,7 @@ export default function App() {
                     {/* Top tag */}
                     <div className="flex items-start justify-between">
                       <span
-                        className="text-[10px] font-semibold uppercase tracking-[0.3em] px-3 py-1.5 rounded-full backdrop-blur-md bg-black/30"
+                        className="text-xs font-semibold uppercase tracking-[0.3em] px-3 py-1.5 rounded-full backdrop-blur-md bg-black/30"
                         style={{ color: div.accent, border: `1px solid ${div.accent}40` }}
                       >
                         {div.tag}
@@ -1619,20 +1789,17 @@ export default function App() {
                 {
                   quote: "Arkrea membantu manajemen media sosial dan HRD kami secara profesional. Branding digital kami semakin kuat dan jangkauan pasar meningkat signifikan.",
                   name: "Aldo Frozen Food",
-                  role: "Klien — Manajemen Media Sosial & HRD",
-                  img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&fit=crop"
+                  role: "Klien — Manajemen Media Sosial & HRD"
                 },
                 {
                   quote: "Melalui Arkrea Traventure, kegiatan fullboard meeting dan fun outbound kami berjalan lancar. Peserta sangat antusias dan mendapat pengalaman yang berkesan.",
                   name: "Kemenag Provinsi Jawa Timur",
-                  role: "Klien — Tour & Travel",
-                  img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80&fit=crop"
+                  role: "Klien — Tour & Travel"
                 },
                 {
                   quote: "Navara Hospitality Management memberikan standar pelayanan yang tinggi. Operasional hotel kami berjalan lebih efisien dan tamu merasa lebih puas.",
                   name: "De Wahyu Hotel & Convention",
-                  role: "Klien — Hospitality Management",
-                  img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80&fit=crop"
+                  role: "Klien — Hospitality Management"
                 }
               ].map((item, i) => (
                 <motion.div
@@ -1654,7 +1821,10 @@ export default function App() {
                     </p>
                   </div>
                   <div className="flex items-center gap-4 pt-6 border-t border-border/30">
-                    <img src={item.img} alt={item.name} className="w-12 h-12 rounded-full object-cover border border-border/60" />
+                    {/* Initials instead of stock portraits — swap in the client's real logo when available */}
+                    <div aria-hidden="true" className="w-12 h-12 shrink-0 rounded-full bg-primary/10 border border-border/60 flex items-center justify-center text-sm font-semibold text-primary">
+                      {item.name.split(' ').slice(0, 2).map((w) => w[0]).join('')}
+                    </div>
                     <div>
                       <h4 className="font-medium text-base text-foreground">{item.name}</h4>
                       <p className="text-sm text-muted-foreground">{item.role}</p>
@@ -1771,10 +1941,10 @@ export default function App() {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Online Sekarang</span>
+                        <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Online Sekarang</span>
                       </div>
                       <p className="text-xs font-semibold text-foreground">Di bawah 2 Jam</p>
-                      <p className="text-[11px] text-muted-foreground">Rata-rata waktu respons</p>
+                      <p className="text-xs text-muted-foreground">Rata-rata waktu respons</p>
                     </div>
 
                     <div className="bg-background/40 backdrop-blur-md border border-border/50 p-4 rounded-2xl flex flex-col justify-between">
@@ -1782,7 +1952,7 @@ export default function App() {
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <p className="text-xs font-semibold text-foreground">NDA Ketat</p>
-                      <p className="text-[11px] text-muted-foreground">100% Rahasia</p>
+                      <p className="text-xs text-muted-foreground">100% Rahasia</p>
                     </div>
                   </div>
 
@@ -1796,7 +1966,7 @@ export default function App() {
                       </div>
                       <div>
                         <p className="text-xs font-semibold text-foreground leading-none mb-1">3 Mitra Online</p>
-                        <p className="text-[11px] text-muted-foreground leading-none">Siap untuk audit</p>
+                        <p className="text-xs text-muted-foreground leading-none">Siap untuk audit</p>
                       </div>
                     </div>
                     <button
@@ -1861,7 +2031,7 @@ export default function App() {
               transition={{ duration: 0.8 }}
             >
               <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">
-                Subscription Plans
+                Paket Langganan
               </p>
               <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">
                 Pilih paket yang<br />
@@ -1881,7 +2051,7 @@ export default function App() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <span className={clsx('text-sm font-medium transition-colors', !isAnnual ? 'text-foreground' : 'text-muted-foreground')}>
-                Monthly
+                Bulanan
               </span>
               <button
                 onClick={() => setIsAnnual(!isAnnual)}
@@ -1889,7 +2059,7 @@ export default function App() {
                   'relative w-14 h-7 rounded-full transition-colors duration-300',
                   isAnnual ? 'bg-primary' : 'bg-border'
                 )}
-                aria-label="Toggle annual billing"
+                aria-label="Tampilkan harga tahunan" aria-pressed={isAnnual}
               >
                 <motion.div
                   className="absolute top-1 w-5 h-5 bg-white rounded-full shadow-sm"
@@ -1898,7 +2068,7 @@ export default function App() {
                 />
               </button>
               <span className={clsx('text-sm font-medium transition-colors', isAnnual ? 'text-foreground' : 'text-muted-foreground')}>
-                Annual
+                Tahunan
               </span>
               <AnimatePresence>
                 {isAnnual && (
@@ -1916,69 +2086,7 @@ export default function App() {
 
             {/* Pricing Cards */}
             <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-              {[
-                {
-                  name: 'Standard Report',
-                  tagline: 'Untuk bisnis yang baru mulai',
-                  price: { monthly: 2500000, annual: 2000000 },
-                  popular: false,
-                  color: 'from-slate-500/10 to-slate-400/5',
-                  features: [
-                    'Laporan kondisi bisnis bulanan',
-                    'Analisis pasar lokal',
-                    'Rekomendasi operasional',
-                    '1x konsultasi online/bulan',
-                    'Email support',
-                  ],
-                },
-                {
-                  name: 'Full Report',
-                  tagline: 'Paling banyak dipilih',
-                  price: { monthly: 5000000, annual: 4000000 },
-                  popular: true,
-                  color: 'from-blue-500/15 to-indigo-500/10',
-                  features: [
-                    'Semua fitur Standard',
-                    'Analisis kompetitor mendalam',
-                    'Strategi marketing & branding',
-                    'Insight industri pariwisata',
-                    'Ringkasan laporan keuangan',
-                    '2x konsultasi online/bulan',
-                    'Priority support',
-                  ],
-                },
-                {
-                  name: 'Beneficial Owner',
-                  tagline: 'Untuk kebutuhan kepatuhan bisnis',
-                  price: { monthly: 8000000, annual: 6400000 },
-                  popular: false,
-                  color: 'from-violet-500/10 to-purple-400/5',
-                  features: [
-                    'Pemetaan struktur kepemilikan',
-                    'Analisis stakeholder & investor',
-                    'Compliance & regulatory check',
-                    'Due diligence assessment',
-                    'Dedicated consultant',
-                    'Quarterly strategy session',
-                  ],
-                },
-                {
-                  name: 'Financial Report',
-                  tagline: 'Insight keuangan level CFO',
-                  price: { monthly: 12000000, annual: 9600000 },
-                  popular: false,
-                  color: 'from-amber-500/10 to-orange-400/5',
-                  features: [
-                    'Semua fitur Full Report',
-                    'Analisis P&L komprehensif',
-                    'Proyeksi & pemodelan keuangan',
-                    'Budget planning & forecasting',
-                    'Tax planning overview',
-                    'Monthly CFO advisory session',
-                    'Laporan tahunan eksklusif',
-                  ],
-                },
-              ].map((plan, i) => (
+              {pricingPlans.map((plan, i) => (
                 <motion.div
                   key={plan.name}
                   className={clsx(
@@ -2008,7 +2116,7 @@ export default function App() {
                   {plan.popular && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                       <span className="px-4 py-1.5 bg-background text-primary text-xs font-bold rounded-full shadow-lg">
-                        ✦ MOST POPULAR
+                        ✦ PALING POPULER
                       </span>
                     </div>
                   )}
@@ -2030,7 +2138,7 @@ export default function App() {
                     {/* Price */}
                     <div className="mb-8">
                       <div className="flex items-end gap-1">
-                        <span className="text-sm font-medium opacity-70">IDR</span>
+                        <span className="text-sm font-medium opacity-70">Rp</span>
                         <AnimatePresence mode="wait">
                           <motion.span
                             key={isAnnual ? 'annual' : 'monthly'}
@@ -2069,9 +2177,12 @@ export default function App() {
 
                     {/* CTA */}
                     <motion.button
-                      onClick={() => scrollTo('contact')}
+                      onClick={() => {
+                        setBookingInitialTier(plan.name);
+                        setIsBookingOpen(true);
+                      }}
                       className={clsx(
-                        'w-full py-3.5 rounded-xl font-semibold text-sm',
+                        'w-full py-3.5 rounded-xl font-semibold text-sm cursor-pointer',
                         plan.popular
                           ? 'bg-background text-primary'
                           : 'bg-primary text-primary-foreground'
@@ -2124,11 +2235,11 @@ export default function App() {
               </p>
             </motion.div>
 
-            <div className="grid lg:grid-cols-5 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 
               {/* Contact Form */}
               <motion.div
-                className="lg:col-span-3 bg-background/40 backdrop-blur-md border border-border/50 p-10 rounded-[2.5rem]"
+                className="lg:col-span-3 bg-background/40 backdrop-blur-md border border-border/50 p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem]"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
@@ -2146,8 +2257,8 @@ export default function App() {
                       <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-2">
                         <CheckCircle2 className="w-8 h-8" />
                       </div>
-                      <h3 className="text-2xl font-display font-medium">Pesan Terkirim!</h3>
-                      <p className="text-muted-foreground">Kami akan membalas dalam 24 jam.</p>
+                      <h3 className="text-2xl font-display font-medium">WhatsApp sudah dibuka</h3>
+                      <p className="text-muted-foreground max-w-sm">Tekan <strong>Kirim</strong> di WhatsApp agar pesan Anda sampai ke tim kami. Kami membalas dalam 24 jam.</p>
                     </motion.div>
                   ) : (
                     <motion.form
@@ -2160,8 +2271,9 @@ export default function App() {
                     >
                       <div className="grid md:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
-                          <label className="text-sm font-semibold text-foreground/80">Nama Lengkap</label>
+                          <label htmlFor="ct-name" className="text-sm font-semibold text-foreground/80">Nama Lengkap</label>
                           <input
+                            id="ct-name"
                             type="text"
                             required
                             placeholder="Nama Anda"
@@ -2171,8 +2283,9 @@ export default function App() {
                           />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <label className="text-sm font-semibold text-foreground/80">Alamat Email</label>
+                          <label htmlFor="ct-email" className="text-sm font-semibold text-foreground/80">Alamat Email</label>
                           <input
+                            id="ct-email"
                             type="email"
                             required
                             placeholder="nama@perusahaan.com"
@@ -2183,9 +2296,10 @@ export default function App() {
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <label className="text-sm font-semibold text-foreground/80">Pesan Anda</label>
+                        <label htmlFor="ct-message" className="text-sm font-semibold text-foreground/80">Pesan Anda</label>
                         <textarea
                           required
+                          id="ct-message"
                           rows={5}
                           placeholder="Ceritakan bisnis Anda dan apa yang ingin Anda capai bersama Arkrea..."
                           value={formData.message}
@@ -2193,12 +2307,17 @@ export default function App() {
                           className="px-5 py-3.5 bg-background/80 border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/60 transition-all resize-none"
                         />
                       </div>
-                      <button
-                        type="submit"
-                        className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 hover:scale-105 transition-transform duration-300 self-start"
-                      >
-                        Kirim Pesan <Send className="w-4 h-4" />
-                      </button>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <button
+                          type="submit"
+                          className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-300 self-start cursor-pointer"
+                        >
+                          Kirim via WhatsApp <Send className="w-4 h-4" />
+                        </button>
+                        <p className="text-xs text-muted-foreground">
+                          Pesan akan dibuka di WhatsApp, lalu tekan Kirim.
+                        </p>
+                      </div>
                     </motion.form>
                   )}
                 </AnimatePresence>
@@ -2256,7 +2375,7 @@ export default function App() {
                       <p className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-1">
                         {info.label}
                       </p>
-                      <p className="font-semibold text-foreground mb-0.5 group-hover:text-primary transition-colors">{info.value}</p>
+                      <p className="font-semibold text-foreground mb-0.5 group-hover:text-primary transition-colors break-all">{info.value}</p>
                       <p className="text-sm text-foreground/60">{info.sub}</p>
                     </div>
                   </motion.a>
@@ -2307,22 +2426,19 @@ export default function App() {
                 <h4 className="font-medium mb-6 text-lg">Partner</h4>
                 <div className="flex flex-col gap-4 text-muted-foreground">
                   <span>Lightup Digital Ideas</span>
-                  <span>Arkrea Traventure</span>
-                  <span>Navara Hospitality</span>
+                  <button onClick={() => setCurrentPage('traventure')} className="hover:text-primary transition-colors text-left cursor-pointer">
+                    Arkrea Traventure
+                  </button>
+                  <button onClick={() => setCurrentPage('navara')} className="hover:text-primary transition-colors text-left cursor-pointer">
+                    Navara Hospitality
+                  </button>
                 </div>
               </div>
             </div>
 
+            {/* TODO: add LinkedIn / Instagram icons here once the real profile URLs are available */}
             <div className="pt-8 border-t border-border/50 text-muted-foreground flex flex-col md:flex-row justify-between items-center gap-4">
               <p>© {new Date().getFullYear()} PT Arteri Kreasi Nusantara. Semua hak dilindungi.</p>
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
-                  in
-                </div>
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
-                  ig
-                </div>
-              </div>
             </div>
           </div>
         </footer>

@@ -1,12 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
   ArrowLeft, Link2, Image, Mail, Target, Eye, Heart,
-  TrendingUp, Users, Award, Briefcase, Star
+  TrendingUp, Users, Award, Briefcase, Star, Menu, Moon, Sun
 } from 'lucide-react';
+import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
 
 interface OurProfileProps {
   onBack: () => void;
+  isDark: boolean;
+  onToggleDark: () => void;
 }
 
 const teamMembers = [
@@ -182,20 +185,32 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0], index: num
 
       {/* Social */}
       <div className="flex items-center gap-3 pt-4 border-t border-border/40">
-        <a
-          href={member.linkedin}
-          className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-        >
-        <Link2 className="w-3.5 h-3.5" />
-        </a>
-        <a
-          href={member.instagram}
-          className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-        >
-        <Image className="w-3.5 h-3.5" />
-        </a>
+        {/* Social links only render once a real URL replaces the '#' placeholder */}
+        {member.linkedin !== '#' && (
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`LinkedIn ${member.name}`}
+            className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+          >
+            <Link2 className="w-3.5 h-3.5" />
+          </a>
+        )}
+        {member.instagram !== '#' && (
+          <a
+            href={member.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Instagram ${member.name}`}
+            className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
+          >
+            <Image className="w-3.5 h-3.5" />
+          </a>
+        )}
         <a
           href={`mailto:${member.email}`}
+          aria-label={`Email ${member.name}`}
           className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
         >
           <Mail className="w-3.5 h-3.5" />
@@ -206,7 +221,15 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0], index: num
   );
 }
 
-export default function OurProfile({ onBack }: OurProfileProps) {
+const profileSections = [
+  { id: 'tim', label: 'Tim' },
+  { id: 'perjalanan', label: 'Perjalanan' },
+  { id: 'nilai', label: 'Nilai' },
+];
+
+export default function OurProfile({ onBack, isDark, onToggleDark }: OurProfileProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
       {/* ── Navbar ── */}
@@ -218,30 +241,72 @@ export default function OurProfile({ onBack }: OurProfileProps) {
       >
         <button
           onClick={onBack}
+          aria-label="Kembali ke Arkrea"
           className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
         >
           <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all">
             <ArrowLeft className="w-4 h-4" />
           </div>
-          <span className="text-sm font-medium">Kembali ke Arkrea</span>
+          <span className="text-sm font-medium hidden sm:inline">Kembali ke Arkrea</span>
         </button>
 
         <div className="font-semibold text-lg">
           <span className="text-primary">Our</span> Profile
         </div>
 
-        <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-          {['Tim', 'Perjalanan', 'Nilai'].map(item => (
-            <button
-              key={item}
-              onClick={() => document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })}
-              className="hover:text-foreground transition-colors"
-            >
-              {item}
-            </button>
-          ))}
+        <div className="flex items-center gap-3 md:gap-6">
+          <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+            {profileSections.map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
+                className="hover:text-foreground transition-colors cursor-pointer"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={onToggleDark}
+            className="p-2 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="md:hidden p-2 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+            aria-label="Buka menu"
+            aria-expanded={menuOpen}
+          >
+            <Menu className="w-4 h-4" />
+          </button>
         </div>
       </motion.nav>
+
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        title="Our Profile"
+        footer={
+          <button
+            onClick={() => { setMenuOpen(false); onBack(); }}
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-sm cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" /> Kembali ke Arkrea
+          </button>
+        }
+      >
+        {profileSections.map(({ id, label }) => (
+          <button
+            key={id}
+            onClick={() => scrollAfterClose(() => setMenuOpen(false), id)}
+            className="w-full text-left px-3 py-3 rounded-xl text-base hover:bg-muted transition-colors cursor-pointer"
+          >
+            {label}
+          </button>
+        ))}
+      </MobileMenu>
 
       {/* ── Hero ── */}
       <section className="relative pt-32 pb-24 px-6 overflow-hidden">

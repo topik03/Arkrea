@@ -142,7 +142,7 @@ function ServiceCard({ svc, index }: { svc: typeof mainServices[0]; index: numbe
       />
 
       <div className="absolute top-6 left-6">
-        <span className="font-serif text-[#C9A96E]/50 text-4xl font-extralight">{svc.no}</span>
+        <span className="font-serif text-nav-gold/50 text-4xl font-extralight">{svc.no}</span>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
@@ -185,7 +185,7 @@ function ClientCard({ client, index }: { client: typeof clients[0]; index: numbe
           />
           <div className="absolute inset-0 bg-black/30" />
           <div className="absolute bottom-6 left-6">
-            <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.35em] border border-[#C9A96E]/40 px-3 py-1.5">
+            <span className="text-nav-gold text-xs uppercase tracking-[0.35em] border border-nav-gold/40 px-3 py-1.5">
               {client.detail}
             </span>
           </div>
@@ -195,13 +195,13 @@ function ClientCard({ client, index }: { client: typeof clients[0]; index: numbe
       {/* Text side */}
       <div className={`px-10 md:px-16 py-14 ${!isEven ? 'lg:order-1' : ''}`}>
         <div className="flex items-center gap-4 mb-6">
-          <div className="h-[1px] w-10 bg-[#C9A96E]" />
-          <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.4em]">{client.tagline}</span>
+          <div className="h-[1px] w-10 bg-nav-gold" />
+          <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">{client.tagline}</span>
         </div>
-        <h3 className="font-serif text-3xl md:text-4xl font-extralight text-[#E8E0D5] mb-6 leading-tight">
+        <h3 className="font-serif text-3xl md:text-4xl font-extralight text-nav-ivory mb-6 leading-tight">
           {client.name}
         </h3>
-        <p className="text-[#E8E0D5]/55 leading-relaxed text-sm">{client.desc}</p>
+        <p className="text-nav-ivory/55 leading-relaxed text-sm">{client.desc}</p>
       </div>
     </motion.div>
   );
@@ -222,11 +222,16 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuOpen(false);
+    if (menuOpen) window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
   }, [menuOpen]);
 
   return (
-    <div className="min-h-screen bg-[#111110] text-[#E8E0D5] font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-nav-night text-nav-ivory font-sans overflow-x-hidden">
 
       {/* ── Full-page Menu Overlay ── */}
       <AnimatePresence>
@@ -236,7 +241,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[200] bg-[#0c0c0b] flex flex-col"
+            className="fixed inset-0 z-[200] bg-nav-deep flex flex-col"
           >
             <div className="absolute inset-0 opacity-15">
               <img src={heroSlides[heroIdx].image} alt="" className="w-full h-full object-cover" />
@@ -245,7 +250,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
               <img src={navaraLogo} alt="Navara" className="h-10 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
               <button
                 onClick={() => setMenuOpen(false)}
-                className="text-[#E8E0D5] hover:text-[#C9A96E] transition-colors text-sm uppercase tracking-widest"
+                className="text-nav-ivory hover:text-nav-gold transition-colors text-sm uppercase tracking-widest"
               >
                 Tutup ✕
               </button>
@@ -267,7 +272,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                     setMenuOpen(false);
                     setTimeout(() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' }), 300);
                   }}
-                  className="font-serif text-5xl md:text-7xl font-extralight text-[#E8E0D5] hover:text-[#C9A96E] transition-colors duration-300"
+                  className="font-serif text-5xl md:text-7xl font-extralight text-nav-ivory hover:text-nav-gold transition-colors duration-300"
                 >
                   {item.label}
                 </motion.button>
@@ -277,7 +282,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
                 onClick={onBack}
-                className="mt-8 flex items-center gap-2 text-[#E8E0D5]/50 hover:text-[#C9A96E] text-sm uppercase tracking-widest transition-colors"
+                className="mt-8 flex items-center gap-2 text-nav-ivory/50 hover:text-nav-gold text-sm uppercase tracking-widest transition-colors"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Kembali ke Arkrea
@@ -292,7 +297,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
         className="fixed top-0 left-0 right-0 z-50 px-8 md:px-16 py-5 flex justify-between items-center"
         style={{ backgroundColor: navBg }}
       >
-        <button onClick={onBack} className="flex items-center gap-2 text-[#E8E0D5]/70 hover:text-[#C9A96E] transition-colors group">
+        <button onClick={onBack} aria-label="Kembali ke Arkrea" className="flex items-center gap-2 text-nav-ivory/70 hover:text-nav-gold transition-colors group">
           <div className="w-7 h-7 border border-current rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
             <ArrowLeft className="w-3.5 h-3.5" />
           </div>
@@ -311,16 +316,17 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
         <button
           onClick={() => setMenuOpen(true)}
           className="flex flex-col gap-1.5 group cursor-pointer"
-          aria-label="Open menu"
+          aria-label="Buka menu"
+          aria-expanded={menuOpen}
         >
-          <span className="block w-6 h-[1.5px] bg-[#E8E0D5] group-hover:bg-[#C9A96E] transition-colors" />
-          <span className="block w-4 h-[1.5px] bg-[#E8E0D5] group-hover:bg-[#C9A96E] transition-colors" />
-          <span className="block w-6 h-[1.5px] bg-[#E8E0D5] group-hover:bg-[#C9A96E] transition-colors" />
+          <span className="block w-6 h-[1.5px] bg-nav-ivory group-hover:bg-nav-gold transition-colors" />
+          <span className="block w-4 h-[1.5px] bg-nav-ivory group-hover:bg-nav-gold transition-colors" />
+          <span className="block w-6 h-[1.5px] bg-nav-ivory group-hover:bg-nav-gold transition-colors" />
         </button>
       </motion.header>
 
       {/* ── Hero Slider ── */}
-      <section id="hero" className="relative h-screen overflow-hidden">
+      <section id="hero" className="relative h-dvh overflow-hidden">
         <AnimatePresence mode="popLayout">
           <motion.div
             key={heroIdx}
@@ -351,11 +357,11 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.15 }}
               >
-                <div className="h-[1px] w-10 bg-[#C9A96E]/50" />
-                <span className="text-[#C9A96E]/80 text-[10px] uppercase tracking-[0.45em] font-light">
+                <div className="h-[1px] w-10 bg-nav-gold/50" />
+                <span className="text-nav-gold/80 text-xs uppercase tracking-[0.45em] font-light">
                   {heroSlides[heroIdx].tag}
                 </span>
-                <div className="h-[1px] w-10 bg-[#C9A96E]/50" />
+                <div className="h-[1px] w-10 bg-nav-gold/50" />
               </motion.div>
 
               <h2
@@ -363,11 +369,11 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 style={{ fontSize: 'clamp(2.6rem, 6vw, 5.5rem)' }}
               >
                 {heroSlides[heroIdx].line1}{' '}
-                <span className="text-[#C9A96E] italic">{heroSlides[heroIdx].line2}</span>
+                <span className="text-nav-gold italic">{heroSlides[heroIdx].line2}</span>
               </h2>
 
               <motion.p
-                className="text-white/40 text-[11px] uppercase tracking-[0.35em] mt-8 text-center"
+                className="text-white/60 text-xs uppercase tracking-[0.35em] mt-8 text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -382,7 +388,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
         <div className="absolute bottom-16 right-8 md:right-16 z-10 flex items-center gap-5">
           <button
             onClick={() => setHeroIdx(p => (p - 1 + heroSlides.length) % heroSlides.length)}
-            className="w-10 h-10 border border-white/30 rounded-full flex items-center justify-center hover:border-[#C9A96E] hover:text-[#C9A96E] text-white transition-all"
+            className="w-10 h-10 border border-white/30 rounded-full flex items-center justify-center hover:border-nav-gold hover:text-nav-gold text-white transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
@@ -391,7 +397,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
           </span>
           <button
             onClick={() => setHeroIdx(p => (p + 1) % heroSlides.length)}
-            className="w-10 h-10 border border-white/30 rounded-full flex items-center justify-center hover:border-[#C9A96E] hover:text-[#C9A96E] text-white transition-all"
+            className="w-10 h-10 border border-white/30 rounded-full flex items-center justify-center hover:border-nav-gold hover:text-nav-gold text-white transition-all"
           >
             <ArrowRight className="w-4 h-4" />
           </button>
@@ -409,23 +415,23 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
       </section>
 
       {/* ── About / Tentang Navara ── */}
-      <section id="tentang" className="py-32 px-8 md:px-16 bg-[#111110]">
+      <section id="tentang" className="py-32 px-8 md:px-16 bg-nav-night">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
           <div>
             <div className="flex items-center gap-4 mb-8">
-              <div className="h-[1px] w-10 bg-[#C9A96E]" />
-              <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.4em]">Tentang Navara</span>
+              <div className="h-[1px] w-10 bg-nav-gold" />
+              <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">Tentang Navara</span>
             </div>
             <RevealText
               text="Menghadirkan layanan pengelolaan hospitality yang mengedepankan kualitas, keramahan, serta nilai pengalaman."
-              className="font-serif text-3xl md:text-4xl font-extralight leading-tight text-[#E8E0D5] mb-10"
+              className="font-serif text-3xl md:text-4xl font-extralight leading-tight text-nav-ivory mb-10"
             />
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-[#E8E0D5]/55 leading-relaxed text-sm mb-6"
+              className="text-nav-ivory/55 leading-relaxed text-sm mb-6"
             >
               Sebagai bagian dari ARKREA, Navara Hospitality Management menghadirkan layanan pengelolaan dan pengembangan perhotelan yang mengedepankan kualitas, keramahan, serta nilai pengalaman.
             </motion.p>
@@ -434,7 +440,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.45 }}
-              className="text-[#E8E0D5]/40 leading-relaxed text-sm mb-10"
+              className="text-nav-ivory/60 leading-relaxed text-sm mb-10"
             >
               Kami menciptakan destinasi yang tidak hanya nyaman untuk disinggahi, tetapi juga meninggalkan kesan dan cerita bagi setiap tamu yang hadir.
             </motion.p>
@@ -451,8 +457,8 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 { val: '100%', lbl: 'Komitmen' },
               ].map(s => (
                 <div key={s.lbl}>
-                  <div className="font-serif text-4xl font-extralight text-[#C9A96E]">{s.val}</div>
-                  <div className="text-[#E8E0D5]/40 text-xs uppercase tracking-widest mt-1">{s.lbl}</div>
+                  <div className="font-serif text-4xl font-extralight text-nav-gold">{s.val}</div>
+                  <div className="text-nav-ivory/60 text-xs uppercase tracking-widest mt-1">{s.lbl}</div>
                 </div>
               ))}
             </motion.div>
@@ -474,20 +480,20 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
               <img
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80&fit=crop"
                 alt=""
-                className="w-full h-full object-cover border-4 border-[#111110]"
+                className="w-full h-full object-cover border-4 border-nav-night"
               />
             </div>
             {/* Badge */}
-            <div className="absolute -top-6 -right-6 w-28 h-28 bg-[#C9A96E] flex flex-col items-center justify-center text-center">
-              <div className="font-serif text-[#111110] text-xs uppercase tracking-widest leading-tight">Bagian dari</div>
-              <div className="font-serif text-[#111110] text-lg font-light tracking-[0.2em] uppercase mt-1">Arkrea</div>
+            <div className="absolute -top-6 -right-6 w-28 h-28 bg-nav-gold flex flex-col items-center justify-center text-center">
+              <div className="font-serif text-nav-night text-xs uppercase tracking-widest leading-tight">Bagian dari</div>
+              <div className="font-serif text-nav-night text-lg font-light tracking-[0.2em] uppercase mt-1">Arkrea</div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* ── Main Services ── */}
-      <section id="layanan" className="bg-[#0e0e0d] pt-24 pb-0">
+      <section id="layanan" className="bg-nav-deep pt-24 pb-0">
         <div className="overflow-hidden px-4 md:px-8 mb-12">
           <motion.h2
             className="font-serif font-extralight text-[14vw] leading-none select-none text-center"
@@ -503,12 +509,12 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
 
         <div className="px-8 md:px-16 mb-6">
           <div className="flex items-center gap-4">
-            <div className="h-[1px] w-10 bg-[#C9A96E]" />
-            <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.4em]">Layanan Utama</span>
+            <div className="h-[1px] w-10 bg-nav-gold" />
+            <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">Layanan Utama</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 bg-[#0a0a09]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 bg-nav-black">
           {mainServices.map((svc, i) => (
             <ServiceCard key={svc.no} svc={svc} index={i} />
           ))}
@@ -516,24 +522,24 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
       </section>
 
       {/* ── Detailed Services ── */}
-      <section className="py-28 px-8 md:px-16 bg-[#111110] border-t border-[#E8E0D5]/[0.05]">
+      <section className="py-28 px-8 md:px-16 bg-nav-night border-t border-nav-ivory/[0.05]">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="h-[1px] w-10 bg-[#C9A96E]" />
-                <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.4em]">Hospitality Management</span>
+                <div className="h-[1px] w-10 bg-nav-gold" />
+                <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">Hospitality Management</span>
               </div>
               <RevealText
                 text="Solusi manajemen hospitality yang menyeluruh — dari operasional hingga pengembangan bisnis."
-                className="font-serif text-3xl md:text-4xl font-extralight leading-tight text-[#E8E0D5]"
+                className="font-serif text-3xl md:text-4xl font-extralight leading-tight text-nav-ivory"
               />
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-[#E8E0D5]/45 text-sm leading-relaxed mt-8"
+                className="text-nav-ivory/45 text-sm leading-relaxed mt-8"
               >
                 Navara hadir sebagai mitra strategis dalam setiap aspek pengelolaan bisnis hospitality, memastikan standar kualitas dan keberlanjutan operasional yang optimal.
               </motion.p>
@@ -547,13 +553,13 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.6, delay: i * 0.07 }}
-                  className="flex items-start gap-5 py-5 border-b border-[#E8E0D5]/[0.07] group hover:border-[#C9A96E]/30 transition-colors"
+                  className="flex items-start gap-5 py-5 border-b border-nav-ivory/[0.07] group hover:border-nav-gold/30 transition-colors"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-[#C9A96E] shrink-0 mt-0.5" />
-                  <span className="text-[#E8E0D5]/70 text-sm group-hover:text-[#E8E0D5] transition-colors leading-relaxed">
+                  <CheckCircle2 className="w-4 h-4 text-nav-gold shrink-0 mt-0.5" />
+                  <span className="text-nav-ivory/70 text-sm group-hover:text-nav-ivory transition-colors leading-relaxed">
                     {item.label}
                   </span>
-                  <span className="ml-auto text-[#C9A96E]/30 text-xs font-serif shrink-0">
+                  <span className="ml-auto text-nav-gold/30 text-xs font-serif shrink-0">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                 </motion.div>
@@ -564,7 +570,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
       </section>
 
       {/* ── Clients / Hotel Partners ── */}
-      <section id="klien" className="bg-[#0e0e0d]">
+      <section id="klien" className="bg-nav-deep">
         <div className="overflow-hidden px-4 md:px-8 pt-20 mb-8">
           <motion.h2
             className="font-serif font-extralight text-[14vw] leading-none select-none text-center"
@@ -580,12 +586,12 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
 
         <div className="px-8 md:px-16 mb-12">
           <div className="flex items-center gap-4">
-            <div className="h-[1px] w-10 bg-[#C9A96E]" />
-            <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.4em]">Hotel Partners</span>
+            <div className="h-[1px] w-10 bg-nav-gold" />
+            <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">Hotel Partners</span>
           </div>
         </div>
 
-        <div className="divide-y divide-[#E8E0D5]/[0.06]">
+        <div className="divide-y divide-nav-ivory/[0.06]">
           {clients.map((client, i) => (
             <ClientCard key={client.name} client={client} index={i} />
           ))}
@@ -593,7 +599,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
       </section>
 
       {/* ── Contact ── */}
-      <section id="kontak" className="bg-[#111110] pt-20 pb-0">
+      <section id="kontak" className="bg-nav-night pt-20 pb-0">
         <div className="overflow-hidden px-4 mb-16">
           <motion.h2
             className="font-serif font-extralight text-[14vw] leading-none select-none text-center"
@@ -621,7 +627,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 <div className="font-serif text-white/60 text-sm italic mb-2">
                   "Membangun Pengalaman, Menciptakan Destinasi"
                 </div>
-                <div className="text-[#C9A96E]/70 text-[10px] uppercase tracking-[0.3em]">— Navara Hospitality</div>
+                <div className="text-nav-gold/70 text-xs uppercase tracking-[0.3em]">— Navara Hospitality</div>
               </div>
             </div>
           </div>
@@ -629,10 +635,10 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
           {/* Contact form */}
           <div className="px-10 md:px-16 py-20">
             <div className="flex items-center gap-4 mb-8">
-              <div className="h-[1px] w-10 bg-[#C9A96E]" />
-              <span className="text-[#C9A96E] text-[10px] uppercase tracking-[0.4em]">Hubungi Kami</span>
+              <div className="h-[1px] w-10 bg-nav-gold" />
+              <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">Hubungi Kami</span>
             </div>
-            <h3 className="font-serif text-3xl font-extralight text-[#E8E0D5] mb-8 leading-tight">
+            <h3 className="font-serif text-3xl font-extralight text-nav-ivory mb-8 leading-tight">
               Konsultasikan<br />Kebutuhan Anda
             </h3>
 
@@ -643,9 +649,9 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 { icon: MapPin, text: 'Indonesia', href: '#' },
               ].map(c => (
                 <a key={c.text} href={c.href} target="_blank" rel="noreferrer"
-                  className="flex items-center gap-4 text-[#E8E0D5]/55 hover:text-[#C9A96E] transition-colors group"
+                  className="flex items-center gap-4 text-nav-ivory/55 hover:text-nav-gold transition-colors group"
                 >
-                  <c.icon className="w-4 h-4 shrink-0 group-hover:text-[#C9A96E] transition-colors" />
+                  <c.icon className="w-4 h-4 shrink-0 group-hover:text-nav-gold transition-colors" />
                   <span className="text-sm">{c.text}</span>
                 </a>
               ))}
@@ -662,29 +668,29 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 <input
                   type="text"
                   placeholder="Nama"
-                  className="w-full bg-transparent border-b border-[#E8E0D5]/15 focus:border-[#C9A96E] py-3 text-sm text-[#E8E0D5] placeholder-[#E8E0D5]/25 focus:outline-none transition-colors"
+                  className="w-full bg-transparent border-b border-nav-ivory/15 focus:border-nav-gold py-3 text-sm text-nav-ivory placeholder-nav-ivory/25 focus:outline-none transition-colors"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full bg-transparent border-b border-[#E8E0D5]/15 focus:border-[#C9A96E] py-3 text-sm text-[#E8E0D5] placeholder-[#E8E0D5]/25 focus:outline-none transition-colors"
+                  className="w-full bg-transparent border-b border-nav-ivory/15 focus:border-nav-gold py-3 text-sm text-nav-ivory placeholder-nav-ivory/25 focus:outline-none transition-colors"
                 />
               </div>
               <input
                 type="text"
                 placeholder="Jenis Layanan yang Dibutuhkan"
-                className="w-full bg-transparent border-b border-[#E8E0D5]/15 focus:border-[#C9A96E] py-3 text-sm text-[#E8E0D5] placeholder-[#E8E0D5]/25 focus:outline-none transition-colors"
+                className="w-full bg-transparent border-b border-nav-ivory/15 focus:border-nav-gold py-3 text-sm text-nav-ivory placeholder-nav-ivory/25 focus:outline-none transition-colors"
               />
               <textarea
                 rows={3}
                 placeholder="Ceritakan kebutuhan Anda..."
-                className="w-full bg-transparent border-b border-[#E8E0D5]/15 focus:border-[#C9A96E] py-3 text-sm text-[#E8E0D5] placeholder-[#E8E0D5]/25 focus:outline-none transition-colors resize-none"
+                className="w-full bg-transparent border-b border-nav-ivory/15 focus:border-nav-gold py-3 text-sm text-nav-ivory placeholder-nav-ivory/25 focus:outline-none transition-colors resize-none"
               />
               <button type="submit" className="flex items-center gap-3 group mt-4">
-                <span className="text-[#C9A96E] text-sm uppercase tracking-[0.25em] border-b border-[#C9A96E]/40 group-hover:border-[#C9A96E] transition-colors pb-0.5">
+                <span className="text-nav-gold text-sm uppercase tracking-[0.25em] border-b border-nav-gold/40 group-hover:border-nav-gold transition-colors pb-0.5">
                   Kirim Pesan
                 </span>
-                <ArrowRight className="w-4 h-4 text-[#C9A96E] group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-nav-gold group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
           </div>
@@ -692,7 +698,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="bg-[#0a0a09] border-t border-[#E8E0D5]/[0.06] py-14 px-8 md:px-16">
+      <footer className="bg-nav-black border-t border-nav-ivory/[0.06] py-14 px-8 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
             {/* Brand */}
@@ -703,12 +709,12 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 className="h-10 object-contain mb-3"
                 style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }}
               />
-              <p className="text-[#E8E0D5]/30 text-xs leading-relaxed">Hospitality Management<br />Arteri Kreasi Nusantara</p>
+              <p className="text-nav-ivory/60 text-xs leading-relaxed">Hospitality Management<br />Arteri Kreasi Nusantara</p>
             </div>
 
             {/* Sitemap */}
             <div>
-              <p className="text-[#E8E0D5]/40 text-[10px] uppercase tracking-[0.3em] mb-4">Halaman</p>
+              <p className="text-nav-ivory/60 text-xs uppercase tracking-[0.3em] mb-4">Halaman</p>
               <ul className="space-y-2">
                 {[
                   { lbl: 'Beranda', id: 'hero' },
@@ -720,7 +726,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                   <li key={item.id}>
                     <button
                       onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
-                      className="text-[#E8E0D5]/50 hover:text-[#C9A96E] text-sm transition-colors"
+                      className="text-nav-ivory/50 hover:text-nav-gold text-sm transition-colors"
                     >
                       {item.lbl}
                     </button>
@@ -731,8 +737,8 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
 
             {/* Services */}
             <div>
-              <p className="text-[#E8E0D5]/40 text-[10px] uppercase tracking-[0.3em] mb-4">Layanan</p>
-              <ul className="space-y-2 text-[#E8E0D5]/50 text-xs">
+              <p className="text-nav-ivory/60 text-xs uppercase tracking-[0.3em] mb-4">Layanan</p>
+              <ul className="space-y-2 text-nav-ivory/50 text-xs">
                 <li>Hotel & Resort Management</li>
                 <li>Konsultasi Bisnis</li>
                 <li>F&B Management</li>
@@ -742,21 +748,21 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
 
             {/* Back + Contact */}
             <div>
-              <p className="text-[#E8E0D5]/40 text-[10px] uppercase tracking-[0.3em] mb-4">Navigasi</p>
+              <p className="text-nav-ivory/60 text-xs uppercase tracking-[0.3em] mb-4">Navigasi</p>
               <button
                 onClick={onBack}
-                className="flex items-center gap-2 text-[#E8E0D5]/50 hover:text-[#C9A96E] transition-colors text-sm group mb-4"
+                className="flex items-center gap-2 text-nav-ivory/50 hover:text-nav-gold transition-colors text-sm group mb-4"
               >
                 <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
                 Kembali ke Arkrea
               </button>
-              <p className="text-[#E8E0D5]/30 text-xs">+62 856 9290 9283</p>
+              <p className="text-nav-ivory/60 text-xs">+62 856 9290 9283</p>
             </div>
           </div>
 
-          <div className="border-t border-[#E8E0D5]/[0.05] pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-            <p className="text-[#E8E0D5]/20 text-xs">© 2024 Navara Hospitality Management — Arteri Kreasi Nusantara</p>
-            <p className="text-[#E8E0D5]/15 text-xs">All rights reserved</p>
+          <div className="border-t border-nav-ivory/[0.05] pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+            <p className="text-nav-ivory/60 text-xs">© {new Date().getFullYear()} Navara Hospitality Management — Arteri Kreasi Nusantara</p>
+            <p className="text-nav-ivory/15 text-xs">All rights reserved</p>
           </div>
         </div>
       </footer>

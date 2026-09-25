@@ -13,6 +13,23 @@
   
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Outfit', sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Division palettes — Arkrea Traventure (trv) and Navara Hospitality (nav) */
+@theme {
+  --color-trv-ink: #1C1A14;
+  --color-trv-olive: #6B7740;
+  --color-trv-olive-dark: #5a6535;
+  --color-trv-sand: #C4B47A;
+  --color-trv-night: #252420;
+  --color-trv-cream: #F7F5F0;
+
+  --color-nav-gold: #C9A96E;
+  --color-nav-ivory: #E8E0D5;
+  --color-nav-night: #111110;
+  --color-nav-deep: #0e0e0d;
+  --color-nav-black: #0a0a09;
 }
 
 :root {
@@ -44,4 +61,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Visible focus ring for keyboard users on every interactive element */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 6px;
 }
