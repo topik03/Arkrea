@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import arkreLogo from './assets/logo-transparent.png';
+import logoAldo from './assets/klien/aldo-frozen-food.png';
+import logoDeWahyu from './assets/klien/de-wahyu-hotel.png';
+import logoNirwana from './assets/klien/nirwana-hotel.png';
+import logoMahkamahAgung from './assets/klien/mahkamah-agung.png';
 import { motion, useScroll, useTransform, useMotionValue, AnimatePresence, useInView } from 'framer-motion';
 import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
@@ -1274,10 +1278,10 @@ export default function App() {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    { name: 'Aldo Frozen Food', abbr: 'AF' },
-                    { name: 'De Wahyu Hotel', abbr: 'DW' },
-                    { name: 'Nirwana Hotel', abbr: 'NH' },
-                    { name: 'Mahkamah Agung RI', abbr: 'MA' },
+                    { name: 'Aldo Frozen Food', logo: logoAldo },
+                    { name: 'De Wahyu Hotel', logo: logoDeWahyu },
+                    { name: 'Nirwana Hotel', logo: logoNirwana },
+                    { name: 'Mahkamah Agung RI', logo: logoMahkamahAgung },
                   ].map((brand, i) => (
                     <motion.div
                       key={brand.name}
@@ -1287,8 +1291,9 @@ export default function App() {
                       transition={{ duration: 0.5, delay: 0.9 + i * 0.08 }}
                       whileHover={{ scale: 1.04 }}
                     >
-                      <div className="w-5 h-5 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-primary leading-none">{brand.abbr}</span>
+                      {/* White tile keeps black and gold logos legible in both themes */}
+                      <div className="h-8 px-1.5 rounded-md bg-white flex items-center justify-center shrink-0">
+                        <img src={brand.logo} alt="" className="h-6 w-auto max-w-16 object-contain" />
                       </div>
                       <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
                         {brand.name}
@@ -1789,7 +1794,8 @@ export default function App() {
                 {
                   quote: "Arkrea membantu manajemen media sosial dan HRD kami secara profesional. Branding digital kami semakin kuat dan jangkauan pasar meningkat signifikan.",
                   name: "Aldo Frozen Food",
-                  role: "Klien — Manajemen Media Sosial & HRD"
+                  role: "Klien — Manajemen Media Sosial & HRD",
+                  logo: logoAldo
                 },
                 {
                   quote: "Melalui Arkrea Traventure, kegiatan fullboard meeting dan fun outbound kami berjalan lancar. Peserta sangat antusias dan mendapat pengalaman yang berkesan.",
@@ -1799,7 +1805,8 @@ export default function App() {
                 {
                   quote: "Navara Hospitality Management memberikan standar pelayanan yang tinggi. Operasional hotel kami berjalan lebih efisien dan tamu merasa lebih puas.",
                   name: "De Wahyu Hotel & Convention",
-                  role: "Klien — Hospitality Management"
+                  role: "Klien — Hospitality Management",
+                  logo: logoDeWahyu
                 }
               ].map((item, i) => (
                 <motion.div
@@ -1821,10 +1828,16 @@ export default function App() {
                     </p>
                   </div>
                   <div className="flex items-center gap-4 pt-6 border-t border-border/30">
-                    {/* Initials instead of stock portraits — swap in the client's real logo when available */}
-                    <div aria-hidden="true" className="w-12 h-12 shrink-0 rounded-full bg-primary/10 border border-border/60 flex items-center justify-center text-sm font-semibold text-primary">
-                      {item.name.split(' ').slice(0, 2).map((w) => w[0]).join('')}
-                    </div>
+                    {/* Client logo on a white tile; initials when no logo is available yet */}
+                    {item.logo ? (
+                      <div aria-hidden="true" className="w-14 h-12 shrink-0 rounded-xl bg-white border border-border/60 flex items-center justify-center p-1.5">
+                        <img src={item.logo} alt="" className="max-w-full max-h-full object-contain" />
+                      </div>
+                    ) : (
+                      <div aria-hidden="true" className="w-12 h-12 shrink-0 rounded-full bg-primary/10 border border-border/60 flex items-center justify-center text-sm font-semibold text-primary">
+                        {item.name.split(' ').slice(0, 2).map((w) => w[0]).join('')}
+                      </div>
+                    )}
                     <div>
                       <h4 className="font-medium text-base text-foreground">{item.name}</h4>
                       <p className="text-sm text-muted-foreground">{item.role}</p>
