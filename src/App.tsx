@@ -4,6 +4,7 @@ import logoAldo from './assets/klien/aldo-frozen-food.png';
 import logoDeWahyu from './assets/klien/de-wahyu-hotel.png';
 import logoNirwana from './assets/klien/nirwana-hotel.png';
 import logoMahkamahAgung from './assets/klien/mahkamah-agung.png';
+import traventureCover from './assets/foto/bromo-drone.webp';
 import { motion, useScroll, useTransform, useMotionValue, AnimatePresence, useInView } from 'framer-motion';
 import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
@@ -1407,7 +1408,7 @@ export default function App() {
                   tag: 'Travel & Wisata',
                   name: 'Arkrea\nTraventure',
                   desc: 'Destinasi autentik Nusantara — dari Raja Ampat hingga Bali, bersama pemandu lokal berpengalaman.',
-                  image: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=80&fit=crop',
+                  image: traventureCover,
                   accent: '#C4A882',
                   accentBg: 'from-amber-900/70',
                 },

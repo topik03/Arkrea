@@ -1,6 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ChevronDown, Phone, Mail, Globe, MapPin, ChevronRight } from 'lucide-react';
+import bromoDrone from '../assets/foto/bromo-drone.webp';
+import bromoSunrise from '../assets/foto/bromo-sunrise.webp';
+import bromoGrupSpanduk from '../assets/foto/bromo-grup-spanduk.webp';
+import bromoJeep from '../assets/foto/bromo-jeep.webp';
+import bromoSavana from '../assets/foto/bromo-savana.webp';
+import baliGwk from '../assets/foto/bali-gwk.webp';
+import baliPura from '../assets/foto/bali-pura.webp';
+import baliPenglipuran from '../assets/foto/bali-penglipuran.webp';
+import baliAdat from '../assets/foto/bali-adat.webp';
+import baliViewpoint from '../assets/foto/bali-viewpoint.webp';
+import baliCruise from '../assets/foto/bali-cruise.webp';
+import baliHotel from '../assets/foto/bali-hotel.webp';
 
 // ── Subtle curved-line texture overlay (matching reference image style)
 function DarkTexture({ opacity = 0.045, id = 'curvePattern' }: { opacity?: number; id?: string }) {
@@ -65,7 +77,33 @@ interface ArkreaTraveutureProps {
 // ── Palette (23hotel.co inspired)
 // bg: #FFFFFF, dark section: #252420, olive: #6B7740, text: #1C1A14
 
-const heroImage = 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1800&q=90&fit=crop';
+// Real Arkrea Traventure trip: MA 13 tour, Bromo at sunrise (drone)
+const heroImage = bromoDrone;
+
+// Documentation of trips Arkrea Traventure has run
+const trips = [
+  {
+    title: 'MA 13 Tour',
+    meta: 'Malang · Batu · Bromo — 13–15 Juni 2026',
+    photos: [
+      { src: bromoGrupSpanduk, caption: 'Foto bersama di kawasan Bromo' },
+      { src: bromoJeep, caption: 'Jeep tour di depan Gunung Batok' },
+      { src: bromoSavana, caption: 'Peserta di savana Bromo' },
+    ],
+  },
+  {
+    title: 'Guyub Rukun Dolan Bareng × Alfroz',
+    meta: 'Bali — gathering Aldo Frozen Food, 3 hari',
+    photos: [
+      { src: baliGwk, caption: 'Foto bersama di GWK' },
+      { src: baliPura, caption: 'Kunjungan ke pura' },
+      { src: baliPenglipuran, caption: 'Desa Penglipuran' },
+      { src: baliViewpoint, caption: 'Foto bersama di viewpoint' },
+      { src: baliCruise, caption: 'Dinner cruise' },
+      { src: baliHotel, caption: 'Foto bersama di hotel' },
+    ],
+  },
+];
 
 const destinations = [
   {
@@ -119,7 +157,7 @@ const experiences = [
   },
   {
     name: 'CULTURAL\nIMMERSION',
-    image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=700&q=80&fit=crop',
+    image: baliAdat,
     desc: 'Berinteraksi langsung dengan komunitas dan ritual adat',
   },
   {
@@ -129,7 +167,7 @@ const experiences = [
   },
   {
     name: 'SUNRISE\nEXPEDITION',
-    image: 'https://images.unsplash.com/photo-1570789210967-2cac24afeb00?w=700&q=80&fit=crop',
+    image: bromoSunrise,
     desc: 'Golden hour terbaik dari titik-titik tersembunyi',
   },
 ];
@@ -599,6 +637,47 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Trip documentation (real photos) ── */}
+      <section id="dokumentasi" className="bg-white py-24 px-8 md:px-14">
+        <p className="text-trv-ink/60 text-xs uppercase tracking-[0.35em] mb-2 font-medium">DOKUMENTASI</p>
+        <h2 className="font-serif text-3xl md:text-4xl font-bold text-trv-ink mb-14">PERJALANAN BERSAMA KAMI</h2>
+
+        <div className="flex flex-col gap-16">
+          {trips.map((trip) => (
+            <div key={trip.title}>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 mb-6 pb-4 border-b border-trv-ink/10">
+                <h3 className="font-serif text-2xl font-bold text-trv-ink">{trip.title}</h3>
+                <p className="text-trv-ink/60 text-sm">{trip.meta}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {trip.photos.map((photo, i) => (
+                  <motion.figure
+                    key={photo.caption}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
+                    // An odd photo count would leave one tile alone on the 2-column layout
+                    className={`m-0 ${i === 0 && trip.photos.length % 2 === 1 ? 'sm:col-span-2 lg:col-span-1' : ''}`}
+                  >
+                    <div className="overflow-hidden rounded-xl aspect-[4/3]">
+                      <img
+                        src={photo.src}
+                        alt={photo.caption}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                    <figcaption className="text-trv-ink/60 text-sm mt-3">{photo.caption}</figcaption>
+                  </motion.figure>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
