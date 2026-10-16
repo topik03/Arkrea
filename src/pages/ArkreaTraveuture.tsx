@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ChevronDown, Phone, Mail, Globe, MapPin, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ArrowRight, ChevronDown, Phone, Mail, Globe, MapPin, ChevronRight, X, Images } from 'lucide-react';
 import InstagramIcon from '../components/InstagramIcon';
 import bromoDrone from '../assets/foto/bromo-drone.webp';
 import bromoSunrise from '../assets/foto/bromo-sunrise.webp';
@@ -15,6 +15,10 @@ import baliViewpoint from '../assets/foto/bali-viewpoint.webp';
 import baliCruise from '../assets/foto/bali-cruise.webp';
 import baliHotel from '../assets/foto/bali-hotel.webp';
 import bromoJeepUdara from '../assets/foto/bromo-jeep-udara.webp';
+import bromoSunriseUdara from '../assets/foto/bromo-sunrise-udara.webp';
+import bromoGrupKawah from '../assets/foto/bromo-grup-kawah.webp';
+import bromoGrupCeria from '../assets/foto/bromo-grup-ceria.webp';
+import bromoPenanjakan from '../assets/foto/bromo-penanjakan.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 
@@ -84,13 +88,21 @@ interface ArkreaTraveutureProps {
 // Real Arkrea Traventure trip: Mahkamah Agung (MA 13) tour, Bromo at sunrise (drone)
 const heroImage = bromoDrone;
 
-// Documentation of trips Arkrea Traventure has run
-const trips = [
+// Documentation of trips Arkrea Traventure has run; the first photo is the card cover
+type Trip = { title: string; meta: string; photos: { src: string; caption: string }[] };
+
+const trips: Trip[] = [
   {
     title: 'Mahkamah Agung',
     meta: 'Malang · Batu · Bromo — 13–15 Juni 2026',
     photos: [
       { src: bromoGrupSpanduk, caption: 'Foto bersama di kawasan Bromo' },
+      { src: bromoSunriseUdara, caption: 'Sunrise di Bromo dari udara' },
+      { src: bromoSunrise, caption: 'Menanti sunrise di Penanjakan' },
+      { src: bromoPenanjakan, caption: 'Berpose di depan kawah Bromo' },
+      { src: bromoGrupKawah, caption: 'Peserta dengan latar Gunung Bromo' },
+      { src: bromoGrupCeria, caption: 'Keseruan rombongan di Bromo' },
+      { src: bromoJeepUdara, caption: 'Rombongan jeep di lautan pasir' },
       { src: bromoJeep, caption: 'Jeep tour di depan Gunung Batok' },
       { src: bromoSavana, caption: 'Peserta di savana Bromo' },
     ],
@@ -102,6 +114,7 @@ const trips = [
       { src: baliGwk, caption: 'Foto bersama di GWK' },
       { src: baliPura, caption: 'Kunjungan ke pura' },
       { src: baliPenglipuran, caption: 'Desa Penglipuran' },
+      { src: baliAdat, caption: 'Berbusana adat Bali di pura' },
       { src: baliViewpoint, caption: 'Foto bersama di viewpoint' },
       { src: baliCruise, caption: 'Dinner cruise' },
       { src: baliHotel, caption: 'Foto bersama di hotel' },
@@ -262,6 +275,64 @@ function Carousel({ items, darkBg = true }: {
   );
 }
 
+// ── Full-screen gallery listing every photo of one trip
+function TripGallery({ trip, onClose }: { trip: Trip; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+    closeRef.current?.focus();
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Dokumentasi ${trip.title}`}
+      className="fixed inset-0 z-[100] bg-white overflow-y-auto overscroll-contain"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+    >
+      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-trv-ink/10">
+        <div className="max-w-6xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="font-serif text-xl md:text-2xl font-bold text-trv-ink truncate">{trip.title}</h3>
+            <p className="text-trv-ink/60 text-xs md:text-sm truncate">{trip.meta} · {trip.photos.length} foto</p>
+          </div>
+          <button
+            ref={closeRef}
+            onClick={onClose}
+            aria-label="Tutup galeri"
+            className="shrink-0 w-11 h-11 rounded-full border border-trv-ink/15 flex items-center justify-center text-trv-ink hover:bg-trv-ink hover:text-white transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-5 md:px-8 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {trip.photos.map((photo) => (
+          <figure key={photo.caption} className="m-0">
+            <div className="overflow-hidden rounded-xl aspect-[4/3] bg-trv-ink/5">
+              <img src={photo.src} alt={photo.caption} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+            </div>
+            <figcaption className="text-trv-ink/60 text-sm mt-3">{photo.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
@@ -276,6 +347,9 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
 
   const archRef = useRef<HTMLDivElement>(null);
   const archInView = useInView(archRef, { once: true, margin: '-80px' });
+
+  const [openTrip, setOpenTrip] = useState<Trip | null>(null);
+  const closeTrip = useCallback(() => setOpenTrip(null), []);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
@@ -649,41 +723,44 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
         <p className="text-trv-ink/60 text-xs uppercase tracking-[0.35em] mb-2 font-medium">DOKUMENTASI</p>
         <h2 className="font-serif text-3xl md:text-4xl font-bold text-trv-ink mb-14">PERJALANAN BERSAMA KAMI</h2>
 
-        <div className="flex flex-col gap-16">
-          {trips.map((trip) => (
-            <div key={trip.title}>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 mb-6 pb-4 border-b border-trv-ink/10">
-                <h3 className="font-serif text-2xl font-bold text-trv-ink">{trip.title}</h3>
-                <p className="text-trv-ink/60 text-sm">{trip.meta}</p>
+        {/* One cover card per trip; the full set opens in TripGallery */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {trips.map((trip, i) => (
+            <motion.button
+              key={trip.title}
+              type="button"
+              onClick={() => setOpenTrip(trip)}
+              aria-label={`Lihat ${trip.photos.length} foto ${trip.title}`}
+              className="group relative block w-full overflow-hidden rounded-2xl aspect-[4/3] text-left"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+            >
+              <img
+                src={trip.photos[0].src}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-trv-ink/95 via-trv-ink/50 to-trv-ink/5" />
+              <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                <p className="text-white/80 text-xs md:text-sm mb-2">{trip.meta}</p>
+                <h3 className="font-serif text-2xl md:text-3xl font-bold text-white leading-tight mb-4">{trip.title}</h3>
+                <span className="inline-flex items-center gap-2 text-white text-xs uppercase tracking-[0.25em] font-semibold border-b border-white/50 pb-1 group-hover:border-trv-sand group-hover:text-trv-sand transition-colors">
+                  <Images className="w-4 h-4" />
+                  Lihat {trip.photos.length} foto
+                </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {trip.photos.map((photo, i) => (
-                  <motion.figure
-                    key={photo.caption}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-40px' }}
-                    transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
-                    // An odd photo count would leave one tile alone on the 2-column layout
-                    className={`m-0 ${i === 0 && trip.photos.length % 2 === 1 ? 'sm:col-span-2 lg:col-span-1' : ''}`}
-                  >
-                    <div className="overflow-hidden rounded-xl aspect-[4/3]">
-                      <img
-                        src={photo.src}
-                        alt={photo.caption}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                      />
-                    </div>
-                    <figcaption className="text-trv-ink/60 text-sm mt-3">{photo.caption}</figcaption>
-                  </motion.figure>
-                ))}
-              </div>
-            </div>
+            </motion.button>
           ))}
         </div>
       </section>
+
+      <AnimatePresence>
+        {openTrip && <TripGallery trip={openTrip} onClose={closeTrip} />}
+      </AnimatePresence>
 
       {/* ── Full-bleed photo + quote ── */}
       <div className="relative h-[55vw] max-h-[580px] overflow-hidden">
