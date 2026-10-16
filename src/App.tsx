@@ -19,6 +19,7 @@ import ArkreaTraveuture from './pages/ArkreaTraveuture';
 import HotelNavara from './pages/HotelNavara';
 import OurProfile from './pages/OurProfile';
 import MobileMenu, { scrollAfterClose } from './components/MobileMenu';
+import InstagramIcon from './components/InstagramIcon';
 
 type PageType = 'home' | 'traventure' | 'navara' | 'profile';
 
@@ -102,6 +103,7 @@ const pricingPlans = [
 
 const DISCOVERY_SESSION = 'Sesi Diskusi Awal (45 menit)';
 const WHATSAPP_NUMBER = '6285692909283';
+const INSTAGRAM_URL = 'https://www.instagram.com/arterikreasinusantara/';
 
 const formatRupiah = (n: number) => `Rp${n.toLocaleString('id-ID')}`;
 
@@ -2373,6 +2375,14 @@ export default function App() {
                     href: 'https://maps.app.goo.gl/fnjZN3ufFZc5YMtq6',
                     target: '_blank',
                   },
+                  {
+                    icon: InstagramIcon,
+                    label: 'Instagram',
+                    value: '@arterikreasinusantara',
+                    sub: 'Ikuti kabar terbaru kami',
+                    href: INSTAGRAM_URL,
+                    target: '_blank',
+                  },
                 ].map((info, i) => (
                   <motion.a
                     key={i}
@@ -2453,9 +2463,17 @@ export default function App() {
               </div>
             </div>
 
-            {/* TODO: add LinkedIn / Instagram icons here once the real profile URLs are available */}
             <div className="pt-8 border-t border-border/50 text-muted-foreground flex flex-col md:flex-row justify-between items-center gap-4">
               <p>© {new Date().getFullYear()} PT Arteri Kreasi Nusantara. Semua hak dilindungi.</p>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Arteri Kreasi Nusantara"
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:text-primary hover:border-primary transition-colors"
+              >
+                <InstagramIcon className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </footer>

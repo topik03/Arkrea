@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ChevronDown, Phone, Mail, Globe, MapPin, ChevronRight } from 'lucide-react';
+import InstagramIcon from '../components/InstagramIcon';
 import bromoDrone from '../assets/foto/bromo-drone.webp';
 import bromoSunrise from '../assets/foto/bromo-sunrise.webp';
 import bromoGrupSpanduk from '../assets/foto/bromo-grup-spanduk.webp';
@@ -13,6 +14,8 @@ import baliAdat from '../assets/foto/bali-adat.webp';
 import baliViewpoint from '../assets/foto/bali-viewpoint.webp';
 import baliCruise from '../assets/foto/bali-cruise.webp';
 import baliHotel from '../assets/foto/bali-hotel.webp';
+
+const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 
 // ── Subtle curved-line texture overlay (matching reference image style)
 function DarkTexture({ opacity = 0.045, id = 'curvePattern' }: { opacity?: number; id?: string }) {
@@ -723,6 +726,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               {[
                 { icon: Phone, text: '+62 856 9290 9283', href: 'https://wa.me/6285692909283' },
                 { icon: Mail, text: 'traventure@arkrea.id', href: 'mailto:traventure@arkrea.id' },
+                { icon: InstagramIcon, text: '@arkreatraventure', href: INSTAGRAM_URL },
                 { icon: Globe, text: 'www.arkrea.id', href: '#' },
                 { icon: MapPin, text: 'Indonesia', href: '#' },
               ].map(c => (
@@ -803,6 +807,10 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             <div className="space-y-1.5 text-white/60 text-sm">
               <p>+62 856 9290 9283</p>
               <p>traventure@arkrea.id</p>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-trv-sand transition-colors">
+                <InstagramIcon className="w-3.5 h-3.5" />
+                @arkreatraventure
+              </a>
             </div>
           </div>
 
