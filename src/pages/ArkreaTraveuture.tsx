@@ -14,6 +14,7 @@ import baliAdat from '../assets/foto/bali-adat.webp';
 import baliViewpoint from '../assets/foto/bali-viewpoint.webp';
 import baliCruise from '../assets/foto/bali-cruise.webp';
 import baliHotel from '../assets/foto/bali-hotel.webp';
+import bromoJeepUdara from '../assets/foto/bromo-jeep-udara.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 
@@ -747,8 +748,8 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               style={{ aspectRatio: '16/9', borderRadius: '24px' }}
             >
               <img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&fit=crop"
-                alt=""
+                src={bromoJeepUdara}
+                alt="Rombongan jeep di depan Gunung Batok, Bromo"
                 className="w-full h-full object-cover"
               />
             </div>
