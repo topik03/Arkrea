@@ -323,8 +323,8 @@ function TripGallery({ trip, onClose }: { trip: Trip; onClose: () => void }) {
       <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-trv-ink/10">
         <div className="max-w-6xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
           <div className="min-w-0">
-            <h3 className="font-serif text-xl md:text-2xl font-bold text-trv-ink truncate">{trip.title}</h3>
-            <p className="text-trv-ink/60 text-xs md:text-sm truncate">{trip.meta} · {trip.photos.length} foto</p>
+            <h3 className="font-serif text-xl md:text-2xl font-bold text-trv-ink leading-tight">{trip.title}</h3>
+            <p className="text-trv-ink/60 text-xs md:text-sm mt-0.5">{trip.meta} · {trip.photos.length} foto</p>
           </div>
           <button
             ref={closeRef}
