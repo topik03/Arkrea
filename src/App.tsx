@@ -4,6 +4,7 @@ import logoAldo from './assets/klien/aldo-frozen-food.png';
 import logoDeWahyu from './assets/klien/de-wahyu-hotel.png';
 import logoNirwana from './assets/klien/nirwana-hotel.png';
 import logoMahkamahAgung from './assets/klien/mahkamah-agung.png';
+import logoKemenag from './assets/klien/kemenag.png';
 import traventureCover from './assets/foto/bromo-drone.webp';
 import { motion, useScroll, useTransform, useMotionValue, AnimatePresence, useInView } from 'framer-motion';
 import {
@@ -1283,6 +1284,7 @@ export default function App() {
                     { name: 'De Wahyu Hotel', logo: logoDeWahyu },
                     { name: 'Nirwana Hotel', logo: logoNirwana },
                     { name: 'Mahkamah Agung RI', logo: logoMahkamahAgung },
+                    { name: 'Kemenag Jawa Timur', logo: logoKemenag },
                   ].map((brand, i) => (
                     <motion.div
                       key={brand.name}
@@ -1801,7 +1803,8 @@ export default function App() {
                 {
                   quote: "Melalui Arkrea Traventure, kegiatan fullboard meeting dan fun outbound kami berjalan lancar. Peserta sangat antusias dan mendapat pengalaman yang berkesan.",
                   name: "Kemenag Provinsi Jawa Timur",
-                  role: "Klien — Tour & Travel"
+                  role: "Klien — Tour & Travel",
+                  logo: logoKemenag
                 },
                 {
                   quote: "Navara Hospitality Management memberikan standar pelayanan yang tinggi. Operasional hotel kami berjalan lebih efisien dan tamu merasa lebih puas.",
