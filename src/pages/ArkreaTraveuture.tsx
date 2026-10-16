@@ -16,9 +16,18 @@ import baliCruise from '../assets/foto/bali-cruise.webp';
 import baliHotel from '../assets/foto/bali-hotel.webp';
 import bromoJeepUdara from '../assets/foto/bromo-jeep-udara.webp';
 import bromoSunriseUdara from '../assets/foto/bromo-sunrise-udara.webp';
-import bromoGrupKawah from '../assets/foto/bromo-grup-kawah.webp';
 import bromoGrupCeria from '../assets/foto/bromo-grup-ceria.webp';
 import bromoPenanjakan from '../assets/foto/bromo-penanjakan.webp';
+import bromoGrupWanita from '../assets/foto/bromo-grup-wanita.webp';
+import bromoGrupPria from '../assets/foto/bromo-grup-pria.webp';
+import bromoKeluargaJeep from '../assets/foto/bromo-keluarga-jeep.webp';
+import bromoMalamJeep from '../assets/foto/bromo-malam-jeep.webp';
+import baliKeluargaKapal from '../assets/foto/bali-keluarga-kapal.webp';
+import baliDekKapal from '../assets/foto/bali-dek-kapal.webp';
+import baliBusanaAdat from '../assets/foto/bali-busana-adat.webp';
+import baliGalaDinner from '../assets/foto/bali-gala-dinner.webp';
+import baliMakanSiang from '../assets/foto/bali-makan-siang.webp';
+import baliKopi from '../assets/foto/bali-kopi.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 
@@ -97,14 +106,17 @@ const trips: Trip[] = [
     meta: 'Malang · Batu · Bromo — 13–15 Juni 2026',
     photos: [
       { src: bromoGrupSpanduk, caption: 'Foto bersama di kawasan Bromo' },
+      { src: bromoMalamJeep, caption: 'Berangkat dini hari dengan jeep' },
       { src: bromoSunriseUdara, caption: 'Sunrise di Bromo dari udara' },
       { src: bromoSunrise, caption: 'Menanti sunrise di Penanjakan' },
       { src: bromoPenanjakan, caption: 'Berpose di depan kawah Bromo' },
-      { src: bromoGrupKawah, caption: 'Peserta dengan latar Gunung Bromo' },
+      { src: bromoGrupWanita, caption: 'Peserta dengan latar kawah Bromo' },
+      { src: bromoGrupPria, caption: 'Foto bersama di Penanjakan' },
       { src: bromoGrupCeria, caption: 'Keseruan rombongan di Bromo' },
       { src: bromoJeepUdara, caption: 'Rombongan jeep di lautan pasir' },
-      { src: bromoJeep, caption: 'Jeep tour di depan Gunung Batok' },
-      { src: bromoSavana, caption: 'Peserta di savana Bromo' },
+      { src: bromoKeluargaJeep, caption: 'Keluarga peserta di atas jeep' },
+      { src: bromoJeep, caption: 'Lompat bersama di depan Gunung Batok' },
+      { src: bromoSavana, caption: 'Peserta dengan latar Gunung Bromo' },
     ],
   },
   {
@@ -112,12 +124,18 @@ const trips: Trip[] = [
     meta: 'Bali — gathering Aldo Frozen Food, 3 hari',
     photos: [
       { src: baliGwk, caption: 'Foto bersama di GWK' },
-      { src: baliPura, caption: 'Kunjungan ke pura' },
+      { src: baliCruise, caption: 'Dinner cruise' },
+      { src: baliKeluargaKapal, caption: 'Keluarga peserta di dek kapal' },
+      { src: baliDekKapal, caption: 'Senja dari atas kapal' },
       { src: baliPenglipuran, caption: 'Desa Penglipuran' },
+      { src: baliPura, caption: 'Kunjungan ke pura' },
+      { src: baliBusanaAdat, caption: 'Mencoba busana adat Bali' },
       { src: baliAdat, caption: 'Berbusana adat Bali di pura' },
       { src: baliViewpoint, caption: 'Foto bersama di viewpoint' },
-      { src: baliCruise, caption: 'Dinner cruise' },
+      { src: baliGalaDinner, caption: 'Gala dinner bersama' },
       { src: baliHotel, caption: 'Foto bersama di hotel' },
+      { src: baliMakanSiang, caption: 'Makan siang bersama' },
+      { src: baliKopi, caption: 'Mencicipi kopi khas Bali' },
     ],
   },
 ];
@@ -323,7 +341,7 @@ function TripGallery({ trip, onClose }: { trip: Trip; onClose: () => void }) {
         {trip.photos.map((photo) => (
           <figure key={photo.caption} className="m-0">
             <div className="overflow-hidden rounded-xl aspect-[4/3] bg-trv-ink/5">
-              <img src={photo.src} alt={photo.caption} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              <img src={photo.src} alt={photo.caption} loading="lazy" decoding="async" className="w-full h-full object-cover object-[50%_30%]" />
             </div>
             <figcaption className="text-trv-ink/60 text-sm mt-3">{photo.caption}</figcaption>
           </figure>
