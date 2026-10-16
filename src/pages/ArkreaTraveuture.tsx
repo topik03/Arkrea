@@ -81,13 +81,13 @@ interface ArkreaTraveutureProps {
 // ── Palette (23hotel.co inspired)
 // bg: #FFFFFF, dark section: #252420, olive: #6B7740, text: #1C1A14
 
-// Real Arkrea Traventure trip: MA 13 tour, Bromo at sunrise (drone)
+// Real Arkrea Traventure trip: Mahkamah Agung (MA 13) tour, Bromo at sunrise (drone)
 const heroImage = bromoDrone;
 
 // Documentation of trips Arkrea Traventure has run
 const trips = [
   {
-    title: 'MA 13 Tour',
+    title: 'Mahkamah Agung',
     meta: 'Malang · Batu · Bromo — 13–15 Juni 2026',
     photos: [
       { src: bromoGrupSpanduk, caption: 'Foto bersama di kawasan Bromo' },
@@ -96,7 +96,7 @@ const trips = [
     ],
   },
   {
-    title: 'Guyub Rukun Dolan Bareng × Alfroz',
+    title: 'Guyub Rukun Dolan Bareng × Aldo Frozen Food',
     meta: 'Bali — gathering Aldo Frozen Food, 3 hari',
     photos: [
       { src: baliGwk, caption: 'Foto bersama di GWK' },
