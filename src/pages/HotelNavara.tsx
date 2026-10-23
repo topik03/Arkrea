@@ -1,8 +1,41 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Phone, Mail, MapPin, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Phone, Mail, MapPin, CheckCircle2, X, Images } from 'lucide-react';
 import navaraLogo from '../assets/navara-logo.png';
-import nirwanaImg from '../assets/nirwana-hotel.jpg';
+import nirwanaFasad from '../assets/foto/nirwana-fasad.webp';
+import nirwanaKamarDeluxe from '../assets/foto/nirwana-kamar-deluxe.webp';
+import nirwanaKamarTwin from '../assets/foto/nirwana-kamar-twin.webp';
+import nirwanaKamarDouble from '../assets/foto/nirwana-kamar-double.webp';
+import nirwanaKamarSofa from '../assets/foto/nirwana-kamar-sofa.webp';
+import nirwanaKamarTv from '../assets/foto/nirwana-kamar-tv.webp';
+import nirwanaKamarMandi from '../assets/foto/nirwana-kamar-mandi.webp';
+import nirwanaAmenities from '../assets/foto/nirwana-amenities.webp';
+import nirwanaKolamRenang from '../assets/foto/nirwana-kolam-renang.webp';
+import nirwanaTraining from '../assets/foto/nirwana-training.webp';
+import nirwanaBriefing from '../assets/foto/nirwana-briefing.webp';
+import dewahyuFasad from '../assets/foto/dewahyu-fasad.webp';
+import dewahyuFasadSenja from '../assets/foto/dewahyu-fasad-senja.webp';
+import dewahyuKamarTwin from '../assets/foto/dewahyu-kamar-twin.webp';
+import dewahyuBallroomGala from '../assets/foto/dewahyu-ballroom-gala.webp';
+import dewahyuBallroom from '../assets/foto/dewahyu-ballroom.webp';
+import dewahyuAula from '../assets/foto/dewahyu-aula.webp';
+import dewahyuAulaAtas from '../assets/foto/dewahyu-aula-atas.webp';
+import dewahyuResto from '../assets/foto/dewahyu-resto.webp';
+import dewahyuRestoMalam from '../assets/foto/dewahyu-resto-malam.webp';
+import dewahyuFotoBersama from '../assets/foto/dewahyu-foto-bersama.webp';
+import dewahyuFotoBersama2 from '../assets/foto/dewahyu-foto-bersama-2.webp';
+import dewahyuTraining from '../assets/foto/dewahyu-training.webp';
+import dewahyuTraining2 from '../assets/foto/dewahyu-training-2.webp';
+import dewahyuTraining3 from '../assets/foto/dewahyu-training-3.webp';
+import dewahyuPelatihanStaf from '../assets/foto/dewahyu-pelatihan-staf.webp';
+import dewahyuSesiInteraktif from '../assets/foto/dewahyu-sesi-interaktif.webp';
+import dewahyuSesiMateri from '../assets/foto/dewahyu-sesi-materi.webp';
+import dewahyuSesiMateri2 from '../assets/foto/dewahyu-sesi-materi-2.webp';
+import dewahyuSesiMateri3 from '../assets/foto/dewahyu-sesi-materi-3.webp';
+import dewahyuPeserta from '../assets/foto/dewahyu-peserta.webp';
+import dewahyuPeserta2 from '../assets/foto/dewahyu-peserta-2.webp';
+import dewahyuBriefing from '../assets/foto/dewahyu-briefing.webp';
+import dewahyuTravelFair from '../assets/foto/dewahyu-travel-fair.webp';
 
 interface HotelNavaraProps {
   onBack: () => void;
@@ -69,20 +102,68 @@ const detailServices = [
   { label: 'Audit Operasional dan Peningkatan Kinerja Bisnis Hospitality' },
 ];
 
-const clients = [
+// Hotel partners; `photos` (optional) opens a full documentation gallery
+type Client = {
+  name: string;
+  tagline: string;
+  desc: string;
+  image: string;
+  detail: string;
+  photos?: { src: string; caption: string }[];
+};
+
+const clients: Client[] = [
   {
     name: 'Nirwana Hotel',
     tagline: 'Hotel Partner',
     desc: 'Nirwana Hotel adalah properti berkarakter yang kami kelola dengan pendekatan manajemen hospitality terpadu — mengedepankan keramahan autentik dan standar pelayanan yang konsisten.',
-    image: nirwanaImg,
+    image: nirwanaFasad,
     detail: 'Managed by Navara',
+    photos: [
+      { src: nirwanaFasad, caption: 'Tampak depan Hotel Nirwana' },
+      { src: nirwanaKamarDeluxe, caption: 'Kamar dengan double bed' },
+      { src: nirwanaKamarTwin, caption: 'Kamar dengan dua tempat tidur' },
+      { src: nirwanaKamarDouble, caption: 'Kamar double dengan lemari pakaian' },
+      { src: nirwanaKamarSofa, caption: 'Kamar dengan sofa' },
+      { src: nirwanaKamarTv, caption: 'Area duduk dan meja kerja' },
+      { src: nirwanaKamarMandi, caption: 'Kamar mandi dengan shower' },
+      { src: nirwanaAmenities, caption: 'Fasilitas teh & kopi di kamar' },
+      { src: nirwanaKolamRenang, caption: 'Kolam renang' },
+      { src: nirwanaTraining, caption: 'Pelatihan staf bersama Navara' },
+      { src: nirwanaBriefing, caption: 'Briefing tim hotel' },
+    ],
   },
   {
     name: 'De Wahyu Hotel',
     tagline: 'Hotel Partner',
     desc: 'De Wahyu Hotel menghadirkan pengalaman menginap yang hangat dan personal. Bersama Navara, hotel ini terus bertumbuh dalam kualitas layanan, operasional, dan pengalaman tamu.',
-    image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=1000&q=80&fit=crop',
+    image: dewahyuFasad,
     detail: 'Managed by Navara',
+    photos: [
+      { src: dewahyuFasad, caption: 'Tampak depan De Wahyu Hotel' },
+      { src: dewahyuFasadSenja, caption: 'Area parkir dan lobi saat senja' },
+      { src: dewahyuKamarTwin, caption: 'Kamar dengan dua tempat tidur' },
+      { src: dewahyuBallroomGala, caption: 'Ballroom dengan dekorasi gala' },
+      { src: dewahyuBallroom, caption: 'Ballroom tata meja bundar' },
+      { src: dewahyuAula, caption: 'Aula serbaguna' },
+      { src: dewahyuAulaAtas, caption: 'Aula dilihat dari lantai atas' },
+      { src: dewahyuResto, caption: 'Makan malam bersama di restoran' },
+      { src: dewahyuRestoMalam, caption: 'Restoran semi-outdoor di malam hari' },
+      { src: dewahyuFotoBersama, caption: 'Foto bersama rombongan tamu' },
+      { src: dewahyuFotoBersama2, caption: 'Keseruan rombongan tamu' },
+      { src: dewahyuTraining, caption: 'Pelatihan staf bersama Navara' },
+      { src: dewahyuTraining2, caption: 'Penyampaian materi pelatihan' },
+      { src: dewahyuTraining3, caption: 'Suasana ruang pelatihan' },
+      { src: dewahyuPelatihanStaf, caption: 'Pelatihan staf hotel' },
+      { src: dewahyuSesiInteraktif, caption: 'Sesi interaktif bersama peserta' },
+      { src: dewahyuSesiMateri, caption: 'Pemaparan materi pelatihan' },
+      { src: dewahyuSesiMateri2, caption: 'Diskusi bersama tim hotel' },
+      { src: dewahyuSesiMateri3, caption: 'Pemateri menyampaikan sesi' },
+      { src: dewahyuPeserta, caption: 'Peserta pelatihan' },
+      { src: dewahyuPeserta2, caption: 'Tim staf mengikuti pelatihan' },
+      { src: dewahyuBriefing, caption: 'Briefing tim hotel' },
+      { src: dewahyuTravelFair, caption: 'Booth Navara di Indo Travel Fair' },
+    ],
   },
 ];
 
@@ -160,7 +241,7 @@ function ServiceCard({ svc, index }: { svc: typeof mainServices[0]; index: numbe
   );
 }
 
-function ClientCard({ client, index }: { client: typeof clients[0]; index: number }) {
+function ClientCard({ client, index, onOpenGallery }: { client: Client; index: number; onOpenGallery: (c: Client) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const isEven = index % 2 === 0;
@@ -202,6 +283,75 @@ function ClientCard({ client, index }: { client: typeof clients[0]; index: numbe
           {client.name}
         </h3>
         <p className="text-nav-ivory/55 leading-relaxed text-sm">{client.desc}</p>
+        {client.photos && (
+          <button
+            type="button"
+            onClick={() => onOpenGallery(client)}
+            className="mt-8 inline-flex items-center gap-3 text-nav-gold text-xs uppercase tracking-[0.25em] border-b border-nav-gold/40 hover:border-nav-gold pb-1 transition-colors"
+          >
+            <Images className="w-4 h-4" />
+            Lihat {client.photos.length} foto
+          </button>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+// Full-screen gallery listing every documentation photo of one hotel
+function ClientGallery({ client, onClose }: { client: Client; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const photos = client.photos ?? [];
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+    closeRef.current?.focus();
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Dokumentasi ${client.name}`}
+      className="fixed inset-0 z-[100] bg-nav-night overflow-y-auto overscroll-contain"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+    >
+      <div className="sticky top-0 z-10 bg-nav-night/90 backdrop-blur-md border-b border-nav-ivory/10">
+        <div className="max-w-6xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="font-serif text-xl md:text-2xl font-extralight text-nav-ivory leading-tight">{client.name}</h3>
+            <p className="text-nav-ivory/55 text-xs md:text-sm mt-0.5">{client.detail} · {photos.length} foto</p>
+          </div>
+          <button
+            ref={closeRef}
+            onClick={onClose}
+            aria-label="Tutup galeri"
+            className="shrink-0 w-11 h-11 rounded-full border border-nav-ivory/20 flex items-center justify-center text-nav-ivory hover:bg-nav-gold hover:border-nav-gold hover:text-nav-black transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-5 md:px-8 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {photos.map((photo) => (
+          <figure key={photo.caption} className="m-0">
+            <div className="overflow-hidden aspect-[4/3] bg-nav-ivory/5">
+              <img src={photo.src} alt={photo.caption} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+            </div>
+            <figcaption className="text-nav-ivory/55 text-sm mt-3">{photo.caption}</figcaption>
+          </figure>
+        ))}
       </div>
     </motion.div>
   );
@@ -212,6 +362,8 @@ function ClientCard({ client, index }: { client: typeof clients[0]; index: numbe
 export default function HotelNavara({ onBack }: HotelNavaraProps) {
   const [heroIdx, setHeroIdx] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openClient, setOpenClient] = useState<Client | null>(null);
+  const closeClient = useCallback(() => setOpenClient(null), []);
   const { scrollY } = useScroll();
   const navBg = useTransform(scrollY, [0, 100], ['rgba(0,0,0,0)', 'rgba(0,0,0,0.92)']);
 
@@ -593,10 +745,14 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
 
         <div className="divide-y divide-nav-ivory/[0.06]">
           {clients.map((client, i) => (
-            <ClientCard key={client.name} client={client} index={i} />
+            <ClientCard key={client.name} client={client} index={i} onOpenGallery={setOpenClient} />
           ))}
         </div>
       </section>
+
+      <AnimatePresence>
+        {openClient && <ClientGallery client={openClient} onClose={closeClient} />}
+      </AnimatePresence>
 
       {/* ── Contact ── */}
       <section id="kontak" className="bg-nav-night pt-20 pb-0">
