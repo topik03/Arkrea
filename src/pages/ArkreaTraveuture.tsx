@@ -28,6 +28,21 @@ import baliBusanaAdat from '../assets/foto/bali-busana-adat.webp';
 import baliGalaDinner from '../assets/foto/bali-gala-dinner.webp';
 import baliMakanSiang from '../assets/foto/bali-makan-siang.webp';
 import baliKopi from '../assets/foto/bali-kopi.webp';
+import baliKabinKapal from '../assets/foto/bali-kabin-kapal.webp';
+import baliGamesKapal from '../assets/foto/bali-games-kapal.webp';
+import baliPrasmananMalam from '../assets/foto/bali-prasmanan-malam.webp';
+import baliMakanSiangAdat from '../assets/foto/bali-makan-siang-adat.webp';
+import baliPenglipuranAdat from '../assets/foto/bali-penglipuran-adat.webp';
+import baliMakanPemandangan from '../assets/foto/bali-makan-pemandangan.webp';
+import baliTurunBus from '../assets/foto/bali-turun-bus.webp';
+import bromoSelfieSunrise from '../assets/foto/bromo-selfie-sunrise.webp';
+import bromoMenantiFajar from '../assets/foto/bromo-menanti-fajar.webp';
+import bromoKeluargaFajar from '../assets/foto/bromo-keluarga-fajar.webp';
+import bromoGrupJeep from '../assets/foto/bromo-grup-jeep.webp';
+import bromoPoseJeep from '../assets/foto/bromo-pose-jeep.webp';
+import bromoBatok from '../assets/foto/bromo-batok.webp';
+import bromoBatokCeria from '../assets/foto/bromo-batok-ceria.webp';
+import bromoBarisanJeep from '../assets/foto/bromo-barisan-jeep.webp';
 import dprdJeepGrup from '../assets/foto/dprd-jeep-grup.webp';
 import dprdJeepHutan from '../assets/foto/dprd-jeep-hutan.webp';
 import dprdJeepKuning from '../assets/foto/dprd-jeep-kuning.webp';
@@ -43,6 +58,11 @@ import dprdBbqMalam from '../assets/foto/dprd-bbq-malam.webp';
 import dprdHiburanMalam from '../assets/foto/dprd-hiburan-malam.webp';
 import dprdGames from '../assets/foto/dprd-games.webp';
 import dprdDoorprize from '../assets/foto/dprd-doorprize.webp';
+import dprdJeepHotel from '../assets/foto/dprd-jeep-hotel.webp';
+import dprdViewpointGrup from '../assets/foto/dprd-viewpoint-grup.webp';
+import dprdPemandangan from '../assets/foto/dprd-pemandangan.webp';
+import dprdMakanMalam from '../assets/foto/dprd-makan-malam.webp';
+import dprdGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 
@@ -124,11 +144,19 @@ const trips: Trip[] = [
       { src: bromoMalamJeep, caption: 'Berangkat dini hari dengan jeep' },
       { src: bromoSunriseUdara, caption: 'Sunrise di Bromo dari udara' },
       { src: bromoSunrise, caption: 'Menanti sunrise di Penanjakan' },
+      { src: bromoSelfieSunrise, caption: 'Swafoto saat fajar menyingsing' },
+      { src: bromoMenantiFajar, caption: 'Senyum peserta menanti fajar' },
+      { src: bromoKeluargaFajar, caption: 'Keluarga peserta di Penanjakan' },
       { src: bromoPenanjakan, caption: 'Berpose di depan kawah Bromo' },
       { src: bromoGrupWanita, caption: 'Peserta dengan latar kawah Bromo' },
       { src: bromoGrupPria, caption: 'Foto bersama di Penanjakan' },
       { src: bromoGrupCeria, caption: 'Keseruan rombongan di Bromo' },
       { src: bromoJeepUdara, caption: 'Rombongan jeep di lautan pasir' },
+      { src: bromoGrupJeep, caption: 'Foto bersama di depan jeep' },
+      { src: bromoBarisanJeep, caption: 'Barisan jeep di kaki Gunung Batok' },
+      { src: bromoPoseJeep, caption: 'Berpose di atas jeep' },
+      { src: bromoBatok, caption: 'Berlatar Gunung Batok' },
+      { src: bromoBatokCeria, caption: 'Keceriaan di depan Gunung Batok' },
       { src: bromoKeluargaJeep, caption: 'Keluarga peserta di atas jeep' },
       { src: bromoJeep, caption: 'Lompat bersama di depan Gunung Batok' },
       { src: bromoSavana, caption: 'Peserta dengan latar Gunung Bromo' },
@@ -140,9 +168,14 @@ const trips: Trip[] = [
     photos: [
       { src: baliGwk, caption: 'Foto bersama di GWK' },
       { src: baliCruise, caption: 'Dinner cruise' },
+      { src: baliKabinKapal, caption: 'Bersantai di kabin kapal' },
+      { src: baliGamesKapal, caption: 'Games seru di atas kapal' },
       { src: baliKeluargaKapal, caption: 'Keluarga peserta di dek kapal' },
       { src: baliDekKapal, caption: 'Senja dari atas kapal' },
+      { src: baliPrasmananMalam, caption: 'Makan malam prasmanan' },
+      { src: baliTurunBus, caption: 'Tiba di destinasi berikutnya' },
       { src: baliPenglipuran, caption: 'Desa Penglipuran' },
+      { src: baliPenglipuranAdat, caption: 'Berbusana adat di Desa Penglipuran' },
       { src: baliPura, caption: 'Kunjungan ke pura' },
       { src: baliBusanaAdat, caption: 'Mencoba busana adat Bali' },
       { src: baliAdat, caption: 'Berbusana adat Bali di pura' },
@@ -150,6 +183,8 @@ const trips: Trip[] = [
       { src: baliGalaDinner, caption: 'Gala dinner bersama' },
       { src: baliHotel, caption: 'Foto bersama di hotel' },
       { src: baliMakanSiang, caption: 'Makan siang bersama' },
+      { src: baliMakanSiangAdat, caption: 'Makan siang di restoran khas Bali' },
+      { src: baliMakanPemandangan, caption: 'Makan siang dengan pemandangan alam' },
       { src: baliKopi, caption: 'Mencicipi kopi khas Bali' },
     ],
   },
@@ -160,16 +195,21 @@ const trips: Trip[] = [
       { src: dprdJeepGrup, caption: 'Foto bersama rombongan jeep di hutan pinus' },
       { src: dprdJeepHutan, caption: 'Barisan jeep di hutan pinus' },
       { src: dprdJeepKuning, caption: 'Berpose di atas jeep' },
+      { src: dprdJeepHotel, caption: 'Bersiap naik jeep di depan hotel' },
       { src: dprdJeepKonvoi, caption: 'Konvoi jeep melewati jalan desa' },
       { src: dprdPetikStroberi, caption: 'Petik stroberi bersama' },
       { src: dprdViewpoint, caption: 'Foto bersama di viewpoint' },
+      { src: dprdViewpointGrup, caption: 'Berpose dengan latar langit biru' },
+      { src: dprdPemandangan, caption: 'Menikmati pemandangan perbukitan' },
       { src: dprdAmfiteater, caption: 'Foto bersama di amfiteater' },
       { src: dprdSenamPagi, caption: 'Senam pagi bersama' },
       { src: dprdTamanHotel, caption: 'Foto bersama di taman hotel' },
       { src: dprdPembukaan, caption: 'Sambutan pembukaan kegiatan' },
       { src: dprdFotoPembukaan, caption: 'Foto bersama peserta kegiatan' },
       { src: dprdBbqMalam, caption: 'BBQ malam bersama' },
+      { src: dprdMakanMalam, caption: 'Makan malam bersama' },
       { src: dprdHiburanMalam, caption: 'Hiburan malam bersama' },
+      { src: dprdGamesPanggung, caption: 'Games di atas panggung' },
       { src: dprdGames, caption: 'Games dan keseruan peserta' },
       { src: dprdDoorprize, caption: 'Pembagian doorprize' },
     ],
