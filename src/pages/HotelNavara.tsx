@@ -36,6 +36,8 @@ import dewahyuPeserta from '../assets/foto/dewahyu-peserta.webp';
 import dewahyuPeserta2 from '../assets/foto/dewahyu-peserta-2.webp';
 import dewahyuBriefing from '../assets/foto/dewahyu-briefing.webp';
 import dewahyuTravelFair from '../assets/foto/dewahyu-travel-fair.webp';
+import navaraHeroAula from '../assets/foto/navara-hero-aula.webp';
+import navaraHeroRombongan from '../assets/foto/navara-hero-rombongan.webp';
 
 interface HotelNavaraProps {
   onBack: () => void;
@@ -45,19 +47,19 @@ interface HotelNavaraProps {
 
 const heroSlides = [
   {
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&q=90&fit=crop',
+    image: dewahyuBallroomGala,
     tag: 'Hospitality Management',
     line1: 'Membangun',
     line2: 'Pengalaman.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1800&q=90&fit=crop',
+    image: navaraHeroAula,
     tag: 'Hotel & Resort Management',
     line1: 'Menciptakan',
     line2: 'Destinasi.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1551882547-ff40c4a49f7d?w=1800&q=90&fit=crop',
+    image: navaraHeroRombongan,
     tag: 'Service Excellence',
     line1: 'Meninggalkan',
     line2: 'Kesan.',
@@ -69,25 +71,25 @@ const mainServices = [
     no: '01',
     title: 'Pengelolaan Hotel & Resort',
     desc: 'Manajemen operasional penuh untuk hotel, resort, dan villa — dari standar pelayanan hingga efisiensi bisnis.',
-    image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=900&q=80&fit=crop',
+    image: dewahyuFasadSenja,
   },
   {
     no: '02',
     title: 'Konsultasi Bisnis Hospitality',
     desc: 'Pendampingan strategis untuk pengembangan bisnis hospitality, positioning brand, dan peningkatan revenue.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80&fit=crop',
+    image: dewahyuTravelFair,
   },
   {
     no: '03',
     title: 'Manajemen F&B',
     desc: 'Pengelolaan bisnis food & beverage yang mengintegrasikan konsep kuliner dengan standar hospitality premium.',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80&fit=crop',
+    image: dewahyuResto,
   },
   {
     no: '04',
     title: 'Training & Pengembangan SDM',
     desc: 'Program pelatihan intensif untuk membentuk sumber daya manusia hospitality yang kompeten dan berkarakter.',
-    image: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=900&q=80&fit=crop',
+    image: nirwanaTraining,
   },
 ];
 
