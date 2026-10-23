@@ -28,6 +28,21 @@ import baliBusanaAdat from '../assets/foto/bali-busana-adat.webp';
 import baliGalaDinner from '../assets/foto/bali-gala-dinner.webp';
 import baliMakanSiang from '../assets/foto/bali-makan-siang.webp';
 import baliKopi from '../assets/foto/bali-kopi.webp';
+import dprdJeepGrup from '../assets/foto/dprd-jeep-grup.webp';
+import dprdJeepHutan from '../assets/foto/dprd-jeep-hutan.webp';
+import dprdJeepKuning from '../assets/foto/dprd-jeep-kuning.webp';
+import dprdJeepKonvoi from '../assets/foto/dprd-jeep-konvoi.webp';
+import dprdPetikStroberi from '../assets/foto/dprd-petik-stroberi.webp';
+import dprdViewpoint from '../assets/foto/dprd-viewpoint.webp';
+import dprdAmfiteater from '../assets/foto/dprd-amfiteater.webp';
+import dprdSenamPagi from '../assets/foto/dprd-senam-pagi.webp';
+import dprdTamanHotel from '../assets/foto/dprd-taman-hotel.webp';
+import dprdPembukaan from '../assets/foto/dprd-pembukaan.webp';
+import dprdFotoPembukaan from '../assets/foto/dprd-foto-pembukaan.webp';
+import dprdBbqMalam from '../assets/foto/dprd-bbq-malam.webp';
+import dprdHiburanMalam from '../assets/foto/dprd-hiburan-malam.webp';
+import dprdGames from '../assets/foto/dprd-games.webp';
+import dprdDoorprize from '../assets/foto/dprd-doorprize.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 
@@ -136,6 +151,27 @@ const trips: Trip[] = [
       { src: baliHotel, caption: 'Foto bersama di hotel' },
       { src: baliMakanSiang, caption: 'Makan siang bersama' },
       { src: baliKopi, caption: 'Mencicipi kopi khas Bali' },
+    ],
+  },
+  {
+    title: 'Sekretariat DPRD Provinsi Jawa Timur',
+    meta: 'Tawangmangu — Nava Hotel, 27–29 November 2025',
+    photos: [
+      { src: dprdJeepGrup, caption: 'Foto bersama rombongan jeep di hutan pinus' },
+      { src: dprdJeepHutan, caption: 'Barisan jeep di hutan pinus' },
+      { src: dprdJeepKuning, caption: 'Berpose di atas jeep' },
+      { src: dprdJeepKonvoi, caption: 'Konvoi jeep melewati jalan desa' },
+      { src: dprdPetikStroberi, caption: 'Petik stroberi bersama' },
+      { src: dprdViewpoint, caption: 'Foto bersama di viewpoint' },
+      { src: dprdAmfiteater, caption: 'Foto bersama di amfiteater' },
+      { src: dprdSenamPagi, caption: 'Senam pagi bersama' },
+      { src: dprdTamanHotel, caption: 'Foto bersama di taman hotel' },
+      { src: dprdPembukaan, caption: 'Sambutan pembukaan kegiatan' },
+      { src: dprdFotoPembukaan, caption: 'Foto bersama peserta kegiatan' },
+      { src: dprdBbqMalam, caption: 'BBQ malam bersama' },
+      { src: dprdHiburanMalam, caption: 'Hiburan malam bersama' },
+      { src: dprdGames, caption: 'Games dan keseruan peserta' },
+      { src: dprdDoorprize, caption: 'Pembagian doorprize' },
     ],
   },
 ];
