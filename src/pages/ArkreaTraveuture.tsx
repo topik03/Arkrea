@@ -65,6 +65,7 @@ import dprdMakanMalam from '../assets/foto/dprd-makan-malam.webp';
 import dprdGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
+const VILLA_RASA_INSTAGRAM_URL = 'https://www.instagram.com/villadanrasa/';
 
 // ── Subtle curved-line texture overlay (matching reference image style)
 function DarkTexture({ opacity = 0.045, id = 'curvePattern' }: { opacity?: number; id?: string }) {
@@ -490,6 +491,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             {[
               { label: 'Destinasi', id: 'destinasi' },
               { label: 'Pengalaman', id: 'pengalaman' },
+              { label: 'Villa & Rasa', id: 'villa-rasa' },
               { label: 'Tentang', id: 'tentang' },
               { label: 'Kontak', id: 'kontak' },
             ].map(item => (
@@ -812,6 +814,81 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
         </div>
       </section>
 
+      {/* ── Villa & Rasa — villa stays and local cuisine by Arkrea ── */}
+      <section id="villa-rasa" className="bg-trv-night relative overflow-hidden py-24 px-8 md:px-14">
+        <DarkTexture opacity={0.05} id="curvePattern-villa" />
+        <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 1 }}
+            className="relative mx-auto w-full"
+            style={{ maxWidth: 460 }}
+          >
+            <div
+              className="overflow-hidden w-full"
+              style={{ aspectRatio: '3/4', borderRadius: '50% 50% 20px 20px / 30% 30% 20px 20px' }}
+            >
+              <img
+                src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=900&q=80&fit=crop"
+                alt="Villa & Rasa"
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute bottom-0 right-0 bg-trv-olive px-4 py-2 text-white text-xs font-semibold uppercase tracking-[0.15em]">
+              Layanan Baru
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+          >
+            <p className="text-trv-sand text-xs uppercase tracking-[0.4em] mb-5">Arkrea Traventure Presents</p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">Villa &amp; Rasa</h2>
+            <p className="font-serif text-xl md:text-2xl font-light text-white/85 mb-6 leading-snug">
+              Villa nyaman &amp; hangat di setiap momen.
+            </p>
+            <p className="text-white/60 text-sm leading-relaxed mb-4">
+              Pilihan villa di Kota Batu untuk staycation keluarga hingga rombongan — dari 10 sampai 25 orang, dengan 3 hingga 5 kamar tidur.
+            </p>
+            <p className="text-white/60 text-sm leading-relaxed mb-8">
+              Lengkapi liburan dengan BBQ service kami, untuk liburan tanpa repot.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-10">
+              {['Villa Iboeku', 'Villa Griya Citra', 'Villa Pondok Kelapa', 'Villa Ebenhaezer', 'BBQ Service'].map(tag => (
+                <span key={tag} className="px-3 py-1.5 border border-white/15 rounded-full text-white/70 text-xs tracking-wide">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href={VILLA_RASA_INSTAGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-trv-olive hover:bg-trv-olive-dark text-white text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all hover:scale-105"
+              >
+                <InstagramIcon className="w-4 h-4" />
+                @villadanrasa
+              </a>
+              <a
+                href="https://wa.me/6285710098888?text=Halo%20Villa%20%26%20Rasa%2C%20saya%20ingin%20bertanya%20mengenai%20villa."
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-trv-sand text-xs font-semibold uppercase tracking-[0.2em] hover:gap-3 transition-all"
+              >
+                Reservasi <ChevronRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── Trip documentation (real photos) ── */}
       <section id="dokumentasi" className="bg-white py-24 px-8 md:px-14">
         <p className="text-trv-ink/60 text-xs uppercase tracking-[0.35em] mb-2 font-medium">DOKUMENTASI</p>
@@ -962,6 +1039,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
                 { lbl: 'Beranda', id: 'hero' },
                 { lbl: 'Destinasi', id: 'destinasi' },
                 { lbl: 'Pengalaman', id: 'pengalaman' },
+                { lbl: 'Villa & Rasa', id: 'villa-rasa' },
                 { lbl: 'Tentang', id: 'tentang' },
                 { lbl: 'Kontak', id: 'kontak' },
               ].map(item => (
