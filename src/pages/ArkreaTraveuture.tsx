@@ -662,7 +662,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             </div>
             {/* floating badge */}
             <div className="absolute -bottom-5 right-0 bg-trv-olive text-white text-xs px-5 py-3 font-medium uppercase tracking-wider">
-              Berdiri sejak 2017
+              Berdiri sejak 2024
             </div>
           </motion.div>
 
@@ -685,7 +685,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               {[
                 { val: '200+', lbl: 'Destinasi' },
                 { val: '5.000+', lbl: 'Traveler' },
-                { val: '8+', lbl: 'Tahun' },
+                { val: '2+', lbl: 'Tahun' },
               ].map(s => (
                 <div key={s.lbl}>
                   <div className="font-serif text-3xl font-light text-trv-olive">{s.val}</div>
