@@ -6,6 +6,8 @@ import logoNirwana from './assets/klien/nirwana-hotel.png';
 import logoMahkamahAgung from './assets/klien/mahkamah-agung.png';
 import logoKemenag from './assets/klien/kemenag.png';
 import traventureCover from './assets/foto/bromo-drone.webp';
+import fotoPelatihanTim from './assets/foto/nirwana-training.webp';
+import fotoProfilKegiatan from './assets/foto/dewahyu-travel-fair.webp';
 import { motion, useScroll, useTransform, useMotionValue, AnimatePresence, useInView } from 'framer-motion';
 import {
   Moon, Sun, Briefcase, TrendingUp, Map, ArrowRight,
@@ -1430,7 +1432,7 @@ export default function App() {
                   tag: 'Tim & Profil',
                   name: 'Our\nProfile',
                   desc: 'Kenali orang-orang di balik Arteri Kreasi Nusantara — visi, misi, dan perjalanan kami.',
-                  image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80&fit=crop',
+                  image: fotoProfilKegiatan,
                   accent: '#a78bfa',
                   accentBg: 'from-violet-900/70',
                 },
@@ -1758,8 +1760,8 @@ export default function App() {
               >
                 <div className="w-full h-full p-2 bg-background/40 backdrop-blur-xl border border-border/50 rounded-[2.5rem] shadow-2xl overflow-hidden">
                   <img
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&fit=crop"
-                    alt="Our team collaborating"
+                    src={fotoPelatihanTim}
+                    alt="Tim Arkrea memimpin sesi pelatihan"
                     className="w-full h-full object-cover rounded-[2rem]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent rounded-[2rem]" />
@@ -1975,17 +1977,23 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Senior Partners Stack */}
+                  {/* Client logos stack */}
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent flex items-center justify-between gap-3 shadow-sm">
                     <div className="flex items-center gap-2.5">
                       <div className="flex -space-x-2 overflow-hidden shrink-0">
-                        <img className="inline-block h-8 w-8 rounded-full ring-2 ring-background object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80&fit=crop" alt="Advisor" />
-                        <img className="inline-block h-8 w-8 rounded-full ring-2 ring-background object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80&fit=crop" alt="Advisor" />
-                        <img className="inline-block h-8 w-8 rounded-full ring-2 ring-background object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80&fit=crop" alt="Advisor" />
+                        {[
+                          { src: logoAldo, alt: 'Aldo Frozen Food' },
+                          { src: logoDeWahyu, alt: 'De Wahyu Hotel' },
+                          { src: logoKemenag, alt: 'Kemenag Jawa Timur' },
+                        ].map(c => (
+                          <span key={c.alt} className="inline-flex h-8 w-8 rounded-full ring-2 ring-background bg-white items-center justify-center p-1">
+                            <img src={c.src} alt={c.alt} className="max-w-full max-h-full object-contain" />
+                          </span>
+                        ))}
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-foreground leading-none mb-1">3 Mitra Online</p>
-                        <p className="text-xs text-muted-foreground leading-none">Siap untuk audit</p>
+                        <p className="text-xs font-semibold text-foreground leading-none mb-1">Dipercaya Klien</p>
+                        <p className="text-xs text-muted-foreground leading-none">Swasta &amp; instansi pemerintah</p>
                       </div>
                     </div>
                     <button

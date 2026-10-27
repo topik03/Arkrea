@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ChevronDown, Phone, Mail, Globe, MapPin, ChevronRight, X, Images } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronDown, Phone, Mail, Globe, MapPin, ChevronRight, X, Images, Menu } from 'lucide-react';
 import InstagramIcon from '../components/InstagramIcon';
+import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
 import bromoDrone from '../assets/foto/bromo-drone.webp';
 import bromoSunrise from '../assets/foto/bromo-sunrise.webp';
 import bromoGrupSpanduk from '../assets/foto/bromo-grup-spanduk.webp';
@@ -66,6 +67,16 @@ import dprdGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 const VILLA_RASA_INSTAGRAM_URL = 'https://www.instagram.com/villadanrasa/';
+const TRAVENTURE_WA_URL = 'https://wa.me/6285692909283?text=Halo%20Arkrea%20Traventure%2C%20saya%20ingin%20bertanya%20mengenai%20wisata.';
+
+// Header sections, shared by the desktop nav and the mobile menu
+const navItems = [
+  { label: 'Destinasi', id: 'destinasi' },
+  { label: 'Pengalaman', id: 'pengalaman' },
+  { label: 'Villa & Rasa', id: 'villa-rasa' },
+  { label: 'Tentang', id: 'tentang' },
+  { label: 'Kontak', id: 'kontak' },
+];
 
 // ── Subtle curved-line texture overlay (matching reference image style)
 function DarkTexture({ opacity = 0.045, id = 'curvePattern' }: { opacity?: number; id?: string }) {
@@ -221,7 +232,7 @@ const destinations = [
   {
     name: 'RAJA AMPAT',
     region: 'Papua Barat',
-    image: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&q=80&fit=crop',
+    image: 'https://images.unsplash.com/photo-1745917784423-023fb69188f1?w=800&q=80&fit=crop',
     desc: 'Terumbu karang terkaya di dunia',
   },
   {
@@ -233,7 +244,7 @@ const destinations = [
   {
     name: 'DANAU TOBA',
     region: 'Sumatera Utara',
-    image: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&q=80&fit=crop',
+    image: 'https://images.unsplash.com/photo-1601058497548-f247dfe349d6?w=800&q=80&fit=crop',
     desc: 'Danau vulkanik terbesar dunia',
   },
   {
@@ -259,7 +270,7 @@ const destinations = [
 const experiences = [
   {
     name: 'DIVING &\nSNORKELING',
-    image: 'https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=700&q=80&fit=crop',
+    image: 'https://images.unsplash.com/photo-1724258207520-7870359e112a?w=700&q=80&fit=crop',
     desc: 'Kedalaman laut Nusantara bersama instruktur bersertifikat',
   },
   {
@@ -274,7 +285,7 @@ const experiences = [
   },
   {
     name: 'ECO\nPHOTOGRAPHY',
-    image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=700&q=80&fit=crop',
+    image: bromoSunriseUdara,
     desc: 'Abadikan keajaiban alam bersama fotografer profesional',
   },
   {
@@ -445,6 +456,8 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
 
   const [openTrip, setOpenTrip] = useState<Trip | null>(null);
   const closeTrip = useCallback(() => setOpenTrip(null), []);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
@@ -488,13 +501,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
 
           {/* Center nav */}
           <nav className={`hidden lg:flex items-center gap-8 text-xs font-medium uppercase tracking-[0.15em] transition-colors ${scrolled ? 'text-trv-ink/70' : 'text-white/80'}`}>
-            {[
-              { label: 'Destinasi', id: 'destinasi' },
-              { label: 'Pengalaman', id: 'pengalaman' },
-              { label: 'Villa & Rasa', id: 'villa-rasa' },
-              { label: 'Tentang', id: 'tentang' },
-              { label: 'Kontak', id: 'kontak' },
-            ].map(item => (
+            {navItems.map(item => (
               <button
                 key={item.id}
                 onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
@@ -505,17 +512,62 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             ))}
           </nav>
 
-          {/* CTA pill button */}
+          <div className="flex items-center gap-3">
+            {/* CTA pill button */}
+            <a
+              href={TRAVENTURE_WA_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="px-5 py-2.5 bg-trv-olive hover:bg-trv-olive-dark text-white text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all hover:scale-105 shadow-sm"
+            >
+              Hubungi Kami
+            </a>
+            <button
+              onClick={() => setMenuOpen(true)}
+              aria-label="Buka menu"
+              aria-expanded={menuOpen}
+              className={`lg:hidden w-10 h-10 rounded-full border flex items-center justify-center transition-colors ${scrolled ? 'border-trv-ink/25 text-trv-ink' : 'border-white/40 text-white'}`}
+            >
+              <Menu className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Mobile menu — outside <motion.header> so `fixed` covers the viewport */}
+      <MobileMenu
+        open={menuOpen}
+        onClose={closeMenu}
+        title="Arkrea Traventure"
+        hideFrom="lg"
+        panelClassName="bg-white text-trv-ink border-trv-ink/10"
+        footer={
           <a
-            href="https://wa.me/6285692909283?text=Halo%20Arkrea%20Traventure%2C%20saya%20ingin%20bertanya%20mengenai%20wisata."
+            href={TRAVENTURE_WA_URL}
             target="_blank"
             rel="noreferrer"
-            className="px-5 py-2.5 bg-trv-olive hover:bg-trv-olive-dark text-white text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all hover:scale-105 shadow-sm"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-trv-olive text-white text-xs font-semibold uppercase tracking-[0.18em]"
           >
             Hubungi Kami
           </a>
-        </div>
-      </motion.header>
+        }
+      >
+        {navItems.map(item => (
+          <button
+            key={item.id}
+            onClick={() => scrollAfterClose(closeMenu, item.id)}
+            className="w-full text-left px-3 py-3 rounded-xl font-serif text-lg hover:bg-trv-cream transition-colors"
+          >
+            {item.label}
+          </button>
+        ))}
+        <button
+          onClick={() => { closeMenu(); onBack(); }}
+          className="w-full flex items-center gap-2 text-left px-3 py-3 mt-4 rounded-xl text-sm text-trv-ink/60 hover:bg-trv-cream transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" /> Kembali ke Arkrea
+        </button>
+      </MobileMenu>
 
       {/* ── Hero ── */}
       <section ref={heroRef} className="relative h-dvh overflow-hidden">
@@ -603,7 +655,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1528181304800-259b08848526?w=700&q=80&fit=crop"
+                src={baliAdat}
                 alt="Arkrea Traventure"
                 className="w-full h-full object-cover"
               />
@@ -729,7 +781,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=700&q=80&fit=crop"
+                src={dprdPemandangan}
                 alt="Pengalaman"
                 className="w-full h-full object-cover"
               />
@@ -860,7 +912,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               Lengkapi liburan dengan BBQ service kami, untuk liburan tanpa repot.
             </p>
             <div className="flex flex-wrap gap-2 mb-10">
-              {['Villa Iboeku', 'Villa Griya Citra', 'Villa Pondok Kelapa', 'Villa Ebenhaezer', 'BBQ Service'].map(tag => (
+              {['Villa Iboeku', 'Villa Pondok Kelapa', 'Villa Ebenhaezer', 'BBQ Service'].map(tag => (
                 <span key={tag} className="px-3 py-1.5 border border-white/15 rounded-full text-white/70 text-xs tracking-wide">
                   {tag}
                 </span>
