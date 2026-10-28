@@ -301,11 +301,24 @@ function Carousel({ items, darkBg = true }: {
   darkBg?: boolean;
 }) {
   const [idx, setIdx] = useState(0);
-  const visible = 3;
-  const max = items.length - visible;
+  // Cards per view: show a peek of the next card on small screens instead of squeezing three
+  const getVisible = () => (window.innerWidth < 640 ? 1.3 : window.innerWidth < 1024 ? 2.2 : 3);
+  const [visible, setVisible] = useState(getVisible);
+  const max = Math.max(0, items.length - visible);
+
+  useEffect(() => {
+    const onResize = () => setVisible(getVisible());
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  // Keep the position valid when the card count per view changes
+  useEffect(() => setIdx(p => Math.min(p, max)), [max]);
 
   const prev = () => setIdx(p => Math.max(0, p - 1));
   const next = () => setIdx(p => Math.min(max, p + 1));
+  // `idx` can end on a fraction (e.g. 4.7) so the last card lands flush with the edge
+  const shift = Math.min(idx, max);
 
   return (
     <div className={`${darkBg ? 'bg-trv-night' : 'bg-white'} py-16 overflow-hidden`}>
@@ -342,7 +355,8 @@ function Carousel({ items, darkBg = true }: {
       <div className="px-8 md:px-16">
         <motion.div
           className="flex gap-5"
-          animate={{ x: `calc(-${idx * (100 / visible)}% - ${idx * 20 / visible}px)` }}
+          // Cards shrink to make room for the 20px gaps, so one step is (track + 20px) / count
+          animate={{ x: `calc(-${shift * (100 / items.length)}% - ${shift * 20 / items.length}px)` }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           style={{ width: `${(items.length / visible) * 100}%` }}
         >
@@ -1125,9 +1139,9 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
           </div>
         </div>
 
-        <div className="relative z-10 border-t border-white/[0.06] pt-6 flex justify-between items-center">
-          <p className="text-white/15 text-xs">© 2024 Arkrea Traventure — Arteri Kreasi Nusantara</p>
-          <p className="text-white/10 text-xs">All rights reserved</p>
+        <div className="relative z-10 border-t border-white/[0.06] pt-6 flex flex-col md:flex-row justify-between md:items-center gap-2">
+          <p className="text-white/40 text-xs">© {new Date().getFullYear()} Arkrea Traventure — Arteri Kreasi Nusantara</p>
+          <p className="text-white/30 text-xs">All rights reserved</p>
         </div>
       </footer>
     </div>
