@@ -14,9 +14,11 @@
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Outfit', sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-biz: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-evt: 'Caveat', 'Comic Sans MS', cursive;
 }
 
-/* Division palettes — Arkrea Traventure (trv) and Navara Hospitality (nav) */
+/* Division palettes — Traventure (trv), Navara (nav), Arkrea Business (biz), Arkrea Event (evt) */
 @theme {
   --color-trv-ink: #1C1A14;
   --color-trv-olive: #6B7740;
@@ -30,6 +32,25 @@
   --color-nav-night: #111110;
   --color-nav-deep: #0e0e0d;
   --color-nav-black: #0a0a09;
+
+  /* Business: greys only (no black) with one orange accent */
+  --color-biz-ink: #2E3338;
+  --color-biz-steel: #444B52;
+  --color-biz-slate: #646C74;
+  --color-biz-gray: #A3AAB1;
+  --color-biz-mist: #DCE0E3;
+  --color-biz-paper: #EEF0F2;
+  --color-biz-accent: #E8772E;
+
+  /* Event: flat, solid brights — never used as gradients */
+  --color-evt-ink: #2A2447;
+  --color-evt-cream: #FFF6E5;
+  --color-evt-yellow: #FFC83D;
+  --color-evt-pink: #FF5C8A;
+  --color-evt-blue: #3D7BFF;
+  --color-evt-green: #1FBF94;
+  --color-evt-purple: #8B5CF6;
+  --color-evt-orange: #FF8A3D;
 }
 
 :root {

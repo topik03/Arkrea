@@ -14,16 +14,20 @@ import {
   CheckCircle2, Mail, Phone, MapPin, Users, Award, Target, Send,
   Star, ChevronDown,
   Calendar, Clock, X, Activity, ShieldCheck, CheckCircle,
-  Compass, Hotel, UserCircle2, ChevronRight, Menu
+  Compass, Hotel, UserCircle2, ChevronRight, Menu, PartyPopper
 } from 'lucide-react';
 import clsx from 'clsx';
 import ArkreaTraveuture from './pages/ArkreaTraveuture';
+import ArkreaBusiness from './pages/ArkreaBusiness';
+import ArkreaEvent from './pages/ArkreaEvent';
+import fotoBusinessCover from './assets/foto/dewahyu-training-2.webp';
+import fotoEventCover from './assets/foto/dprd-games-panggung.webp';
 import HotelNavara from './pages/HotelNavara';
 import OurProfile from './pages/OurProfile';
 import MobileMenu, { scrollAfterClose } from './components/MobileMenu';
 import InstagramIcon from './components/InstagramIcon';
 
-type PageType = 'home' | 'traventure' | 'navara' | 'profile';
+type PageType = 'home' | 'traventure' | 'navara' | 'business' | 'event' | 'profile';
 
 const navSections = [
   { id: 'services', label: 'Layanan' },
@@ -35,6 +39,8 @@ const navSections = [
 const divisions = [
   { icon: Compass, label: 'Arkrea Traventure', desc: 'Travel & Wisata Nusantara', page: 'traventure' as PageType, color: 'text-amber-500', bg: 'bg-amber-500/10' },
   { icon: Hotel, label: 'Navara Hospitality', desc: 'Hospitality Management', page: 'navara' as PageType, color: 'text-stone-600', bg: 'bg-stone-500/10' },
+  { icon: Briefcase, label: 'Arkrea Business', desc: 'Konsultan & Operator Bisnis', page: 'business' as PageType, color: 'text-slate-500', bg: 'bg-slate-500/10' },
+  { icon: PartyPopper, label: 'Arkrea Event', desc: 'Event Organizer', page: 'event' as PageType, color: 'text-pink-500', bg: 'bg-pink-500/10' },
   { icon: UserCircle2, label: 'Our Profile', desc: 'Tim & Perjalanan Arkrea', page: 'profile' as PageType, color: 'text-violet-500', bg: 'bg-violet-500/10' },
 ];
 
@@ -941,6 +947,12 @@ export default function App() {
   if (currentPage === 'navara') {
     return <HotelNavara onBack={() => setCurrentPage('home')} />;
   }
+  if (currentPage === 'business') {
+    return <ArkreaBusiness onBack={() => setCurrentPage('home')} />;
+  }
+  if (currentPage === 'event') {
+    return <ArkreaEvent onBack={() => setCurrentPage('home')} />;
+  }
   if (currentPage === 'profile') {
     return <OurProfile onBack={() => setCurrentPage('home')} isDark={isDark} onToggleDark={() => setIsDark(!isDark)} />;
   }
@@ -1403,11 +1415,11 @@ export default function App() {
                 Divisi Kami
               </h2>
               <p className="text-muted-foreground text-lg max-w-xl leading-relaxed">
-                Arteri Kreasi Nusantara hadir melalui tiga divisi utama — klik untuk menjelajahi masing-masing.
+                Arteri Kreasi Nusantara hadir melalui empat divisi bisnis — klik untuk menjelajahi masing-masing.
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
                 {
                   page: 'traventure' as PageType,
@@ -1426,6 +1438,24 @@ export default function App() {
                   image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80&fit=crop',
                   accent: '#C9A96E',
                   accentBg: 'from-stone-900/70',
+                },
+                {
+                  page: 'business' as PageType,
+                  tag: 'Konsultan & Operator',
+                  name: 'Arkrea\nBusiness',
+                  desc: 'Konsultasi dan operator bisnis — dari perencanaan, keuangan, dan SDM sampai pemasaran.',
+                  image: fotoBusinessCover,
+                  accent: '#E8772E',
+                  accentBg: 'from-slate-800/80',
+                },
+                {
+                  page: 'event' as PageType,
+                  tag: 'Event Organizer',
+                  name: 'Arkrea\nEvent',
+                  desc: 'Gathering, outbound, gala dinner, hingga acara instansi yang seru dan berkesan.',
+                  image: fotoEventCover,
+                  accent: '#FFC83D',
+                  accentBg: 'from-pink-900/70',
                 },
                 {
                   page: 'profile' as PageType,
@@ -2466,6 +2496,12 @@ export default function App() {
                   </button>
                   <button onClick={() => setCurrentPage('navara')} className="hover:text-primary transition-colors text-left cursor-pointer">
                     Navara Hospitality
+                  </button>
+                  <button onClick={() => setCurrentPage('business')} className="hover:text-primary transition-colors text-left cursor-pointer">
+                    Arkrea Business
+                  </button>
+                  <button onClick={() => setCurrentPage('event')} className="hover:text-primary transition-colors text-left cursor-pointer">
+                    Arkrea Event
                   </button>
                 </div>
               </div>

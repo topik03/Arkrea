@@ -1,0 +1,441 @@
+import { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowLeft, ArrowRight, Menu, Phone, Mail, MapPin, Users, PartyPopper, Trophy, Presentation, Utensils, Gift } from 'lucide-react';
+import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
+import fotoGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
+import fotoGalaDinner from '../assets/foto/bali-gala-dinner.webp';
+import fotoHiburan from '../assets/foto/dprd-hiburan-malam.webp';
+import fotoSenam from '../assets/foto/dprd-senam-pagi.webp';
+import fotoGamesKapal from '../assets/foto/bali-games-kapal.webp';
+import fotoMakanMalam from '../assets/foto/dprd-makan-malam.webp';
+import fotoCruise from '../assets/foto/bali-cruise.webp';
+import fotoFotoBersama from '../assets/foto/dprd-foto-pembukaan.webp';
+import fotoGames from '../assets/foto/dprd-games.webp';
+import fotoBbq from '../assets/foto/dprd-bbq-malam.webp';
+
+interface ArkreaEventProps {
+  onBack: () => void;
+}
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+// Solid brand colours only — this page deliberately uses no gradients.
+
+const WA_NUMBER = '6285692909283';
+const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+const INK = '#2A2447';
+const pop = (offset = 6) => ({ boxShadow: `${offset}px ${offset}px 0 ${INK}` });
+
+const navItems = [
+  { label: 'Layanan', id: 'layanan' },
+  { label: 'Portofolio', id: 'portofolio' },
+  { label: 'Cara Kerja', id: 'cara-kerja' },
+  { label: 'Kontak', id: 'kontak' },
+];
+
+const services = [
+  { icon: Users, title: 'Gathering & Family Day', desc: 'Acara kebersamaan kantor dan keluarga yang hangat dan berkesan.', bg: 'bg-evt-yellow' },
+  { icon: Trophy, title: 'Fun Games & Outbound', desc: 'Permainan seru yang bikin tim makin kompak dan peserta ketawa lepas.', bg: 'bg-evt-pink' },
+  { icon: PartyPopper, title: 'Gala Dinner & Malam Keakraban', desc: 'Malam penuh hiburan, MC yang asik, dan panggung yang meriah.', bg: 'bg-evt-blue' },
+  { icon: Presentation, title: 'Meeting & Fullboard', desc: 'Rapat, seminar, dan acara instansi yang tertata dari awal sampai akhir.', bg: 'bg-evt-green' },
+  { icon: Utensils, title: 'BBQ & Makan Bersama', desc: 'Suasana santai dengan hidangan yang pas untuk rombongan.', bg: 'bg-evt-orange' },
+  { icon: Gift, title: 'Doorprize & Hiburan', desc: 'Undian, hadiah, dan hiburan yang bikin acara makin pecah.', bg: 'bg-evt-purple' },
+];
+
+// Events the Arkrea team has actually run (photos from the documentation archive)
+const portfolio = [
+  {
+    title: 'Guyub Rukun Dolan Bareng × Aldo Frozen Food',
+    meta: 'Bali — gathering 3 hari',
+    photos: [fotoGalaDinner, fotoGamesKapal],
+    tags: ['Gala dinner', 'Games di kapal', 'Gathering keluarga'],
+    color: 'bg-evt-pink',
+  },
+  {
+    title: 'Sekretariat DPRD Provinsi Jawa Timur',
+    meta: 'Tawangmangu — 27–29 November 2025',
+    photos: [fotoGamesPanggung, fotoBbq],
+    tags: ['Games panggung', 'BBQ malam', 'Doorprize'],
+    color: 'bg-evt-blue',
+  },
+];
+
+const steps = [
+  { no: '1', title: 'Ngobrol Dulu', desc: 'Ceritakan acaramu: tujuan, jumlah peserta, tanggal, dan budget.', bg: 'bg-evt-yellow' },
+  { no: '2', title: 'Racik Konsep', desc: 'Kami susun rundown, games, venue, dan kebutuhan teknisnya.', bg: 'bg-evt-pink' },
+  { no: '3', title: 'Hari H Seru', desc: 'Tim kami pegang jalannya acara, kamu tinggal menikmati.', bg: 'bg-evt-green' },
+  { no: '4', title: 'Kenangan Abadi', desc: 'Dokumentasi foto dan video untuk dibawa pulang.', bg: 'bg-evt-blue' },
+];
+
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
+
+export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
+  return (
+    <div className="min-h-screen bg-evt-cream text-evt-ink font-sans overflow-x-hidden">
+
+      {/* ── Navbar ── */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-evt-cream border-b-2 border-evt-ink' : 'bg-transparent'}`}>
+        <div className="flex items-center justify-between px-5 md:px-12 py-3.5">
+          <button onClick={onBack} aria-label="Kembali ke Arkrea" className="flex items-center gap-3 group">
+            <span className="w-10 h-10 rounded-full bg-white border-2 border-evt-ink flex items-center justify-center" style={pop(3)}>
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+            </span>
+            <span className="font-evt font-bold text-3xl leading-none -rotate-2">Arkrea Event</span>
+          </button>
+
+          <nav className="hidden lg:flex items-center gap-2">
+            {navItems.map(item => (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="px-4 py-2 rounded-full font-semibold text-sm hover:bg-evt-yellow transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <a
+              href={waLink('Halo Arkrea Event, saya mau bikin acara!')}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:inline-flex px-5 py-2.5 rounded-full bg-evt-pink text-white font-bold text-sm border-2 border-evt-ink hover:-translate-y-0.5 transition-transform"
+              style={pop(3)}
+            >
+              Bikin Acara!
+            </a>
+            <button
+              onClick={() => setMenuOpen(true)}
+              aria-label="Buka menu"
+              aria-expanded={menuOpen}
+              className="lg:hidden w-10 h-10 rounded-full bg-white border-2 border-evt-ink flex items-center justify-center"
+              style={pop(3)}
+            >
+              <Menu className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <MobileMenu
+        open={menuOpen}
+        onClose={closeMenu}
+        title="Arkrea Event"
+        hideFrom="lg"
+        panelClassName="bg-evt-cream text-evt-ink border-evt-ink"
+        footer={
+          <a
+            href={waLink('Halo Arkrea Event, saya mau bikin acara!')}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full flex items-center justify-center py-3 rounded-full bg-evt-pink text-white font-bold border-2 border-evt-ink"
+          >
+            Bikin Acara!
+          </a>
+        }
+      >
+        {navItems.map((item, i) => (
+          <button
+            key={item.id}
+            onClick={() => scrollAfterClose(closeMenu, item.id)}
+            className={`w-full text-left px-4 py-3 mb-2 rounded-2xl font-evt font-bold text-3xl border-2 border-evt-ink ${['bg-evt-yellow', 'bg-evt-pink text-white', 'bg-evt-green text-white', 'bg-evt-blue text-white'][i]}`}
+          >
+            {item.label}
+          </button>
+        ))}
+        <button
+          onClick={() => { closeMenu(); onBack(); }}
+          className="w-full flex items-center gap-2 text-left px-3 py-3 mt-3 text-sm font-semibold text-evt-ink/70"
+        >
+          <ArrowLeft className="w-4 h-4" /> Kembali ke Arkrea
+        </button>
+      </MobileMenu>
+
+      {/* ── Hero ── */}
+      <section id="hero" className="relative pt-28 md:pt-32 pb-20 px-5 md:px-12 overflow-hidden">
+        {/* Flat confetti shapes */}
+        <span className="absolute top-28 right-[8%] w-14 h-14 rounded-full bg-evt-yellow hidden md:block" aria-hidden="true" />
+        <span className="absolute top-[55%] left-[3%] w-8 h-8 bg-evt-green rotate-12 hidden md:block" aria-hidden="true" />
+        <span className="absolute bottom-16 right-[40%] w-10 h-10 rounded-full bg-evt-purple hidden md:block" aria-hidden="true" />
+
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_1fr] gap-14 items-center">
+          <div>
+            <motion.span
+              className="inline-block px-4 py-1.5 rounded-full bg-evt-green text-white font-bold text-sm border-2 border-evt-ink mb-6 -rotate-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Event Organizer by Arkrea
+            </motion.span>
+            <motion.h1
+              className="font-evt font-bold leading-[0.85] mb-6"
+              style={{ fontSize: 'clamp(4rem, 12vw, 9rem)' }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Bikin acara jadi{' '}
+              <span className="relative inline-block">
+                <span className="absolute inset-x-0 bottom-2 h-6 md:h-9 bg-evt-yellow -rotate-1 -z-0" aria-hidden="true" />
+                <span className="relative">seru!</span>
+              </span>
+            </motion.h1>
+            <motion.p
+              className="text-lg text-evt-ink/75 max-w-md leading-relaxed mb-9"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+            >
+              Gathering, outbound, gala dinner, sampai acara instansi — kami urus dari konsep sampai hari H, kamu tinggal datang dan bersenang-senang.
+            </motion.p>
+            <motion.div
+              className="flex flex-wrap gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+            >
+              <a
+                href={waLink('Halo Arkrea Event, saya mau bikin acara!')}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-evt-pink text-white font-bold border-2 border-evt-ink hover:-translate-y-1 transition-transform"
+                style={pop()}
+              >
+                Konsultasi Gratis <ArrowRight className="w-4 h-4" />
+              </a>
+              <button
+                onClick={() => scrollTo('portofolio')}
+                className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-white font-bold border-2 border-evt-ink hover:-translate-y-1 transition-transform"
+                style={pop()}
+              >
+                Lihat Acara Kami
+              </button>
+            </motion.div>
+          </div>
+
+          {/* Tilted photo stickers */}
+          <div className="relative h-[420px] sm:h-[480px]">
+            {[
+              { src: fotoGames, cls: 'left-0 top-4 w-[62%] -rotate-6 bg-evt-yellow', delay: 0.2 },
+              { src: fotoGalaDinner, cls: 'right-0 top-24 w-[58%] rotate-6 bg-evt-blue', delay: 0.35 },
+              { src: fotoSenam, cls: 'left-[14%] bottom-0 w-[55%] rotate-2 bg-evt-pink', delay: 0.5 },
+            ].map((p, i) => (
+              <motion.div
+                key={i}
+                className={`absolute p-2.5 rounded-2xl border-2 border-evt-ink ${p.cls}`}
+                style={pop()}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: 'spring', stiffness: 220, damping: 18, delay: p.delay }}
+                whileHover={{ rotate: 0, scale: 1.04, zIndex: 10 }}
+              >
+                <img src={p.src} alt="" className="w-full aspect-[4/3] object-cover rounded-xl border-2 border-evt-ink" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Ticker ── */}
+      <div className="bg-evt-ink py-4 overflow-hidden -rotate-1 scale-105" aria-hidden="true">
+        <motion.div
+          className="flex gap-8 whitespace-nowrap w-max"
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 22, ease: 'linear', repeat: Infinity }}
+        >
+          {Array.from({ length: 2 }).flatMap((_, r) =>
+            ['Gathering', 'Outbound', 'Gala Dinner', 'Fun Games', 'Family Day', 'BBQ Night', 'Doorprize'].map((t, i) => (
+              <span key={`${r}-${i}`} className="font-evt font-bold text-3xl flex items-center gap-8">
+                <span className={['text-evt-yellow', 'text-evt-pink', 'text-evt-green', 'text-evt-blue'][i % 4]}>{t}</span>
+                <span className="text-white">✦</span>
+              </span>
+            ))
+          )}
+        </motion.div>
+      </div>
+
+      {/* ── Services ── */}
+      <section id="layanan" className="py-24 md:py-28 px-5 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="font-evt font-bold text-6xl md:text-7xl leading-none mb-4">Mau acara apa?</h2>
+            <p className="text-evt-ink/70 max-w-lg mx-auto">Apa pun acaranya, kami siapkan konsep, tim, dan keseruannya.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((s, i) => (
+              <motion.div
+                key={s.title}
+                className={`${s.bg} ${s.bg === 'bg-evt-yellow' ? 'text-evt-ink' : 'text-white'} p-7 rounded-3xl border-2 border-evt-ink`}
+                style={pop()}
+                initial={{ opacity: 0, y: 30, rotate: i % 2 ? 2 : -2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: i % 2 ? 1 : -1 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20, delay: (i % 3) * 0.08 }}
+                whileHover={{ rotate: 0, y: -6 }}
+              >
+                <span className="w-12 h-12 rounded-2xl bg-white text-evt-ink border-2 border-evt-ink flex items-center justify-center mb-5">
+                  <s.icon className="w-6 h-6" />
+                </span>
+                <h3 className="font-evt font-bold text-4xl leading-none mb-3">{s.title}</h3>
+                <p className="text-sm leading-relaxed opacity-90">{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Portfolio ── */}
+      <section id="portofolio" className="bg-evt-yellow border-y-2 border-evt-ink py-24 md:py-28 px-5 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-evt font-bold text-6xl md:text-7xl leading-none mb-3">Acara yang sudah kami bikin</h2>
+          <p className="text-evt-ink/75 mb-14">Beberapa momen seru bersama klien kami.</p>
+
+          <div className="space-y-10">
+            {portfolio.map((p, i) => (
+              <motion.article
+                key={p.title}
+                className="bg-white rounded-3xl border-2 border-evt-ink p-5 md:p-7 grid md:grid-cols-[1.3fr_1fr] gap-6 md:gap-8 items-center"
+                style={pop(8)}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+              >
+                <div className="grid grid-cols-2 gap-3">
+                  {p.photos.map((src, j) => (
+                    <img key={j} src={src} alt="" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-2xl border-2 border-evt-ink" />
+                  ))}
+                </div>
+                <div>
+                  <span className={`inline-block ${p.color} text-white font-bold text-xs px-3 py-1 rounded-full border-2 border-evt-ink mb-4`}>{p.meta}</span>
+                  <h3 className="font-evt font-bold text-4xl md:text-5xl leading-none mb-5">{p.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {p.tags.map(t => (
+                      <span key={t} className="px-3 py-1.5 rounded-full bg-evt-cream border-2 border-evt-ink text-sm font-semibold">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          {/* Photo strip */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
+            {[fotoHiburan, fotoMakanMalam, fotoCruise, fotoFotoBersama].map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt=""
+                loading="lazy"
+                className={`w-full aspect-square object-cover rounded-2xl border-2 border-evt-ink ${i % 2 ? 'rotate-2' : '-rotate-2'}`}
+                style={pop(4)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How it works ── */}
+      <section id="cara-kerja" className="py-24 md:py-28 px-5 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-evt font-bold text-6xl md:text-7xl leading-none text-center mb-14">Gampang banget!</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((s, i) => (
+              <motion.div
+                key={s.no}
+                className="bg-white rounded-3xl border-2 border-evt-ink p-6"
+                style={pop()}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <span className={`${s.bg} ${s.bg === 'bg-evt-yellow' ? 'text-evt-ink' : 'text-white'} w-14 h-14 rounded-full border-2 border-evt-ink flex items-center justify-center font-evt font-bold text-4xl mb-5`}>
+                  {s.no}
+                </span>
+                <h3 className="font-evt font-bold text-3xl leading-none mb-2">{s.title}</h3>
+                <p className="text-sm text-evt-ink/75 leading-relaxed">{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact CTA ── */}
+      <section id="kontak" className="px-5 md:px-12 pb-24">
+        <div className="max-w-6xl mx-auto bg-evt-purple text-white rounded-[2rem] border-2 border-evt-ink p-8 md:p-14 grid lg:grid-cols-2 gap-10 items-center relative overflow-hidden" style={pop(10)}>
+          <span className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-evt-yellow border-2 border-evt-ink" aria-hidden="true" />
+          <div className="relative">
+            <h2 className="font-evt font-bold leading-[0.9] mb-4" style={{ fontSize: 'clamp(3.2rem, 7vw, 5.5rem)' }}>
+              Yuk, bikin acaramu bareng kami!
+            </h2>
+            <p className="text-white/85 leading-relaxed">Konsultasi gratis — cerita dulu, nanti kami bantu rancang acaranya.</p>
+          </div>
+          <div className="relative bg-white text-evt-ink rounded-3xl border-2 border-evt-ink p-6 md:p-8">
+            <div className="space-y-4 mb-7">
+              {[
+                { icon: Phone, text: '+62 856 9290 9283', href: waLink('Halo Arkrea Event, saya mau bikin acara!') },
+                { icon: Mail, text: 'arterikreasinusantara@gmail.com', href: 'mailto:arterikreasinusantara@gmail.com' },
+                { icon: MapPin, text: 'Kota Batu, Jawa Timur', href: undefined },
+              ].map(c => {
+                const inner = (
+                  <>
+                    <span className="w-9 h-9 rounded-full bg-evt-yellow border-2 border-evt-ink flex items-center justify-center shrink-0">
+                      <c.icon className="w-4 h-4" />
+                    </span>
+                    <span className="font-semibold break-all">{c.text}</span>
+                  </>
+                );
+                return c.href ? (
+                  <a key={c.text} href={c.href} target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-evt-pink transition-colors">{inner}</a>
+                ) : (
+                  <p key={c.text} className="flex items-center gap-3">{inner}</p>
+                );
+              })}
+            </div>
+            <a
+              href={waLink('Halo Arkrea Event, saya mau bikin acara!')}
+              target="_blank"
+              rel="noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-evt-pink text-white font-bold border-2 border-evt-ink hover:-translate-y-1 transition-transform"
+              style={pop(4)}
+            >
+              Chat via WhatsApp <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="bg-evt-ink text-white px-5 md:px-12 py-10">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between md:items-center gap-6">
+          <span className="font-evt font-bold text-4xl text-evt-yellow -rotate-2 self-start">Arkrea Event</span>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-white/75">
+            {navItems.map(item => (
+              <button key={item.id} onClick={() => scrollTo(item.id)} className="hover:text-evt-yellow transition-colors">{item.label}</button>
+            ))}
+            <button onClick={onBack} className="flex items-center gap-1.5 hover:text-evt-yellow transition-colors">
+              <ArrowLeft className="w-3.5 h-3.5" /> Arkrea
+            </button>
+          </div>
+        </div>
+        <p className="max-w-6xl mx-auto mt-8 pt-6 border-t border-white/10 text-xs text-white/50">
+          © {new Date().getFullYear()} Arkrea Event — Arteri Kreasi Nusantara
+        </p>
+      </footer>
+    </div>
+  );
+}
