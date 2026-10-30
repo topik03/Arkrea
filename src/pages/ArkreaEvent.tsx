@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Menu, Phone, Mail, MapPin, Users, PartyPopper, Trophy, Presentation, Utensils, Gift, X, Images } from 'lucide-react';
 import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
+import InstagramIcon from '../components/InstagramIcon';
 import fotoGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
 import fotoHiburan from '../assets/foto/dprd-hiburan-malam.webp';
 import fotoSenam from '../assets/foto/dprd-senam-pagi.webp';
@@ -49,6 +50,8 @@ interface ArkreaEventProps {
 // Solid brand colours only — this page deliberately uses no gradients.
 
 const WA_NUMBER = '6285692909283';
+// Event shares the Arkrea Traventure Instagram account
+const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 const INK = '#2A2447';
 const pop = (offset = 6) => ({ boxShadow: `${offset}px ${offset}px 0 ${INK}` });
@@ -542,6 +545,7 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
               {[
                 { icon: Phone, text: '+62 856 9290 9283', href: waLink('Halo Arkrea Event, saya mau bikin acara!') },
                 { icon: Mail, text: 'arterikreasinusantara@gmail.com', href: 'mailto:arterikreasinusantara@gmail.com' },
+                { icon: InstagramIcon, text: '@arkreatraventure', href: INSTAGRAM_URL },
                 { icon: MapPin, text: 'Kota Batu, Jawa Timur', href: undefined },
               ].map(c => {
                 const inner = (
@@ -580,6 +584,9 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
             {navItems.map(item => (
               <button key={item.id} onClick={() => scrollTo(item.id)} className="hover:text-evt-yellow transition-colors">{item.label}</button>
             ))}
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" aria-label="Instagram Arkrea Event" className="flex items-center gap-1.5 hover:text-evt-yellow transition-colors">
+              <InstagramIcon className="w-3.5 h-3.5" /> Instagram
+            </a>
             <button onClick={onBack} className="flex items-center gap-1.5 hover:text-evt-yellow transition-colors">
               <ArrowLeft className="w-3.5 h-3.5" /> Arkrea
             </button>

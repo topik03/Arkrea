@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Menu, Phone, Mail, MapPin } from 'lucide-react';
 import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
+import InstagramIcon from '../components/InstagramIcon';
 import fotoHero from '../assets/foto/dewahyu-training-2.webp';
 import fotoTentang from '../assets/foto/nirwana-training.webp';
 import fotoSesi from '../assets/foto/dewahyu-sesi-interaktif.webp';
@@ -14,6 +15,7 @@ interface ArkreaBusinessProps {
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
 const WA_NUMBER = '6285692909283';
+const INSTAGRAM_URL = 'https://www.instagram.com/arterikreasinusantara/';
 const waLink = (text: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 
 const navItems = [
@@ -367,6 +369,7 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
               {[
                 { icon: Phone, text: '+62 856 9290 9283', href: waLink('Halo Arkrea Business, saya ingin berkonsultasi.') },
                 { icon: Mail, text: 'arterikreasinusantara@gmail.com', href: 'mailto:arterikreasinusantara@gmail.com' },
+                { icon: InstagramIcon, text: '@arterikreasinusantara', href: INSTAGRAM_URL },
                 { icon: MapPin, text: 'Kota Batu, Jawa Timur', href: undefined },
               ].map(c => {
                 const inner = (
@@ -407,6 +410,9 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
             {navItems.map(item => (
               <button key={item.id} onClick={() => scrollTo(item.id)} className="uppercase hover:text-biz-accent transition-colors">{item.label}</button>
             ))}
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" aria-label="Instagram Arkrea" className="flex items-center gap-1.5 uppercase hover:text-biz-accent transition-colors">
+              <InstagramIcon className="w-3.5 h-3.5" /> Instagram
+            </a>
             <button onClick={onBack} className="flex items-center gap-1.5 uppercase hover:text-biz-accent transition-colors">
               <ArrowLeft className="w-3.5 h-3.5" /> Arkrea
             </button>
