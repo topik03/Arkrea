@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
-  ArrowLeft, Link2, Image, Mail, Target, Eye, Heart,
+  ArrowLeft, Mail, Target, Eye, Heart,
   TrendingUp, Users, Award, Briefcase, Star, Menu, Moon, Sun
 } from 'lucide-react';
 import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
@@ -12,80 +12,34 @@ interface OurProfileProps {
   onToggleDark: () => void;
 }
 
-const teamMembers = [
-  {
-    name: 'Azariel Prasetyo',
-    role: 'Founder & Chief Executive Officer',
-    dept: 'Leadership',
-    bio: 'Visioner di balik Arteri Kreasi Nusantara. Dengan pengalaman lebih dari 10 tahun di bidang bisnis dan manajemen, Azariel memimpin perusahaan dengan prinsip inovasi dan integritas.',
-    avatar: 'AP',
-    color: 'from-violet-500 to-indigo-600',
-    skills: ['Business Strategy', 'Leadership', 'Innovation'],
-    linkedin: '#',
-    instagram: '#',
-    email: 'azariel@arkrea.id',
-  },
-  {
-    name: 'Rizky Maulana',
-    role: 'Chief Operating Officer',
-    dept: 'Operations',
-    bio: 'Ahli operasional yang memastikan setiap proses berjalan dengan efisien dan terstruktur. Spesialis dalam sistem manajemen dan optimasi bisnis.',
-    avatar: 'RM',
-    color: 'from-emerald-500 to-teal-600',
-    skills: ['Operations', 'Process Optimization', 'SOP Development'],
-    linkedin: '#',
-    instagram: '#',
-    email: 'rizky@arkrea.id',
-  },
-  {
-    name: 'Nadia Salsabila',
-    role: 'Chief Marketing Officer',
-    dept: 'Marketing',
-    bio: 'Kreator strategi pemasaran yang inovatif. Nadia memimpin tim marketing dalam membangun brand awareness Arkrea di level nasional.',
-    avatar: 'NS',
-    color: 'from-pink-500 to-rose-600',
-    skills: ['Brand Strategy', 'Digital Marketing', 'Content Creation'],
-    linkedin: '#',
-    instagram: '#',
-    email: 'nadia@arkrea.id',
-  },
-  {
-    name: 'Dimas Arfian',
-    role: 'Head of Business Consulting',
-    dept: 'Consulting',
-    bio: 'Konsultan bisnis berpengalaman yang telah membantu puluhan UMKM dan korporasi bertransformasi dan berkembang secara berkelanjutan.',
-    avatar: 'DA',
-    color: 'from-amber-500 to-orange-600',
-    skills: ['Business Analysis', 'Financial Planning', 'Advisory'],
-    linkedin: '#',
-    instagram: '#',
-    email: 'dimas@arkrea.id',
-  },
-  {
-    name: 'Putri Handayani',
-    role: 'Hotel & Hospitality Manager',
-    dept: 'Hospitality',
-    bio: 'Manajer hospitality yang memastikan standar pelayanan tertinggi di setiap properti yang dikelola Arkrea, termasuk Hotel Navara.',
-    avatar: 'PH',
-    color: 'from-sky-500 to-blue-600',
-    skills: ['Hotel Management', 'Guest Relations', 'Service Excellence'],
-    linkedin: '#',
-    instagram: '#',
-    email: 'putri@arkrea.id',
-  },
-  {
-    name: 'Fajar Ramadhan',
-    role: 'Head of Travel & Tourism',
-    dept: 'Travel',
-    bio: 'Petualang sejati yang mengubah passion-nya menjadi bisnis. Fajar memimpin Arkrea Traventure dalam memberikan pengalaman perjalanan terbaik.',
-    avatar: 'FR',
-    color: 'from-green-500 to-emerald-600',
-    skills: ['Tour Planning', 'Destination Management', 'Eco Tourism'],
-    linkedin: '#',
-    instagram: '#',
-    email: 'fajar@arkrea.id',
-  },
+// Leadership carries a job title; everyone else is listed as Arkrea Team
+const leaders = [
+  { name: 'Azariel', role: 'Direktur Utama' },
+  { name: 'Didik Rocky', role: 'Direktur' },
+  { name: 'Qorisa Ifa Erlina', role: 'Finance & Operational Manager' },
 ];
+
+const teamMembers = [
+  'Achmad Ridwan Ramadani',
+  'Yuni Aswita',
+  'Mutiara Janatry Putri',
+  'Talia Kristanthree',
+  'Bima Ahmaddien Moelya',
+  'King Abdul Aziz',
+  'Oktavia Erlina',
+];
+
+const avatarColors = [
+  'from-violet-500 to-indigo-600',
+  'from-emerald-500 to-teal-600',
+  'from-pink-500 to-rose-600',
+  'from-amber-500 to-orange-600',
+  'from-sky-500 to-blue-600',
+  'from-green-500 to-emerald-600',
+];
+
+// First letters of the first two words, e.g. 'Didik Rocky' -> 'DR', 'Azariel' -> 'A'
+const initials = (name: string) => name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
 
 const timeline = [
   {
@@ -143,79 +97,25 @@ const values = [
   },
 ];
 
-function TeamCard({ member, index }: { member: typeof teamMembers[0], index: number }) {
+function TeamCard({ name, role, index, featured = false }: { name: string; role: string; index: number; featured?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -8 }}
-      className="group bg-white dark:bg-white/5 border border-border/40 rounded-3xl p-7 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col"
+      transition={{ duration: 0.7, delay: (index % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -6 }}
+      className={`bg-white dark:bg-white/5 border border-border/40 rounded-3xl hover:shadow-2xl hover:shadow-primary/5 transition-shadow duration-500 flex items-center gap-4 ${featured ? 'p-7' : 'p-5'}`}
     >
-      {/* Avatar */}
-      <div className="flex items-start justify-between mb-6">
-        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${member.color} flex items-center justify-center shadow-lg`}>
-          <span className="text-white font-bold text-xl">{member.avatar}</span>
-        </div>
-        <span className="text-xs font-semibold text-muted-foreground bg-muted px-3 py-1 rounded-full">
-          {member.dept}
-        </span>
+      <div className={`${featured ? 'w-16 h-16 text-xl' : 'w-12 h-12 text-base'} rounded-2xl bg-gradient-to-br ${avatarColors[index % avatarColors.length]} flex items-center justify-center shadow-lg shrink-0`}>
+        <span className="text-white font-bold">{initials(name)}</span>
       </div>
-
-      {/* Info */}
-      <h3 className="text-lg font-semibold text-foreground mb-1">{member.name}</h3>
-      <p className="text-sm text-primary font-medium mb-4">{member.role}</p>
-      <p className="text-muted-foreground text-sm leading-relaxed flex-1 mb-6">{member.bio}</p>
-
-      {/* Skills */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {member.skills.map((skill) => (
-          <span
-            key={skill}
-            className="px-2.5 py-1 text-xs font-medium bg-primary/10 text-primary rounded-lg"
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
-
-      {/* Social */}
-      <div className="flex items-center gap-3 pt-4 border-t border-border/40">
-        {/* Social links only render once a real URL replaces the '#' placeholder */}
-        {member.linkedin !== '#' && (
-          <a
-            href={member.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`LinkedIn ${member.name}`}
-            className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-          >
-            <Link2 className="w-3.5 h-3.5" />
-          </a>
-        )}
-        {member.instagram !== '#' && (
-          <a
-            href={member.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Instagram ${member.name}`}
-            className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-          >
-            <Image className="w-3.5 h-3.5" />
-          </a>
-        )}
-        <a
-          href={`mailto:${member.email}`}
-          aria-label={`Email ${member.name}`}
-          className="w-8 h-8 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-all duration-300"
-        >
-          <Mail className="w-3.5 h-3.5" />
-        </a>
-        <span className="text-muted-foreground text-xs ml-auto">{member.email}</span>
+      <div className="min-w-0">
+        <h3 className={`font-semibold text-foreground leading-snug ${featured ? 'text-lg' : 'text-base'}`}>{name}</h3>
+        <p className="text-sm text-primary font-medium mt-0.5">{role}</p>
       </div>
     </motion.div>
   );
@@ -356,10 +256,10 @@ export default function OurProfile({ onBack, isDark, onToggleDark }: OurProfileP
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             {[
-              { value: '6+', label: 'Tim Inti' },
-              { value: '5+', label: 'Tahun Berdiri' },
+              { value: String(leaders.length + teamMembers.length), label: 'Anggota Tim' },
+              { value: '2024', label: 'Tahun Berdiri' },
               { value: '200+', label: 'Klien Dilayani' },
-              { value: '3', label: 'Divisi Bisnis' },
+              { value: '4', label: 'Divisi Bisnis' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-3xl font-bold text-primary">{stat.value}</div>
@@ -430,9 +330,17 @@ export default function OurProfile({ onBack, isDark, onToggleDark }: OurProfileP
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {teamMembers.map((member, i) => (
-              <TeamCard key={member.name} member={member} index={i} />
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-5">Pimpinan</p>
+          <div className="grid md:grid-cols-3 gap-6 mb-14">
+            {leaders.map((m, i) => (
+              <TeamCard key={m.name} name={m.name} role={m.role} index={i} featured />
+            ))}
+          </div>
+
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-5">Arkrea Team</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {teamMembers.map((name, i) => (
+              <TeamCard key={name} name={name} role="Arkrea Team" index={i + leaders.length} />
             ))}
           </div>
         </div>
@@ -532,7 +440,7 @@ export default function OurProfile({ onBack, isDark, onToggleDark }: OurProfileP
       {/* ── Footer ── */}
       <footer className="py-8 px-6 border-t border-border/50 bg-muted/30">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 max-w-6xl mx-auto">
-          <span className="text-muted-foreground text-sm">Arteri Kreasi Nusantara — Semua divisi, satu visi.</span>
+          <span className="text-muted-foreground text-sm">Arteri Kreasi Nusantara. Semua divisi, satu visi.</span>
           <button onClick={onBack} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
             ← Kembali ke Arkrea
           </button>

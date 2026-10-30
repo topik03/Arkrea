@@ -345,8 +345,8 @@ function DiagnosticQuizModal({
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    { id: 'startup', label: 'Tahap Awal / Startup (1 – 10 orang)', desc: 'Tim gesit yang butuh struktur KPI dasar dan kerangka penjualan.' },
-                    { id: 'umkm', label: 'UMKM Berkembang (11 – 50 orang)', desc: 'Usaha yang butuh sistem untuk bertumbuh, delegasi, dan rapi secara keuangan.' },
+                    { id: 'startup', label: 'Tahap Awal / Startup (1-10 orang)', desc: 'Tim gesit yang butuh struktur KPI dasar dan kerangka penjualan.' },
+                    { id: 'umkm', label: 'UMKM Berkembang (11-50 orang)', desc: 'Usaha yang butuh sistem untuk bertumbuh, delegasi, dan rapi secara keuangan.' },
                     { id: 'enterprise', label: 'Perusahaan Mapan (50+ orang)', desc: 'Organisasi kompleks yang butuh restrukturisasi dan perencanaan keuangan.' },
                   ].map((item) => (
                     <button
@@ -388,9 +388,9 @@ function DiagnosticQuizModal({
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    { id: 'immediate', label: 'Segera (1 – 2 minggu)', desc: 'Prioritas, tim kami langsung mendampingi.' },
+                    { id: 'immediate', label: 'Segera (1-2 minggu)', desc: 'Prioritas, tim kami langsung mendampingi.' },
                     { id: 'month', label: 'Jangka pendek (dalam 30 hari)', desc: 'Siap memulai audit dan sesi strategi bulan depan.' },
-                    { id: 'quarter', label: 'Jangka panjang (3 – 6 bulan)', desc: 'Merencanakan pertumbuhan dan anggaran tahunan.' },
+                    { id: 'quarter', label: 'Jangka panjang (3-6 bulan)', desc: 'Merencanakan pertumbuhan dan anggaran tahunan.' },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -1052,7 +1052,7 @@ export default function App() {
         <button
           onClick={() => scrollTo('hero')}
           className="cursor-pointer"
-          aria-label="Arkrea — kembali ke atas"
+          aria-label="Arkrea, kembali ke atas"
         >
           <div
             style={{
@@ -1415,7 +1415,7 @@ export default function App() {
                 Divisi Kami
               </h2>
               <p className="text-muted-foreground text-lg max-w-xl leading-relaxed">
-                Arteri Kreasi Nusantara hadir melalui empat divisi bisnis — klik untuk menjelajahi masing-masing.
+                Arteri Kreasi Nusantara hadir melalui empat divisi bisnis. Klik untuk menjelajahi masing-masing.
               </p>
             </motion.div>
 
@@ -1425,7 +1425,7 @@ export default function App() {
                   page: 'traventure' as PageType,
                   tag: 'Travel & Wisata',
                   name: 'Arkrea\nTraventure',
-                  desc: 'Destinasi autentik Nusantara — dari Raja Ampat hingga Bali, bersama pemandu lokal berpengalaman.',
+                  desc: 'Destinasi autentik Nusantara, dari Raja Ampat hingga Bali, bersama pemandu lokal berpengalaman.',
                   image: traventureCover,
                   accent: '#C4A882',
                   accentBg: 'from-amber-900/70',
@@ -1443,7 +1443,7 @@ export default function App() {
                   page: 'business' as PageType,
                   tag: 'Konsultan & Operator',
                   name: 'Arkrea\nBusiness',
-                  desc: 'Konsultasi dan operator bisnis — dari perencanaan, keuangan, dan SDM sampai pemasaran.',
+                  desc: 'Konsultasi dan operator bisnis, mulai dari perencanaan, keuangan, dan SDM sampai pemasaran.',
                   image: fotoBusinessCover,
                   accent: '#E8772E',
                   accentBg: 'from-slate-800/80',
@@ -1461,7 +1461,7 @@ export default function App() {
                   page: 'profile' as PageType,
                   tag: 'Tim & Profil',
                   name: 'Our\nProfile',
-                  desc: 'Kenali orang-orang di balik Arteri Kreasi Nusantara — visi, misi, dan perjalanan kami.',
+                  desc: 'Kenali orang-orang di balik Arteri Kreasi Nusantara: visi, misi, dan perjalanan kami.',
                   image: fotoProfilKegiatan,
                   accent: '#a78bfa',
                   accentBg: 'from-violet-900/70',
@@ -1777,7 +1777,7 @@ export default function App() {
                   "Menjadi mitra strategis terpercaya dalam membangun, mengembangkan, dan mengakselerasi pertumbuhan bisnis kecil dan menengah."
                 </blockquote>
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  Kami memahami bahwa menjalankan bisnis bukan sekadar tentang bertahan, tetapi juga tentang berkembang dan bertransformasi. Dibangun oleh profesional lintas industri — dari event, periklanan, perhotelan, hukum, hingga F&B.
+                  Kami memahami bahwa menjalankan bisnis bukan sekadar tentang bertahan, tetapi juga tentang berkembang dan bertransformasi. Dibangun oleh profesional lintas industri, mulai dari event, periklanan, perhotelan, hukum, hingga F&B.
                 </p>
               </motion.div>
 
@@ -1831,19 +1831,19 @@ export default function App() {
                 {
                   quote: "Arkrea membantu manajemen media sosial dan HRD kami secara profesional. Branding digital kami semakin kuat dan jangkauan pasar meningkat signifikan.",
                   name: "Aldo Frozen Food",
-                  role: "Klien — Manajemen Media Sosial & HRD",
+                  role: "Klien: Manajemen Media Sosial & HRD",
                   logo: logoAldo
                 },
                 {
                   quote: "Melalui Arkrea Traventure, kegiatan fullboard meeting dan fun outbound kami berjalan lancar. Peserta sangat antusias dan mendapat pengalaman yang berkesan.",
                   name: "Kemenag Provinsi Jawa Timur",
-                  role: "Klien — Tour & Travel",
+                  role: "Klien: Tour & Travel",
                   logo: logoKemenag
                 },
                 {
                   quote: "Navara Hospitality Management memberikan standar pelayanan yang tinggi. Operasional hotel kami berjalan lebih efisien dan tamu merasa lebih puas.",
                   name: "De Wahyu Hotel & Convention",
-                  role: "Klien — Hospitality Management",
+                  role: "Klien: Hospitality Management",
                   logo: logoDeWahyu
                 }
               ].map((item, i) => (

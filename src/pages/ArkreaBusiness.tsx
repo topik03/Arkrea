@@ -31,7 +31,7 @@ const packages = [
     no: '01',
     name: 'Konsultan Bisnis & Manajemen',
     tagline: 'Anda yang menjalankan, kami yang mengarahkan.',
-    desc: 'Pendampingan strategis untuk membangun fondasi bisnis yang kokoh — dari perencanaan hingga tim yang solid.',
+    desc: 'Pendampingan strategis untuk membangun fondasi bisnis yang kokoh, mulai dari perencanaan hingga tim yang solid.',
     features: ['Business Planning', 'Coaching untuk pemilik & tim', 'Analisa kelayakan usaha', 'Strategi media sosial & marketing', 'Penataan HRD'],
   },
   {
@@ -168,7 +168,7 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Divisi Bisnis — Arteri Kreasi Nusantara
+            Divisi Bisnis Arteri Kreasi Nusantara
           </motion.p>
           <motion.h1
             className="font-biz uppercase font-bold text-white leading-[0.92] tracking-tight"
@@ -187,7 +187,7 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <p className="text-white/75 max-w-md leading-relaxed">
-              Konsultasi dan operator bisnis untuk UMKM hingga perusahaan — strategi yang jelas, eksekusi yang nyata.
+              Konsultasi dan operator bisnis untuk UMKM hingga perusahaan. Strategi yang jelas, eksekusi yang nyata.
             </p>
             <button
               onClick={() => scrollTo('paket')}
@@ -231,7 +231,7 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
               Arkrea Business adalah divisi Arteri Kreasi Nusantara yang mendampingi pemilik usaha dalam merencanakan, membenahi, dan menjalankan bisnis.
             </p>
             <p className="text-biz-slate leading-relaxed">
-              Kami tidak berhenti di laporan. Bersama tim Anda, kami memastikan strategi benar-benar berjalan — dari manajemen, keuangan, SDM, hingga pemasaran.
+              Kami tidak berhenti di laporan. Bersama tim Anda, kami memastikan strategi benar-benar berjalan, mulai dari manajemen, keuangan, SDM, hingga pemasaran.
             </p>
           </motion.div>
 
@@ -345,7 +345,7 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
               </span>
               <div>
                 <p className="font-semibold">Aldo Frozen Food</p>
-                <p className="text-sm text-biz-slate">Klien — Manajemen Media Sosial &amp; HRD</p>
+                <p className="text-sm text-biz-slate">Klien: Manajemen Media Sosial &amp; HRD</p>
               </div>
             </div>
           </div>
@@ -413,7 +413,7 @@ export default function ArkreaBusiness({ onBack }: ArkreaBusinessProps) {
           </div>
         </div>
         <p className="max-w-6xl mx-auto mt-8 pt-6 border-t border-white/10 text-xs text-white/45">
-          © {new Date().getFullYear()} Arkrea Business — Arteri Kreasi Nusantara
+          © {new Date().getFullYear()} Arkrea Business, bagian dari Arteri Kreasi Nusantara
         </p>
       </footer>
     </div>

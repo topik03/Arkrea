@@ -44,26 +44,6 @@ import bromoPoseJeep from '../assets/foto/bromo-pose-jeep.webp';
 import bromoBatok from '../assets/foto/bromo-batok.webp';
 import bromoBatokCeria from '../assets/foto/bromo-batok-ceria.webp';
 import bromoBarisanJeep from '../assets/foto/bromo-barisan-jeep.webp';
-import dprdJeepGrup from '../assets/foto/dprd-jeep-grup.webp';
-import dprdJeepHutan from '../assets/foto/dprd-jeep-hutan.webp';
-import dprdJeepKuning from '../assets/foto/dprd-jeep-kuning.webp';
-import dprdJeepKonvoi from '../assets/foto/dprd-jeep-konvoi.webp';
-import dprdPetikStroberi from '../assets/foto/dprd-petik-stroberi.webp';
-import dprdViewpoint from '../assets/foto/dprd-viewpoint.webp';
-import dprdAmfiteater from '../assets/foto/dprd-amfiteater.webp';
-import dprdSenamPagi from '../assets/foto/dprd-senam-pagi.webp';
-import dprdTamanHotel from '../assets/foto/dprd-taman-hotel.webp';
-import dprdPembukaan from '../assets/foto/dprd-pembukaan.webp';
-import dprdFotoPembukaan from '../assets/foto/dprd-foto-pembukaan.webp';
-import dprdBbqMalam from '../assets/foto/dprd-bbq-malam.webp';
-import dprdHiburanMalam from '../assets/foto/dprd-hiburan-malam.webp';
-import dprdGames from '../assets/foto/dprd-games.webp';
-import dprdDoorprize from '../assets/foto/dprd-doorprize.webp';
-import dprdJeepHotel from '../assets/foto/dprd-jeep-hotel.webp';
-import dprdViewpointGrup from '../assets/foto/dprd-viewpoint-grup.webp';
-import dprdPemandangan from '../assets/foto/dprd-pemandangan.webp';
-import dprdMakanMalam from '../assets/foto/dprd-makan-malam.webp';
-import dprdGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/arkreatraventure/';
 const VILLA_RASA_INSTAGRAM_URL = 'https://www.instagram.com/villadanrasa/';
@@ -150,7 +130,7 @@ type Trip = { title: string; meta: string; photos: { src: string; caption: strin
 const trips: Trip[] = [
   {
     title: 'Mahkamah Agung',
-    meta: 'Malang · Batu · Bromo — 13–15 Juni 2026',
+    meta: 'Malang, Batu, dan Bromo, 13-15 Juni 2026',
     photos: [
       { src: bromoGrupSpanduk, caption: 'Foto bersama di kawasan Bromo' },
       { src: bromoMalamJeep, caption: 'Berangkat dini hari dengan jeep' },
@@ -176,7 +156,7 @@ const trips: Trip[] = [
   },
   {
     title: 'Guyub Rukun Dolan Bareng × Aldo Frozen Food',
-    meta: 'Bali — gathering Aldo Frozen Food, 3 hari',
+    meta: 'Bali, gathering Aldo Frozen Food selama 3 hari',
     photos: [
       { src: baliGwk, caption: 'Foto bersama di GWK' },
       { src: baliCruise, caption: 'Dinner cruise' },
@@ -198,32 +178,6 @@ const trips: Trip[] = [
       { src: baliMakanSiangAdat, caption: 'Makan siang di restoran khas Bali' },
       { src: baliMakanPemandangan, caption: 'Makan siang dengan pemandangan alam' },
       { src: baliKopi, caption: 'Mencicipi kopi khas Bali' },
-    ],
-  },
-  {
-    title: 'Sekretariat DPRD Provinsi Jawa Timur',
-    meta: 'Tawangmangu — Nava Hotel, 27–29 November 2025',
-    photos: [
-      { src: dprdJeepGrup, caption: 'Foto bersama rombongan jeep di hutan pinus' },
-      { src: dprdJeepHutan, caption: 'Barisan jeep di hutan pinus' },
-      { src: dprdJeepKuning, caption: 'Berpose di atas jeep' },
-      { src: dprdJeepHotel, caption: 'Bersiap naik jeep di depan hotel' },
-      { src: dprdJeepKonvoi, caption: 'Konvoi jeep melewati jalan desa' },
-      { src: dprdPetikStroberi, caption: 'Petik stroberi bersama' },
-      { src: dprdViewpoint, caption: 'Foto bersama di viewpoint' },
-      { src: dprdViewpointGrup, caption: 'Berpose dengan latar langit biru' },
-      { src: dprdPemandangan, caption: 'Menikmati pemandangan perbukitan' },
-      { src: dprdAmfiteater, caption: 'Foto bersama di amfiteater' },
-      { src: dprdSenamPagi, caption: 'Senam pagi bersama' },
-      { src: dprdTamanHotel, caption: 'Foto bersama di taman hotel' },
-      { src: dprdPembukaan, caption: 'Sambutan pembukaan kegiatan' },
-      { src: dprdFotoPembukaan, caption: 'Foto bersama peserta kegiatan' },
-      { src: dprdBbqMalam, caption: 'BBQ malam bersama' },
-      { src: dprdMakanMalam, caption: 'Makan malam bersama' },
-      { src: dprdHiburanMalam, caption: 'Hiburan malam bersama' },
-      { src: dprdGamesPanggung, caption: 'Games di atas panggung' },
-      { src: dprdGames, caption: 'Games dan keseruan peserta' },
-      { src: dprdDoorprize, caption: 'Pembagian doorprize' },
     ],
   },
 ];
@@ -607,12 +561,20 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             <span className="text-trv-sand">NUSANTARA.</span>
           </motion.h1>
           <motion.p
+            className="font-serif italic text-white text-xl md:text-3xl mb-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            Satu Sentuhan Seribu Cerita
+          </motion.p>
+          <motion.p
             className="text-white/65 text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.9 }}
           >
-            Divisi perjalanan autentik — Arteri Kreasi Nusantara
+            Divisi perjalanan autentik dari Arteri Kreasi Nusantara
           </motion.p>
         </div>
 
@@ -639,10 +601,10 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
           className="max-w-3xl mx-auto text-center"
         >
           <p className="text-trv-olive text-xs uppercase tracking-[0.4em] mb-6">
-            Divisi Travel & Wisata — Arteri Kreasi Nusantara
+            Divisi Travel & Wisata Arteri Kreasi Nusantara
           </p>
           <h2 className="font-serif text-2xl md:text-4xl lg:text-[2.6rem] font-light text-trv-ink leading-[1.35]">
-            Lebih dari sekadar perjalanan — sebuah janji tentang petualangan, keajaiban alam, dan kenangan abadi di tanah Nusantara yang tiada habisnya.
+            Lebih dari sekadar perjalanan, ini adalah janji tentang petualangan, keajaiban alam, dan kenangan abadi di tanah Nusantara yang tiada habisnya.
           </h2>
         </motion.div>
       </section>
@@ -693,7 +655,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               Ketenangan adalah hal pertama yang Anda rasakan. Sunyi, istirahat, damai. Jauh dari kebisingan namun cukup dekat dengan getaran dan vitalitas alam Nusantara.
             </p>
             <p className="text-trv-ink/60 text-sm leading-relaxed mb-10">
-              Sebuah keseimbangan antara pemutusan dari rutinitas dan inspirasi yang membara — itulah yang selalu kami hadirkan di setiap perjalanan.
+              Sebuah keseimbangan antara pemutusan dari rutinitas dan inspirasi yang membara. Itulah yang selalu kami hadirkan di setiap perjalanan.
             </p>
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-trv-ink/8">
               {[
@@ -795,7 +757,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               }}
             >
               <img
-                src={dprdPemandangan}
+                src={bromoPoseJeep}
                 alt="Pengalaman"
                 className="w-full h-full object-cover"
               />
@@ -815,7 +777,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
             </h3>
             {[
               { lbl: 'Eco-Responsible', desc: 'Setiap itinerary meminimalkan jejak karbon dan mendukung komunitas lokal secara langsung.' },
-              { lbl: 'Authentic First', desc: 'Menghindari tourist trap — setiap momen adalah perjumpaan nyata dengan alam dan manusia lokal.' },
+              { lbl: 'Authentic First', desc: 'Menghindari tourist trap. Setiap momen adalah perjumpaan nyata dengan alam dan manusia lokal.' },
               { lbl: 'Safety Certified', desc: 'Panduan bersertifikat nasional dengan protokol keselamatan internasional di setiap destinasi.' },
             ].map((v, i) => (
               <motion.div
@@ -920,7 +882,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               Villa nyaman &amp; hangat di setiap momen.
             </p>
             <p className="text-white/60 text-sm leading-relaxed mb-4">
-              Pilihan villa di Kota Batu untuk staycation keluarga hingga rombongan — dari 10 sampai 25 orang, dengan 3 hingga 5 kamar tidur.
+              Pilihan villa di Kota Batu untuk staycation keluarga hingga rombongan, berkapasitas 10 sampai 25 orang dengan 3 hingga 5 kamar tidur.
             </p>
             <p className="text-white/60 text-sm leading-relaxed mb-8">
               Lengkapi liburan dengan BBQ service kami, untuk liburan tanpa repot.
@@ -1140,7 +1102,7 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
         </div>
 
         <div className="relative z-10 border-t border-white/[0.06] pt-6 flex flex-col md:flex-row justify-between md:items-center gap-2">
-          <p className="text-white/40 text-xs">© {new Date().getFullYear()} Arkrea Traventure — Arteri Kreasi Nusantara</p>
+          <p className="text-white/40 text-xs">© {new Date().getFullYear()} Arkrea Traventure, bagian dari Arteri Kreasi Nusantara</p>
           <p className="text-white/30 text-xs">All rights reserved</p>
         </div>
       </footer>

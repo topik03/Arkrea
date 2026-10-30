@@ -70,7 +70,7 @@ const mainServices = [
   {
     no: '01',
     title: 'Pengelolaan Hotel & Resort',
-    desc: 'Manajemen operasional penuh untuk hotel, resort, dan villa — dari standar pelayanan hingga efisiensi bisnis.',
+    desc: 'Manajemen operasional penuh untuk hotel, resort, dan villa, mulai dari standar pelayanan hingga efisiensi bisnis.',
     image: dewahyuFasadSenja,
   },
   {
@@ -118,7 +118,7 @@ const clients: Client[] = [
   {
     name: 'Nirwana Hotel',
     tagline: 'Hotel Partner',
-    desc: 'Nirwana Hotel adalah properti berkarakter yang kami kelola dengan pendekatan manajemen hospitality terpadu — mengedepankan keramahan autentik dan standar pelayanan yang konsisten.',
+    desc: 'Nirwana Hotel adalah properti berkarakter yang kami kelola dengan pendekatan manajemen hospitality terpadu dengan mengedepankan keramahan autentik dan standar pelayanan yang konsisten.',
     image: nirwanaFasad,
     detail: 'Managed by Navara',
     photos: [
@@ -532,7 +532,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                Arteri Kreasi Nusantara — Divisi Hospitality
+                Divisi Hospitality Arteri Kreasi Nusantara
               </motion.p>
             </motion.div>
           </AnimatePresence>
@@ -685,7 +685,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 <span className="text-nav-gold text-xs uppercase tracking-[0.4em]">Hospitality Management</span>
               </div>
               <RevealText
-                text="Solusi manajemen hospitality yang menyeluruh — dari operasional hingga pengembangan bisnis."
+                text="Solusi manajemen hospitality yang menyeluruh, dari operasional hingga pengembangan bisnis."
                 className="font-serif text-3xl md:text-4xl font-extralight leading-tight text-nav-ivory"
               />
               <motion.p
@@ -785,7 +785,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
                 <div className="font-serif text-white/60 text-sm italic mb-2">
                   "Membangun Pengalaman, Menciptakan Destinasi"
                 </div>
-                <div className="text-nav-gold/70 text-xs uppercase tracking-[0.3em]">— Navara Hospitality</div>
+                <div className="text-nav-gold/70 text-xs uppercase tracking-[0.3em]">Navara Hospitality</div>
               </div>
             </div>
           </div>
@@ -919,7 +919,7 @@ export default function HotelNavara({ onBack }: HotelNavaraProps) {
           </div>
 
           <div className="border-t border-nav-ivory/[0.05] pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-            <p className="text-nav-ivory/60 text-xs">© {new Date().getFullYear()} Navara Hospitality Management — Arteri Kreasi Nusantara</p>
+            <p className="text-nav-ivory/60 text-xs">© {new Date().getFullYear()} Navara Hospitality Management, bagian dari Arteri Kreasi Nusantara</p>
             <p className="text-nav-ivory/15 text-xs">All rights reserved</p>
           </div>
         </div>

@@ -1,16 +1,44 @@
-import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Menu, Phone, Mail, MapPin, Users, PartyPopper, Trophy, Presentation, Utensils, Gift } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ArrowRight, Menu, Phone, Mail, MapPin, Users, PartyPopper, Trophy, Presentation, Utensils, Gift, X, Images } from 'lucide-react';
 import MobileMenu, { scrollAfterClose } from '../components/MobileMenu';
 import fotoGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
-import fotoGalaDinner from '../assets/foto/bali-gala-dinner.webp';
 import fotoHiburan from '../assets/foto/dprd-hiburan-malam.webp';
 import fotoSenam from '../assets/foto/dprd-senam-pagi.webp';
-import fotoGamesKapal from '../assets/foto/bali-games-kapal.webp';
-import fotoMakanMalam from '../assets/foto/dprd-makan-malam.webp';
-import fotoCruise from '../assets/foto/bali-cruise.webp';
-import fotoFotoBersama from '../assets/foto/dprd-foto-pembukaan.webp';
-import fotoGames from '../assets/foto/dprd-games.webp';
+import ppsnPanggung from '../assets/foto/ppsn-panggung-pembukaan.webp';
+import ppsnFotoBersama from '../assets/foto/ppsn-foto-bersama.webp';
+import ppsnPenyambutan from '../assets/foto/ppsn-penyambutan.webp';
+import ppsnUpacara from '../assets/foto/ppsn-upacara.webp';
+import ppsnTari from '../assets/foto/ppsn-tari-pembukaan.webp';
+import ppsnTanamPohon from '../assets/foto/ppsn-tanam-pohon.webp';
+import ppsnTanamPohon2 from '../assets/foto/ppsn-tanam-pohon-2.webp';
+import ppsnPionering from '../assets/foto/ppsn-pionering.webp';
+import ppsnMalam from '../assets/foto/ppsn-malam-pembukaan.webp';
+import ppsnParade from '../assets/foto/ppsn-parade-budaya.webp';
+import ppsnTenda from '../assets/foto/ppsn-tenda-kontingen.webp';
+import ppsnJuara from '../assets/foto/ppsn-juara.webp';
+import ppsnClosing from '../assets/foto/ppsn-closing-ceremony.webp';
+import ppsnParaJuara from '../assets/foto/ppsn-para-juara.webp';
+import dprdJeepGrup from '../assets/foto/dprd-jeep-grup.webp';
+import dprdJeepHutan from '../assets/foto/dprd-jeep-hutan.webp';
+import dprdJeepKuning from '../assets/foto/dprd-jeep-kuning.webp';
+import dprdJeepHotel from '../assets/foto/dprd-jeep-hotel.webp';
+import dprdJeepKonvoi from '../assets/foto/dprd-jeep-konvoi.webp';
+import dprdPetikStroberi from '../assets/foto/dprd-petik-stroberi.webp';
+import dprdViewpoint from '../assets/foto/dprd-viewpoint.webp';
+import dprdViewpointGrup from '../assets/foto/dprd-viewpoint-grup.webp';
+import dprdPemandangan from '../assets/foto/dprd-pemandangan.webp';
+import dprdAmfiteater from '../assets/foto/dprd-amfiteater.webp';
+import dprdSenamPagi from '../assets/foto/dprd-senam-pagi.webp';
+import dprdTamanHotel from '../assets/foto/dprd-taman-hotel.webp';
+import dprdPembukaan from '../assets/foto/dprd-pembukaan.webp';
+import dprdFotoPembukaan from '../assets/foto/dprd-foto-pembukaan.webp';
+import dprdBbqMalam from '../assets/foto/dprd-bbq-malam.webp';
+import dprdMakanMalam from '../assets/foto/dprd-makan-malam.webp';
+import dprdHiburanMalam from '../assets/foto/dprd-hiburan-malam.webp';
+import dprdGamesPanggung from '../assets/foto/dprd-games-panggung.webp';
+import dprdGames from '../assets/foto/dprd-games.webp';
+import dprdDoorprize from '../assets/foto/dprd-doorprize.webp';
 import fotoBbq from '../assets/foto/dprd-bbq-malam.webp';
 
 interface ArkreaEventProps {
@@ -42,22 +70,134 @@ const services = [
 ];
 
 // Events the Arkrea team has actually run (photos from the documentation archive)
-const portfolio = [
+// Travel trips (e.g. the Aldo Frozen Food Bali gathering) belong on the Traventure page, not here.
+// `gallery` (optional) opens the full photo set; otherwise only `photos` are shown.
+type PortfolioItem = {
+  title: string;
+  client?: string;
+  meta: string;
+  photos: string[];
+  tags: string[];
+  color: string;
+  gallery?: { src: string; caption: string }[];
+};
+
+const portfolio: PortfolioItem[] = [
   {
-    title: 'Guyub Rukun Dolan Bareng × Aldo Frozen Food',
-    meta: 'Bali — gathering 3 hari',
-    photos: [fotoGalaDinner, fotoGamesKapal],
-    tags: ['Gala dinner', 'Games di kapal', 'Gathering keluarga'],
-    color: 'bg-evt-pink',
+    title: 'Perkemahan Pramuka Santri Nusantara VI',
+    client: 'Kontingen Jawa Timur, Kanwil Kemenag Provinsi Jawa Timur',
+    meta: 'PPSN VI, Oktober 2026',
+    photos: [ppsnPanggung, ppsnFotoBersama],
+    tags: ['Upacara pembukaan', 'Tanam pohon', 'Pionering', 'Parade budaya', 'Closing ceremony'],
+    color: 'bg-evt-green',
+    gallery: [
+      { src: ppsnPanggung, caption: 'Panggung utama Perkemahan Pramuka Santri Nusantara' },
+      { src: ppsnFotoBersama, caption: 'Foto bersama kontingen di depan panggung' },
+      { src: ppsnPenyambutan, caption: 'Barisan santri menyambut tamu' },
+      { src: ppsnUpacara, caption: 'Upacara pembukaan' },
+      { src: ppsnTari, caption: 'Penampilan tari pada pembukaan' },
+      { src: ppsnMalam, caption: 'Kemeriahan malam di panggung utama' },
+      { src: ppsnTanamPohon, caption: 'Penanaman pohon bersama' },
+      { src: ppsnTanamPohon2, caption: 'Santri ikut menanam pohon' },
+      { src: ppsnTenda, caption: 'Gerbang tenda kontingen' },
+      { src: ppsnPionering, caption: 'Hasil karya pionering kontingen' },
+      { src: ppsnParade, caption: 'Parade budaya' },
+      { src: ppsnJuara, caption: 'Penyerahan hadiah juara' },
+      { src: ppsnClosing, caption: 'Closing ceremony' },
+      { src: ppsnParaJuara, caption: 'Para juara di malam penutupan' },
+    ],
   },
   {
     title: 'Sekretariat DPRD Provinsi Jawa Timur',
-    meta: 'Tawangmangu — 27–29 November 2025',
+    meta: 'Tawangmangu, 27-29 November 2025',
     photos: [fotoGamesPanggung, fotoBbq],
     tags: ['Games panggung', 'BBQ malam', 'Doorprize'],
     color: 'bg-evt-blue',
+    gallery: [
+      { src: dprdJeepGrup, caption: 'Foto bersama rombongan jeep di hutan pinus' },
+      { src: dprdJeepHutan, caption: 'Barisan jeep di hutan pinus' },
+      { src: dprdJeepKuning, caption: 'Berpose di atas jeep' },
+      { src: dprdJeepHotel, caption: 'Bersiap naik jeep di depan hotel' },
+      { src: dprdJeepKonvoi, caption: 'Konvoi jeep melewati jalan desa' },
+      { src: dprdPetikStroberi, caption: 'Petik stroberi bersama' },
+      { src: dprdViewpoint, caption: 'Foto bersama di viewpoint' },
+      { src: dprdViewpointGrup, caption: 'Berpose dengan latar langit biru' },
+      { src: dprdPemandangan, caption: 'Menikmati pemandangan perbukitan' },
+      { src: dprdAmfiteater, caption: 'Foto bersama di amfiteater' },
+      { src: dprdSenamPagi, caption: 'Senam pagi bersama' },
+      { src: dprdTamanHotel, caption: 'Foto bersama di taman hotel' },
+      { src: dprdPembukaan, caption: 'Sambutan pembukaan kegiatan' },
+      { src: dprdFotoPembukaan, caption: 'Foto bersama peserta kegiatan' },
+      { src: dprdBbqMalam, caption: 'BBQ malam bersama' },
+      { src: dprdMakanMalam, caption: 'Makan malam bersama' },
+      { src: dprdHiburanMalam, caption: 'Hiburan malam bersama' },
+      { src: dprdGamesPanggung, caption: 'Games di atas panggung' },
+      { src: dprdGames, caption: 'Games dan keseruan peserta' },
+      { src: dprdDoorprize, caption: 'Pembagian doorprize' },
+    ],
   },
 ];
+
+// ─── GALLERY ─────────────────────────────────────────────────────────────────
+
+function EventGallery({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const photos = item.gallery ?? [];
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+    closeRef.current?.focus();
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Dokumentasi ${item.title}`}
+      className="fixed inset-0 z-[100] bg-evt-cream overflow-y-auto overscroll-contain"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+    >
+      <div className="sticky top-0 z-10 bg-evt-cream border-b-2 border-evt-ink">
+        <div className="max-w-6xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="font-evt font-bold text-3xl md:text-4xl leading-none">{item.title}</h3>
+            <p className="text-evt-ink/70 text-xs md:text-sm mt-1">{item.meta} · {photos.length} foto</p>
+          </div>
+          <button
+            ref={closeRef}
+            onClick={onClose}
+            aria-label="Tutup galeri"
+            className="shrink-0 w-11 h-11 rounded-full bg-white border-2 border-evt-ink flex items-center justify-center hover:bg-evt-yellow transition-colors"
+            style={pop(3)}
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-5 md:px-8 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {photos.map(photo => (
+          <figure key={photo.caption} className="m-0">
+            <div className="overflow-hidden rounded-2xl border-2 border-evt-ink aspect-[4/3] bg-white" style={pop(4)}>
+              <img src={photo.src} alt={photo.caption} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+            </div>
+            <figcaption className="text-sm font-semibold mt-3">{photo.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
 const steps = [
   { no: '1', title: 'Ngobrol Dulu', desc: 'Ceritakan acaramu: tujuan, jumlah peserta, tanggal, dan budget.', bg: 'bg-evt-yellow' },
@@ -72,6 +212,8 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const [openItem, setOpenItem] = useState<PortfolioItem | null>(null);
+  const closeItem = useCallback(() => setOpenItem(null), []);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
@@ -194,12 +336,20 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
               </span>
             </motion.h1>
             <motion.p
+              className="font-evt font-bold text-3xl md:text-4xl text-evt-pink leading-none mb-5 -rotate-1"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
+              Satu Sentuhan Seribu Cerita
+            </motion.p>
+            <motion.p
               className="text-lg text-evt-ink/75 max-w-md leading-relaxed mb-9"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.25 }}
             >
-              Gathering, outbound, gala dinner, sampai acara instansi — kami urus dari konsep sampai hari H, kamu tinggal datang dan bersenang-senang.
+              Gathering, outbound, gala dinner, sampai acara instansi. Kami urus dari konsep sampai hari H, kamu tinggal datang dan bersenang-senang.
             </motion.p>
             <motion.div
               className="flex flex-wrap gap-4"
@@ -229,8 +379,8 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
           {/* Tilted photo stickers */}
           <div className="relative h-[420px] sm:h-[480px]">
             {[
-              { src: fotoGames, cls: 'left-0 top-4 w-[62%] -rotate-6 bg-evt-yellow', delay: 0.2 },
-              { src: fotoGalaDinner, cls: 'right-0 top-24 w-[58%] rotate-6 bg-evt-blue', delay: 0.35 },
+              { src: ppsnPanggung, cls: 'left-0 top-4 w-[62%] -rotate-6 bg-evt-yellow', delay: 0.2 },
+              { src: fotoHiburan, cls: 'right-0 top-24 w-[58%] rotate-6 bg-evt-blue', delay: 0.35 },
               { src: fotoSenam, cls: 'left-[14%] bottom-0 w-[55%] rotate-2 bg-evt-pink', delay: 0.5 },
             ].map((p, i) => (
               <motion.div
@@ -300,8 +450,11 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
       {/* ── Portfolio ── */}
       <section id="portofolio" className="bg-evt-yellow border-y-2 border-evt-ink py-24 md:py-28 px-5 md:px-12">
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-evt font-bold text-6xl md:text-7xl leading-none mb-3">Acara yang sudah kami bikin</h2>
-          <p className="text-evt-ink/75 mb-14">Beberapa momen seru bersama klien kami.</p>
+          <h2 className="font-evt font-bold text-6xl md:text-7xl leading-none mb-3">Momen yang Kami Wujudkan</h2>
+          <p className="text-evt-ink/75 max-w-2xl leading-relaxed mb-4">
+            Setiap acara memiliki cerita, tujuan, dan kesan yang berbeda. Bersama Arkrea, setiap detail dirancang dengan sentuhan yang bermakna untuk menciptakan pengalaman yang tak terlupakan.
+          </p>
+          <p className="font-evt font-bold text-3xl md:text-4xl text-evt-pink leading-none mb-14">-Satu Sentuhan Seribu Cerita-</p>
 
           <div className="space-y-10">
             {portfolio.map((p, i) => (
@@ -321,32 +474,32 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
                 </div>
                 <div>
                   <span className={`inline-block ${p.color} text-white font-bold text-xs px-3 py-1 rounded-full border-2 border-evt-ink mb-4`}>{p.meta}</span>
-                  <h3 className="font-evt font-bold text-4xl md:text-5xl leading-none mb-5">{p.title}</h3>
+                  <h3 className={`font-evt font-bold text-4xl md:text-5xl leading-none ${p.client ? 'mb-2' : 'mb-5'}`}>{p.title}</h3>
+                  {p.client && <p className="text-sm font-semibold text-evt-ink/70 mb-5">{p.client}</p>}
                   <div className="flex flex-wrap gap-2">
                     {p.tags.map(t => (
                       <span key={t} className="px-3 py-1.5 rounded-full bg-evt-cream border-2 border-evt-ink text-sm font-semibold">{t}</span>
                     ))}
                   </div>
+                  {p.gallery && (
+                    <button
+                      onClick={() => setOpenItem(p)}
+                      className="mt-6 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-evt-yellow font-bold text-sm border-2 border-evt-ink hover:-translate-y-0.5 transition-transform"
+                      style={pop(3)}
+                    >
+                      <Images className="w-4 h-4" /> Lihat {p.gallery.length} foto
+                    </button>
+                  )}
                 </div>
               </motion.article>
             ))}
           </div>
-
-          {/* Photo strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
-            {[fotoHiburan, fotoMakanMalam, fotoCruise, fotoFotoBersama].map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt=""
-                loading="lazy"
-                className={`w-full aspect-square object-cover rounded-2xl border-2 border-evt-ink ${i % 2 ? 'rotate-2' : '-rotate-2'}`}
-                style={pop(4)}
-              />
-            ))}
-          </div>
         </div>
       </section>
+
+      <AnimatePresence>
+        {openItem && <EventGallery item={openItem} onClose={closeItem} />}
+      </AnimatePresence>
 
       {/* ── How it works ── */}
       <section id="cara-kerja" className="py-24 md:py-28 px-5 md:px-12">
@@ -382,7 +535,7 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
             <h2 className="font-evt font-bold leading-[0.9] mb-4" style={{ fontSize: 'clamp(3.2rem, 7vw, 5.5rem)' }}>
               Yuk, bikin acaramu bareng kami!
             </h2>
-            <p className="text-white/85 leading-relaxed">Konsultasi gratis — cerita dulu, nanti kami bantu rancang acaranya.</p>
+            <p className="text-white/85 leading-relaxed">Konsultasi gratis. Cerita dulu, nanti kami bantu rancang acaranya.</p>
           </div>
           <div className="relative bg-white text-evt-ink rounded-3xl border-2 border-evt-ink p-6 md:p-8">
             <div className="space-y-4 mb-7">
@@ -433,7 +586,7 @@ export default function ArkreaEvent({ onBack }: ArkreaEventProps) {
           </div>
         </div>
         <p className="max-w-6xl mx-auto mt-8 pt-6 border-t border-white/10 text-xs text-white/50">
-          © {new Date().getFullYear()} Arkrea Event — Arteri Kreasi Nusantara
+          © {new Date().getFullYear()} Arkrea Event, bagian dari Arteri Kreasi Nusantara
         </p>
       </footer>
     </div>
