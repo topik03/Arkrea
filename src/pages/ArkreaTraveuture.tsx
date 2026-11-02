@@ -757,8 +757,8 @@ export default function ArkreaTraveuture({ onBack }: ArkreaTraveutureProps) {
               }}
             >
               <img
-                src={bromoPoseJeep}
-                alt="Pengalaman"
+                src={baliPenglipuranAdat}
+                alt="Rombongan berbusana adat di Desa Penglipuran, Bali"
                 className="w-full h-full object-cover"
               />
             </div>

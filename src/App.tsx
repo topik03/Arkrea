@@ -5,6 +5,11 @@ import logoDeWahyu from './assets/klien/de-wahyu-hotel.png';
 import logoNirwana from './assets/klien/nirwana-hotel.png';
 import logoMahkamahAgung from './assets/klien/mahkamah-agung.png';
 import logoKemenag from './assets/klien/kemenag.png';
+import logoDprdJatim from './assets/klien/dprd-jatim.png';
+import logoSman11 from './assets/klien/sman-11-surabaya.png';
+import logoSmpkWidyatama from './assets/klien/smpk-widyatama.png';
+import logoNasiTempong from './assets/klien/nasi-tempong-cak-ri.png';
+import logoSambalOrek from './assets/klien/sambal-orek-mbak-ira.png';
 import traventureCover from './assets/foto/bromo-drone.webp';
 import fotoPelatihanTim from './assets/foto/nirwana-training.webp';
 import fotoProfilKegiatan from './assets/foto/dewahyu-travel-fair.webp';
@@ -1294,17 +1299,23 @@ export default function App() {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/60 mb-5">
                   Klien Kami
                 </p>
-                <div className="flex flex-wrap gap-3">
+                {/* Two columns on phones so the list stays short; pills wrap freely from sm up */}
+                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
                   {[
                     { name: 'Aldo Frozen Food', logo: logoAldo },
                     { name: 'De Wahyu Hotel', logo: logoDeWahyu },
                     { name: 'Nirwana Hotel', logo: logoNirwana },
                     { name: 'Mahkamah Agung RI', logo: logoMahkamahAgung },
                     { name: 'Kemenag Jawa Timur', logo: logoKemenag },
+                    { name: 'DPRD Jawa Timur', logo: logoDprdJatim },
+                    { name: 'SMA Negeri 11 Surabaya', logo: logoSman11 },
+                    { name: 'SMPK Widyatama Batu', logo: logoSmpkWidyatama },
+                    { name: 'Nasi Tempong Cak Ri', logo: logoNasiTempong },
+                    { name: 'Sambal Orek Mbak Ira', logo: logoSambalOrek },
                   ].map((brand, i) => (
                     <motion.div
                       key={brand.name}
-                      className="flex items-center gap-2.5 px-4 py-2.5 bg-background/40 backdrop-blur-md border border-border/40 rounded-full hover:bg-background/70 hover:border-border/70 transition-all duration-300 cursor-default group"
+                      className="flex items-center gap-2 sm:gap-2.5 px-2.5 py-2 sm:px-4 sm:py-2.5 bg-background/40 backdrop-blur-md border border-border/40 rounded-2xl sm:rounded-full hover:bg-background/70 hover:border-border/70 transition-all duration-300 cursor-default group"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.9 + i * 0.08 }}
@@ -1312,9 +1323,9 @@ export default function App() {
                     >
                       {/* White tile keeps black and gold logos legible in both themes */}
                       <div className="h-8 px-1.5 rounded-md bg-white flex items-center justify-center shrink-0">
-                        <img src={brand.logo} alt="" className="h-6 w-auto max-w-16 object-contain" />
+                        <img src={brand.logo} alt="" className="h-6 w-auto max-w-12 sm:max-w-16 object-contain" />
                       </div>
-                      <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                      <span className="text-[11px] sm:text-xs leading-tight font-medium text-muted-foreground group-hover:text-foreground transition-colors">
                         {brand.name}
                       </span>
                     </motion.div>
