@@ -1288,50 +1288,6 @@ export default function App() {
                   <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-primary/10 to-transparent pointer-events-none" />
                 </button>
               </div>
-
-              {/* Trusted By */}
-              <motion.div
-                className="mt-12 pt-8 border-t border-border/30"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/60 mb-5">
-                  Klien Kami
-                </p>
-                {/* Two columns on phones so the list stays short; pills wrap freely from sm up */}
-                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
-                  {[
-                    { name: 'Aldo Frozen Food', logo: logoAldo },
-                    { name: 'De Wahyu Hotel', logo: logoDeWahyu },
-                    { name: 'Nirwana Hotel', logo: logoNirwana },
-                    { name: 'Mahkamah Agung RI', logo: logoMahkamahAgung },
-                    { name: 'Kemenag Jawa Timur', logo: logoKemenag },
-                    { name: 'DPRD Jawa Timur', logo: logoDprdJatim },
-                    { name: 'SMA Negeri 11 Surabaya', logo: logoSman11 },
-                    { name: 'SMPK Widyatama Batu', logo: logoSmpkWidyatama },
-                    { name: 'Nasi Tempong Cak Ri', logo: logoNasiTempong },
-                    { name: 'Sambal Orek Mbak Ira', logo: logoSambalOrek },
-                  ].map((brand, i) => (
-                    <motion.div
-                      key={brand.name}
-                      className="flex items-center gap-2 sm:gap-2.5 px-2.5 py-2 sm:px-4 sm:py-2.5 bg-background/40 backdrop-blur-md border border-border/40 rounded-2xl sm:rounded-full hover:bg-background/70 hover:border-border/70 transition-all duration-300 cursor-default group"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.9 + i * 0.08 }}
-                      whileHover={{ scale: 1.04 }}
-                    >
-                      {/* White tile keeps black and gold logos legible in both themes */}
-                      <div className="h-8 px-1.5 rounded-md bg-white flex items-center justify-center shrink-0">
-                        <img src={brand.logo} alt="" className="h-6 w-auto max-w-12 sm:max-w-16 object-contain" />
-                      </div>
-                      <span className="text-[11px] sm:text-xs leading-tight font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                        {brand.name}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
             </motion.div>
 
             {/* Right Visuals */}
@@ -2458,6 +2414,56 @@ export default function App() {
                 ))}
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        {/* ─── Clients Section ─── */}
+        <section id="clients" className="pb-8 relative">
+          <div className="container mx-auto px-6 relative z-10">
+            <motion.div
+              className="pt-12 border-t border-border/30 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/60 mb-6">
+                Klien Kami
+              </p>
+              {/* Two columns on phones so the list stays short; pills wrap freely from sm up */}
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3 max-w-5xl mx-auto text-left">
+                {[
+                  { name: 'Aldo Frozen Food', logo: logoAldo },
+                  { name: 'De Wahyu Hotel', logo: logoDeWahyu },
+                  { name: 'Nirwana Hotel', logo: logoNirwana },
+                  { name: 'Mahkamah Agung RI', logo: logoMahkamahAgung },
+                  { name: 'Kemenag Jawa Timur', logo: logoKemenag },
+                  { name: 'DPRD Jawa Timur', logo: logoDprdJatim },
+                  { name: 'SMA Negeri 11 Surabaya', logo: logoSman11 },
+                  { name: 'SMPK Widyatama Batu', logo: logoSmpkWidyatama },
+                  { name: 'Nasi Tempong Cak Ri', logo: logoNasiTempong },
+                  { name: 'Sambal Orek Mbak Ira', logo: logoSambalOrek },
+                ].map((brand, i) => (
+                  <motion.div
+                    key={brand.name}
+                    className="flex items-center gap-2 sm:gap-2.5 px-2.5 py-2 sm:px-4 sm:py-2.5 bg-background/40 backdrop-blur-md border border-border/40 rounded-2xl sm:rounded-full hover:bg-background/70 hover:border-border/70 transition-all duration-300 cursor-default group"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.05 }}
+                    whileHover={{ scale: 1.04 }}
+                  >
+                    {/* White tile keeps black and gold logos legible in both themes */}
+                    <div className="h-8 px-1.5 rounded-md bg-white flex items-center justify-center shrink-0">
+                      <img src={brand.logo} alt="" className="h-6 w-auto max-w-12 sm:max-w-16 object-contain" />
+                    </div>
+                    <span className="text-[11px] sm:text-xs leading-tight font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                      {brand.name}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </section>
 
